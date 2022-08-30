@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+ 
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BarcoSales.DAO\BarcoSales.DAO.csproj" />
+    <ProjectReference Include="..\BarcoSales.EFModel\BarcoSales.EFModel.csproj" />
+    <ProjectReference Include="..\BarcoSales.Repository\BarcoSales.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Photos\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,58 @@
+npx create-react-app barcosalesreact.ui
+cd barcosalesreact.ui
+npm start
+
+
+  npm start
+    Starts the development server.
+
+  npm run build
+    Bundles the app into static files for production.
+
+  npm test
+    Starts the test runner.
+
+  npm run eject
+    Removes this tool and copies build dependencies, configuration files
+    and scripts into the app directory. If you do this, you can’t go back!
+
+We suggest that you begin by typing:
+
+  cd barcosales.ui
+  npm startS
+
+Install additional packages:
+
+Material UI: we will use the UI components from Material UI.
+react-router-dom to manage route and path within our application.
+
+npm install @material-ui/core @material-ui/icons react-router-dom
+
+React Authentication Full Course | Login, Logout, Forgot and Reset Password
+
+https://www.youtube.com/watch?v=6sLh_5iFnFc
+
+Side bare in React
+https://www.youtube.com/watch?v=CXa0f4-dWi4
+
+https://www.youtube.com/watch?v=5R9jFHlG6ik
+
+
+React Sidebar Navigation using Framer Motion | Beginners React Tutorial
+https://www.youtube.com/watch?v=eujA1RS9fDI
+
+Sidebar Navigation Menu Tutorial ReactJS - Beginner Navigation Tutorial
+https://www.youtube.com/watch?v=5R9jFHlG6ik
+
+9. Import Excel in Material Table | Material UI
+https://www.youtube.com/watch?v=C2Fuj0gRRHI
+
+Material UI Table in React
+
+https://learncoders.xyz/material-ui-table-in-react/#more-1106
+
+ME CALL API
+
+https://www.mecallapi.com/#about
+ReactJs project
+https://github.com/KarnYong?tab=repositories

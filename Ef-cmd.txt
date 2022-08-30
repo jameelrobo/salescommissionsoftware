@@ -1,0 +1,57 @@
+ https://stackoverflow.com/questions/49508003/ef-core-mysql-database-first
+
+Then run this command, reference
+
+dotnet ef dbcontext scaffold "Server=localhost;Database=ef;User=root;Password=123456;TreatTinyAsBoolean=true;" "Pomelo.EntityFrameworkCore.MySql"
+For scaffolding in a different path, you can use --output-dir
+
+dotnet ef dbcontext scaffold server=localhost;port=3306;database=palle2patnam;uid=root;password=password" "Pomelo.EntityFrameworkCore.MySql" --output-dir Models
+For forcing to get new fields from database u can add --force
+
+dotnet ef dbcontext scaffold "server=localhost;port=3306;database=palle2patnam;uid=root;password=password" "Pomelo.EntityFrameworkCore.MySql" --output-dir Models --force
+Share
+Improve this answer
+
+dotnet ef dbcontext scaffold server=localhost;port=3306;database=barcosalescommission;uid=root;password=root" "Pomelo.EntityFrameworkCore.MySql" --output-dir Models
+dotnet ef dbcontext scaffold "server=localhost;port=3306;database=barcosalescommission;uid=root;password=root" "Pomelo.EntityFrameworkCore.MySql" --output-dir Models --force
+
+
+PM> cd C:\Users\MohammadMusharaf\source\repos\BarcoCommission\BarcoSales.EFModel
+PM> dotnet ef dbcontext scaffold "server=localhost;port=6600;database=barcosalescommission;uid=root;password=root" "Pomelo.EntityFrameworkCore.MySql" --force
+Build started...
+Build succeeded.
+
+
+https://fkhadra.github.io/react-toastify/introduction/?ref=morioh.com&utm_source=morioh.com
+
+Change Material Table Column According to The Drop down Value In Table row React js
+
+
+
+  const successMessageBox = (successMsg) => {
+    toast.success(successMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  const errorMessageBox = (errorMsg) => {
+    toast.error(errorMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
+successMessageBox("Record has been updated successfully!");
+
+ errorMessageBox("Invalid  Information!");
+
