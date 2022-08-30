@@ -132,7 +132,7 @@ export default function CommissonRules(props) {
     console.log(selectedCustomerValue);
   };
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const checkChanged = (state) => {
     setChecked(!checked);
   };
@@ -259,7 +259,7 @@ export default function CommissonRules(props) {
       );
       return;
     }
-
+    debugger;
     if (
       customerName === undefined ||
       customerName === null ||
@@ -268,6 +268,7 @@ export default function CommissonRules(props) {
     ) {
       custId = 0;
     } else {
+      debugger;
       var custinfo = getCustInfo(customerName);
 
       if (custinfo === undefined) {
@@ -438,7 +439,7 @@ export default function CommissonRules(props) {
     setFactoryName("");
     setCustomerName("");
     setSelectedPriorYearValue("");
-    setChecked(false);
+    setChecked(true);
     setCommissionRate("");
     setSelectedFactoryId("");
     setAllCustchecked(false);
@@ -534,6 +535,8 @@ export default function CommissonRules(props) {
             <Grid item xs={12} sm={4}>
               <TextField
                 value={commissionRate}
+                required
+                type="number"
                 autoComplete="commissionRate"
                 name="commissionRate"
                 variant="outlined"
