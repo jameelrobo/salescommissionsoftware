@@ -8,7 +8,7 @@ import Select from "@mui/material/Select";
 import axios from "axios";
 
 export default function FactoryCategoryddl({
-  factoryCategoryddlOnchang,
+  ddlOnchang,
   selectcategory,
 }) {
   const [selectedfactoryCategory, setSelectedFactoryCategory] =
@@ -47,7 +47,7 @@ export default function FactoryCategoryddl({
 
   const handleChange = (event) => {
     setSelectedFactoryCategory(event.target.value);
-    factoryCategoryddlOnchang(event.target.value);
+    ddlOnchang(event.target.value);
   };
 
   return (
