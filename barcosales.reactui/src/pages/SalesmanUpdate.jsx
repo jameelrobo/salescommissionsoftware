@@ -284,6 +284,7 @@ export default function SalesmanUpdate() {
             <Grid item xs={12} sm={6}>
               <TextField
                 value={emailId}
+                type="email"
                 autoComplete="emailId"
                 name="emailId"
                 variant="outlined"

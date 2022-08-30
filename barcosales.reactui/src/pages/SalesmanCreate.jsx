@@ -308,6 +308,7 @@ export default function SalesmanCreate() {
               <TextField
                 value={emailId}
                 autoComplete="emailId"
+                type="email"
                 name="emailId"
                 variant="outlined"
                 fullWidth
