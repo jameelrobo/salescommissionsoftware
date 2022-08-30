@@ -186,7 +186,9 @@ export default function CommissonRules(props) {
   };
   const getCustInfo = (custName) => {
     debugger;
-    var custInfo = getCustomers.find((item) => item.CustomerName === custName);
+    var custInfo = getCustomers.find((item) => item.CustomerName.trim() === custName.trim());
+    //const custInfo = getCustomers.filter(item=> item.CustomerName.includes(custName));
+    //const custInfo = getCustomers.filter(app=> custName.includes(app.toLowerCase()))
     // if (custInfo === undefined) {
     //   errorMessageBox(
     //     "Couldn't found  Customer name, Please ender currect customer name"
