@@ -13,7 +13,6 @@ import FactoriesDropdownlist from "./FactoriesDropdownlist";
 import FactoryCategoryddl from "./FactoryCategoryddl";
 import PriorYearDropdownlist from "./PriorYearDropdownlist";
 import SalesMonthsDropdownlist from "./SalesMonthsDropdownlist";
-//import TextField from "@material-ui/core/TextField";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -159,11 +158,7 @@ export default function Transaction() {
   const columns1 = [
     { title: "Action", field: "Action" },
     { title: "Customer", field: "customer" },
-    // { title: "ShipToName", field: "shipToName" },
-    // { title: "ShipToAddress", field: "shipToAddress" },
-    // { title: "ShipToCity", field: "shipToCity" },
-    // { title: "ShipToState", field: "shipToState" },
-    { title: "Factory", field: "factory" },
+      { title: "Factory", field: "factory" },
     { title: "Check", field: "check" },
     { title: "Month", field: "month" },
     { title: "Salesman", field: "salesman" },
@@ -284,11 +279,7 @@ export default function Transaction() {
    const [allFactories, setAllFactories] = useState([]);
 
   useEffect(() => {
-    // getCommissionRules();
-    // getAllCustomers();
-    // getAllTransaction();
-    // getAllSalesman();
-    // getAllFactories();
+    
   }, []);
 
   const getAllFactories = () => {
@@ -297,7 +288,7 @@ export default function Transaction() {
       .get("Factory/GetFactory")
       .then((res) => {
         debugger;
-        console.log(res.data);
+        // // console.log(res.data);
         //setData(res.data);
         setAllFactories(res.data);
       })
@@ -307,13 +298,12 @@ export default function Transaction() {
   };
 
   const getAllTransaction = () => {
-  
+    debugger;
     axios
       .get("SalesTrasaction/GetTrasaction")
       .then((res) => {
         debugger;
-        console.log(res.data);
-        //setData(res.data);
+        
         setAllTransaction(res.data);
       })
       .catch((err) => {
@@ -322,13 +312,12 @@ export default function Transaction() {
   };
 
   const getAllSalesman = () => {
-  
+    debugger;
     axios
       .get("SalesPerson/GetSalesPerson")
       .then((res) => {
         debugger;
-        console.log(res.data);
-        //setData(res.data);
+       
         setAllSalesman(res.data);
       })
       .catch((err) => {
@@ -338,12 +327,12 @@ export default function Transaction() {
 
 
   const getAllCustomers = () => {
-  
+    debugger;
     axios
       .get("Customer/GetCustomer")
       .then((res) => {
         debugger;
-        console.log(res.data);
+       // // // console.log(res.data);
         //setData(res.data);
         setGetCustomers(res.data);
       })
@@ -352,7 +341,7 @@ export default function Transaction() {
       });
   };
   const getCommissionRules = () => {
-    
+    debugger;
     axios
       .get("CommissionRules/GetCommissionRules")
 
@@ -426,6 +415,11 @@ export default function Transaction() {
 
   const handleClick = () => {
     debugger;
+    getCommissionRules();
+    getAllCustomers();
+    getAllTransaction();
+    getAllSalesman();
+    getAllFactories();
 
     // if (
     //   selectedPriorYearValue === undefined ||
@@ -485,9 +479,16 @@ export default function Transaction() {
       );
       return;
     }
+
+   
     const transformedArray = [];
     const SavetransformedArray = [];
+
+     //==============Start to calculation================================
+
     data.forEach((d, i) => {
+
+      debugger
       var custInfo = getCustomers.find(
         (item) =>
           item.CustomerName.trim() === d["Sold-To Name"].trim() ||
@@ -643,15 +644,32 @@ export default function Transaction() {
       }
     });
     debugger;
-    localStorage.setItem(
-      "salesComissionData",
-      JSON.stringify(transformedArray)
-    );
-    localStorage.setItem(
-      "salesComissiongridData",
-      JSON.stringify(SavetransformedArray)
-    );
-    window.location = "/transaction/calculate";
+
+    if (
+      transformedArray === undefined ||
+      transformedArray === null ||
+      transformedArray === "" ||
+      transformedArray === 0
+    ) {
+      errorMessageBox(
+        "Factory  should not be blank, Please select at least one Factory"
+      );
+      return;
+    }
+    else if(transformedArray.length===data.length)
+    {
+      localStorage.setItem(
+        "salesComissionData",
+        JSON.stringify(transformedArray)
+      );
+      localStorage.setItem(
+        "salesComissiongridData",
+        JSON.stringify(SavetransformedArray)
+      );
+      window.location = "/transaction/calculate";
+
+    }
+   
   };
 
   return (
@@ -670,20 +688,7 @@ export default function Transaction() {
         />
         
         <form className={classes.form}>
-          {/* <Grid container spacing={1}>
-            <Grid item xs={12} sm={12}>
-              <Link to="/transaction/addsales">
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                >
-                  Add New Sales Commission
-                </Button>
-              </Link>
-            </Grid>
-          </Grid> */}
+      
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
@@ -701,11 +706,11 @@ export default function Transaction() {
             {/* <Grid item xs={12} sm={6}>
               <PriorYearDropdownlist ddlOnchang={PriorYearOnchange} />
             </Grid> */}
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
                 ddlOnchang={SalesMonthsOnchange}
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={3}>
               <FactoryCategoryddl
                 ddlOnchang={FactoryCategoryOnchange}
