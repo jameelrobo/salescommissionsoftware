@@ -9,7 +9,7 @@ import axios from "axios";
 
 export default function FactoryCategoryddl({
   ddlOnchang,
-  selectcategory,
+  selectfCategory,
 }) {
   const [selectedfactoryCategory, setSelectedFactoryCategory] =
     React.useState("");
@@ -20,8 +20,8 @@ export default function FactoryCategoryddl({
   }, []);
   useEffect(() => {
     debugger;
-    setSelectedFactoryCategory(selectcategory);
-  }, [selectcategory]);
+    setSelectedFactoryCategory(selectfCategory);
+  }, [selectfCategory]);
 
   const GetcategoryFactory = () => {
     // fetch(

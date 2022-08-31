@@ -128,6 +128,8 @@ export default function Transaction() {
 
   const FactoryCategoryOnchange = (value) => {
     setSelectedFactCategoryValue(value);
+    setSelectedFactoryId("");
+    setSelectedFactoryValue("");
     debugger;
     console.log(selectedFactCategoryValue);
   };
@@ -276,20 +278,67 @@ export default function Transaction() {
 
   const [getCommRules, setGetCommRules] = useState([]);
   const [getCustomers, setGetCustomers] = useState([]);
+  const [allTransaction, setAllTransaction] = useState([]);
+  const [allSalesman, setAllSalesman] = useState([]);
   const [getCommrulesId, setGetCommrulesId] = useState();
+   const [allFactories, setAllFactories] = useState([]);
 
   useEffect(() => {
-    getCommissionRules();
-    getAllCustomers();
+    // getCommissionRules();
+    // getAllCustomers();
+    // getAllTransaction();
+    // getAllSalesman();
+    // getAllFactories();
   }, []);
 
+  const getAllFactories = () => {
+  
+    axios
+      .get("Factory/GetFactory")
+      .then((res) => {
+        debugger;
+        console.log(res.data);
+        //setData(res.data);
+        setAllFactories(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllTransaction = () => {
+  
+    axios
+      .get("SalesTrasaction/GetTrasaction")
+      .then((res) => {
+        debugger;
+        console.log(res.data);
+        //setData(res.data);
+        setAllTransaction(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAllSalesman = () => {
+  
+    axios
+      .get("SalesPerson/GetSalesPerson")
+      .then((res) => {
+        debugger;
+        console.log(res.data);
+        //setData(res.data);
+        setAllSalesman(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   const getAllCustomers = () => {
-    // fetch("http://53.180.62.50.host.secureserver.net:5000/api/Customer/GetCustomer")
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     debugger;
-    //     setGetCustomers(result);
-    //   });
+  
     axios
       .get("Customer/GetCustomer")
       .then((res) => {
@@ -303,14 +352,7 @@ export default function Transaction() {
       });
   };
   const getCommissionRules = () => {
-    // fetch(
-    //   "http://53.180.62.50.host.secureserver.net:5000/api/CommissionRules/GetCommissionRules"
-    // )
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     debugger;
-    //     setGetCommRules(result);
-    //   });
+    
     axios
       .get("CommissionRules/GetCommissionRules")
 
@@ -331,42 +373,55 @@ export default function Transaction() {
     if (row) {
       // myObj = myArrayOfObjects.find(obj => obj.prop === 'something');
       var custInfo = getCustomers.find(
-        (item) => item.CustomerName === row["Sold-To Name"]
+        (item) => item.CustomerName.trim() === row["Sold-To Name"].trim()
       );
       debugger;
-
+//=================Case 1===========================================
       var CommRules = getCommRules.find(
         (item) =>
-          item.FactoryId === selectedFactoryValue &&
-          item.IsActiveForAll === true
+          item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
+          item.IsActiveForAll === true && item.IsActive === true
       );
       debugger;
       if (CommRules) {
         CommRuleInfo = CommRules;
         return CommRuleInfo;
       }
+//=================Case 2===========================================
+
       var commRate = getCommRules.find(
         (item) =>
-          item.CustId === custInfo.Cid &&
-          item.SalesmanId === selectedSalesmanValue &&
-          item.FactoryId === selectedFactoryValue
+          item.CustId === custInfo.CustId &&
+          item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
+           item.IsActiveForAll === false && item.IsActive === true 
       );
       debugger;
       if (commRate) {
         CommRuleInfo = commRate;
         debugger;
-      } else {
-        var commRate1 = getCommRules.find(
-          (Ruleid) =>
-            Ruleid.SalesmanId === selectedSalesmanValue &&
-            Ruleid.FactoryId === selectedFactoryValue
-        );
-        debugger;
-        CommRuleInfo = commRate1;
+        return CommRuleInfo;
+ //=================Case 3===========================================
       }
+      
+       
+        var commRate1 = getCommRules.find(
+          (item) =>
+          item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
+          item.CustId === 0 && item.IsActiveForAll === false && item.IsActive === true
+        );
+        if (commRate1) {
+        debugger;
+        return CommRuleInfo = commRate1;
+      
     }
-
-    return CommRuleInfo;
+    else{
+      errorMessageBox(
+        "Does not exist commission rules in the database, Please create at leat one rule"
+      );
+      return ;
+    }
+  }
+    
   };
 
   const handleClick = () => {
@@ -435,11 +490,53 @@ export default function Transaction() {
     data.forEach((d, i) => {
       var custInfo = getCustomers.find(
         (item) =>
-          item.CustomerName === d["Sold-To Name"] ||
-          item.CustAliasName === d["Sold-To Name"]
+          item.CustomerName.trim() === d["Sold-To Name"].trim() ||
+          item.CustAliasName.trim() === d["Sold-To Name"].trim()
       );
 
+      if (
+        custInfo === undefined ||
+        custInfo === null ||
+        custInfo === "" ||
+        custInfo === 0 ||
+        custInfo.length === 0
+      ) {
+        errorMessageBox(
+          "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
+        );
+        return;
+      }
+      var salesmanInfo = allSalesman.find(
+        (item) =>
+          item.SalesmId  === custInfo.SalesmanId 
+      );
+
+      if (
+        salesmanInfo === undefined ||
+        salesmanInfo === null ||
+        salesmanInfo === "" ||
+        salesmanInfo === 0 ||
+        salesmanInfo.length === 0
+      ) {
+        errorMessageBox(
+          "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
+        );
+        return;
+      }
+
       let CommRuleInfo = getcommRate(d);
+      if (
+        CommRuleInfo === undefined ||
+        CommRuleInfo === null ||
+        CommRuleInfo === "" ||
+        CommRuleInfo === 0
+      ) {
+        errorMessageBox(
+         // "Month  should not be blank, Please select at least one Month"
+          "Does not exist the Commission Rules : "+d["Sold-To Name"].trim()
+        );
+        return;
+      }
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
         const InvoiceNo = i; // Will come from API
@@ -450,12 +547,48 @@ export default function Transaction() {
           (Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")) * commRate) /
           100
         ).toFixed(2);
+        var salesmanCommRate =0
+        if (
+          custInfo.CustomSalesCommRate === undefined ||
+          custInfo.CustomSalesCommRate === null ||
+          custInfo.CustomSalesCommRate === "" ||
+          custInfo.CustomSalesCommRate === 0
+        ) {
+          salesmanCommRate=  salesmanInfo.CommissionRate
+         
+        }
+        else{
+
+          salesmanCommRate=custInfo.CustomSalesCommRate;
+
+
+        }
+        if (
+          salesmanCommRate === undefined ||
+          salesmanCommRate === null ||
+          salesmanCommRate === "" ||
+          salesmanCommRate === 0
+        ) {
+          errorMessageBox(
+           
+            "Does not exist the Salesman commission in salesman info and customer info : "+ salesmanInfo
+          );
+          return;
+        }
+        var factoryInfo = allFactories.find(
+          (item) =>
+            item.FactoryId  === selectedFactoryValue 
+        );
         debugger;
-        const salesmanComm = grossComm / 2;
+        const salesmanCommAmt = 
+        (
+          (grossComm * salesmanCommRate) /
+          100
+        ).toFixed(2);
         const obj = {
           TrasactionId: 0,
           SalesmId: CommRuleInfo.SalesmanId,
-          SalesmanName: "",
+          SalesmanName: salesmanInfo.SalesmanCode,
           CustId: custInfo.CId,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: d["Sold-To Name"],
@@ -465,6 +598,7 @@ export default function Transaction() {
           ShipToCity: d["Ship-To City"],
           ShipToState: d["Ship-To State"],
           FactoryId: selectedFactoryValue,
+          FactoryName: factoryInfo.FactoryName,
           Check: checkValue,
           Month: selectedSalesMonthsValue,
           salesman: selectedSalesmanValue,
@@ -475,7 +609,7 @@ export default function Transaction() {
           // SalesmanCommAmt: salesmanComm,
           GrossCommRate: `${commRate}%`,
           GrossCommAmt: numberToCurrency(grossComm),
-          SalesmanCommAmt: numberToCurrency(salesmanComm),
+          SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
         };
         const objsave = {
           TrasactionId: 0,
@@ -497,7 +631,7 @@ export default function Transaction() {
           TotalSalesAmt: SAmt,
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
-          SalesmanCommAmt: salesmanComm,
+          SalesmanCommAmt: salesmanCommAmt,
           // GrossCommRate: `${commRate}%`,
           // GrossCommAmt: numberToCurrency(grossComm),
           // SalesmanCommAmt: numberToCurrency(salesmanComm),
@@ -569,18 +703,20 @@ export default function Transaction() {
             </Grid> */}
             <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
-                salesMonthsddlOnchang={SalesMonthsOnchange}
+                ddlOnchang={SalesMonthsOnchange}
               />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
               <FactoryCategoryddl
-                factoryCategoryddlOnchang={FactoryCategoryOnchange}
+                ddlOnchang={FactoryCategoryOnchange}
+                selectfCategory={selectedFactCategoryValue}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <FactoriesDropdownlist
-                FactoriesddlOnchang={FactoryOnchange}
+                ddlOnchang={FactoryOnchange}
                 selectcategory={selectedFactCategoryValue}
+                selectedFactoryId={selectedFactoryId}
               />
             </Grid>
             {/* <Grid item xs={12} sm={3}>

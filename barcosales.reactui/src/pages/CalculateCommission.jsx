@@ -79,7 +79,7 @@ export default function CalculateCommission(props) {
     { title: "Check", field: "Check" },
     { title: "Month", field: "Month" },
     { title: "Salesman", field: "SalesmanName" },
-    { title: "Invoice No", field: "InvoiceNo" },
+    //{ title: "Invoice No", field: "InvoiceNo" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "GrossCommRate", field: "GrossCommRate" },
     { title: "GrossComm", field: "GrossCommAmt" },

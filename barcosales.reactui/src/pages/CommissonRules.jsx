@@ -491,7 +491,7 @@ export default function CommissonRules(props) {
             <Grid item xs={12} sm={3}>
               <FactoryCategoryddl
                 ddlOnchang={FactoryCategoryOnchange}
-                selectcategory={selectedFactCategoryValue}
+                selectfCategory={selectedFactCategoryValue}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
