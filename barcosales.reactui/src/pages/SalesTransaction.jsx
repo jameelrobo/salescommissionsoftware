@@ -1,4 +1,4 @@
-import React, { useState, Component, useEffect, forwardRef } from "react";
+import React, { useState, Component, useEffect, forwardRef , useRef, } from "react";
 import MaterialTable, { Column } from "material-table";
 import { Link } from "react-router-dom";
 import { findIndex } from "lodash";
@@ -31,6 +31,7 @@ import Remove from "@material-ui/icons/Remove";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const tableRef = React.createRef();
 const tableIcons = {
@@ -280,79 +281,109 @@ export default function Transaction() {
 
   useEffect(() => {
     
+    // getAllCustomers();
+   getAllSalesman();
+     getAllFactories();
+  getCommissionRules();
+   
+//  getAllTransaction();
+
+
   }, []);
 
-  const getAllFactories = () => {
-  
-    axios
-      .get("Factory/GetFactory")
-      .then((res) => {
-        debugger;
-        // // console.log(res.data);
-        //setData(res.data);
-        setAllFactories(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getAllTransaction = () => {
+  const getAllCustomers =  async () => {
     debugger;
-    axios
-      .get("SalesTrasaction/GetTrasaction")
-      .then((res) => {
-        debugger;
-        
-        setAllTransaction(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const getAllSalesman = () => {
-    debugger;
-    axios
-      .get("SalesPerson/GetSalesPerson")
-      .then((res) => {
-        debugger;
-       
-        setAllSalesman(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-
-  const getAllCustomers = () => {
-    debugger;
-    axios
+const res =await  axios
       .get("Customer/GetCustomer")
       .then((res) => {
         debugger;
-       // // // console.log(res.data);
+        console.log(res.data);
+        debugger;
+    // setGetCustomers(res.data);
+     localStorage.setItem("AllCustomers", JSON.stringify(res.data));
+     debugger;
+        return res.data;
         //setData(res.data);
-        setGetCustomers(res.data);
+       
+      })
+      .catch((err) => {
+       console.log(err);
+       //return res.data;
+      });
+      debugger;
+      //setGetCustomers(res.data); 
+      return res;
+  };
+
+  const getAllFactories = async  () => {
+  
+    const res =await  axios
+      .get("Factory/GetFactory")
+      .then((res) => {
+        debugger;
+        console.log(res.data);
+        //setData(res.data);
+       // setAllFactories(res.data);
+       localStorage.setItem("AllFactories", JSON.stringify(res.data));
+        return res
       })
       .catch((err) => {
         console.log(err);
+        return res
       });
   };
-  const getCommissionRules = () => {
-    debugger;
-    axios
-      .get("CommissionRules/GetCommissionRules")
 
+  const getAllTransaction = async  () => {
+    debugger;
+    const res =await   axios
+      .get("SalesTrasaction/GetTrasaction")
+      .then((res) => {
+        debugger;
+        console.log(res.data);
+       // setAllTransaction(res.data);
+       localStorage.setItem("AllTransaction", JSON.stringify(res.data));
+        return res
+      })
+      .catch((err) => {
+        console.log(err);
+        return res
+      });
+  };
+
+  const getAllSalesman =  async  () => {
+    debugger;
+    const res =await   axios
+      .get("SalesPerson/GetSalesPerson")
+      .then((res) => {
+        debugger;
+        console.log(res.data);
+      //  setAllSalesman(res.data);
+        localStorage.setItem("AllSalesman", JSON.stringify(res.data));
+        return res
+      })
+      .catch((err) => {
+        console.log(err);
+        return res
+      });
+  };
+
+
+ 
+  const getCommissionRules =  async () => {
+    debugger;
+    const res =await   axios
+      .get("CommissionRules/GetCommissionRules")
       .then((res) => {
         debugger;
         console.log(res);
-        setGetCommRules(res.data);
+      //  setGetCommRules(res.data);
+      localStorage.setItem("AllCommissionRules",JSON.stringify(res.data));
+        return res
       })
       .catch((err) => {
         console.log(err);
       });
+      return res
   };
 
   const getcommRate = (row) => {
@@ -412,14 +443,66 @@ export default function Transaction() {
   }
     
   };
+ 
+  const handleClick =  () => {
+debugger;
+    var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
+    var getCommissionRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
+    var getAllSalesman= JSON.parse(localStorage.getItem("AllSalesman"));
+    var getAllFactories= JSON.parse(localStorage.getItem("AllFactories"));
 
-  const handleClick = () => {
-    debugger;
-    getCommissionRules();
-    getAllCustomers();
-    getAllTransaction();
-    getAllSalesman();
-    getAllFactories();
+    if (
+      getAllFactories === undefined ||
+      getAllFactories === null ||
+      getAllFactories === "" ||
+      getAllFactories === 0 ||
+      getAllFactories.length === 0
+    ) {
+      errorMessageBox(
+        "Please check Factories API, Does not exist the Factories " );
+      return;
+    }
+
+    if (
+      getCustomers === undefined ||
+      getCustomers === null ||
+      getCustomers === "" ||
+      getCustomers === 0 ||
+      getCustomers.length === 0
+    ) {
+      errorMessageBox(
+        "Please check custmer API, Does not exist the customers " );
+      return;
+    }
+   
+    if (
+      getCommissionRules === undefined ||
+      getCommissionRules === null ||
+      getCommissionRules === "" ||
+      getCommissionRules === 0 ||
+      getCommissionRules.length === 0
+    ) {
+      errorMessageBox(
+        "Please check Commission Rules API, Does not exist the Commission Rules " );
+      return;
+    }
+
+    if (
+      getAllSalesman === undefined ||
+      getAllSalesman === null ||
+      getAllSalesman === "" ||
+      getAllSalesman === 0 ||
+      getAllSalesman.length === 0
+    ) {
+      errorMessageBox(
+        "Please check Salesman API, Does not exist the Commission Rules " );
+      return;
+    }
+   
+   
+    //  getAllTransaction();
+    //  getAllSalesman();
+    //  getAllFactories();
 
     // if (
     //   selectedPriorYearValue === undefined ||
@@ -480,7 +563,6 @@ export default function Transaction() {
       return;
     }
 
-   
     const transformedArray = [];
     const SavetransformedArray = [];
 
@@ -705,8 +787,8 @@ export default function Transaction() {
             </Grid>
             {/* <Grid item xs={12} sm={6}>
               <PriorYearDropdownlist ddlOnchang={PriorYearOnchange} />
-            </Grid> */}
-            {/* <Grid item xs={12} sm={4}>
+            </Grid>
+            <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
                 ddlOnchang={SalesMonthsOnchange}
               />
@@ -729,8 +811,8 @@ export default function Transaction() {
                 ddlOnchang={PriorYearOnchange}
                 selectedPriorYearValue={selectedPriorYearItem}
               />
-            </Grid>
-            <Grid item xs={12} sm={3}>
+            </Grid> */}
+             {/*<Grid item xs={12} sm={3}>
               <SalesMonthsDropdownlist ddlOnchang={SalesMonthsOnchange} />
             </Grid>
             <Grid item xs={12} sm={3}>

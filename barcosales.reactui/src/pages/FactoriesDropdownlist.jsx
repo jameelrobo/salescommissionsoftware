@@ -61,7 +61,7 @@ export default function FactoriesDropdownlist({
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={selectfactory || ""}
+          value={selectfactory || "0"}
           label="Select Factory / Princ Code"
           onChange={handleChange}
         >
