@@ -280,8 +280,12 @@ export default function Transaction() {
    const [allFactories, setAllFactories] = useState([]);
 
   useEffect(() => {
+    localStorage.removeItem('AllCustomers');
+    localStorage.removeItem('AllFactories');
+    localStorage.removeItem('AllSalesman');
+    localStorage.removeItem('AllCommissionRules');
     
-    // getAllCustomers();
+     getAllCustomers();
    getAllSalesman();
      getAllFactories();
   getCommissionRules();
@@ -385,18 +389,19 @@ const res =await  axios
       });
       return res
   };
-
+//======================Find commission rules=======================
   const getcommRate = (row) => {
     debugger;
 
     let CommRuleInfo = {};
     if (row) {
-      // myObj = myArrayOfObjects.find(obj => obj.prop === 'something');
+      var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
       var custInfo = getCustomers.find(
         (item) => item.CustomerName.trim() === row["Sold-To Name"].trim()
       );
       debugger;
 //=================Case 1===========================================
+var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
       var CommRules = getCommRules.find(
         (item) =>
           item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
@@ -447,7 +452,7 @@ const res =await  axios
   const handleClick =  () => {
 debugger;
     var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
-    var getCommissionRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
+    var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
     var getAllSalesman= JSON.parse(localStorage.getItem("AllSalesman"));
     var getAllFactories= JSON.parse(localStorage.getItem("AllFactories"));
 
@@ -476,11 +481,11 @@ debugger;
     }
    
     if (
-      getCommissionRules === undefined ||
-      getCommissionRules === null ||
-      getCommissionRules === "" ||
-      getCommissionRules === 0 ||
-      getCommissionRules.length === 0
+      getCommRules === undefined ||
+      getCommRules === null ||
+      getCommRules === "" ||
+      getCommRules === 0 ||
+      getCommRules.length === 0
     ) {
       errorMessageBox(
         "Please check Commission Rules API, Does not exist the Commission Rules " );
@@ -566,15 +571,18 @@ debugger;
     const transformedArray = [];
     const SavetransformedArray = [];
 
-     //==============Start to calculation================================
+     //Foreach Conditio==============Start to calculation==================================================
 
+     var BreakException = {};
+  try {
     data.forEach((d, i) => {
 
       debugger
       var custInfo = getCustomers.find(
         (item) =>
-          item.CustomerName.trim() === d["Sold-To Name"].trim() ||
-          item.CustAliasName.trim() === d["Sold-To Name"].trim()
+          item.CustomerName.trim() === d["Sold-To Name"].trim() 
+          // ||
+          // item.CustAliasName.trim() === d["Sold-To Name"].trim()
       );
 
       if (
@@ -588,8 +596,9 @@ debugger;
           "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
         );
         return;
+       // throw BreakException;
       }
-      var salesmanInfo = allSalesman.find(
+      var salesmanInfo = getAllSalesman.find(
         (item) =>
           item.SalesmId  === custInfo.SalesmanId 
       );
@@ -622,7 +631,7 @@ debugger;
       }
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
-        const InvoiceNo = i; // Will come from API
+        const InvoiceNo = i+1; // Will come from API
         const TotalSalesAmt = d["TotalSalesAmt"];
         const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
@@ -658,7 +667,7 @@ debugger;
           );
           return;
         }
-        var factoryInfo = allFactories.find(
+        var factoryInfo = getAllFactories.find(
           (item) =>
             item.FactoryId  === selectedFactoryValue 
         );
@@ -670,9 +679,9 @@ debugger;
         ).toFixed(2);
         const obj = {
           TrasactionId: 0,
-          SalesmId: CommRuleInfo.SalesmanId,
+          SalesmId: custInfo.SalesmanId,
           SalesmanName: salesmanInfo.SalesmanCode,
-          CustId: custInfo.CId,
+          CustId: custInfo.CustId,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: d["Sold-To Name"],
           SoldToAddress: d["Sold-To Address"],
@@ -684,14 +693,11 @@ debugger;
           FactoryName: factoryInfo.FactoryName,
           Check: checkValue,
           Month: selectedSalesMonthsValue,
-          salesman: selectedSalesmanValue,
           InvoiceNo,
           TotalSalesAmt,
-          // GrossCommRate: commRate,
-          // GrossCommAmt: grossComm,
-          // SalesmanCommAmt: salesmanComm,
           GrossCommRate: `${commRate}%`,
           GrossCommAmt: numberToCurrency(grossComm),
+          SalesmanCommRate: `${salesmanCommRate}%`,
           SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
         };
         const objsave = {
@@ -709,15 +715,14 @@ debugger;
           FactoryId: selectedFactoryValue,
           Check: checkValue,
           Month: selectedSalesMonthsValue,
-          salesman: selectedSalesmanValue,
+      
           InvoiceNo,
           TotalSalesAmt: SAmt,
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
+          SalesmanCommRate: salesmanCommRate ,
           SalesmanCommAmt: salesmanCommAmt,
-          // GrossCommRate: `${commRate}%`,
-          // GrossCommAmt: numberToCurrency(grossComm),
-          // SalesmanCommAmt: numberToCurrency(salesmanComm),
+        
         };
         debugger;
 
@@ -725,6 +730,10 @@ debugger;
         SavetransformedArray.push(objsave);
       }
     });
+
+  } catch (e) {
+    if (e !== BreakException) throw e;
+  }
     debugger;
 
     if (

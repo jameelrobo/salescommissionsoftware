@@ -16,7 +16,7 @@ export default function FactoryCategoryddl({
   const [factoryCategory, setFactoryCategory] = React.useState([]);
   useEffect(() => {
     GetcategoryFactory();
-    //createSelectItems();
+    
   }, []);
   useEffect(() => {
     debugger;
@@ -24,14 +24,7 @@ export default function FactoryCategoryddl({
   }, [selectfCategory]);
 
   const GetcategoryFactory = () => {
-    // fetch(
-    //   "http://53.180.62.50.host.secureserver.net:5000/api/Factory/GetFactory"
-    // )
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     debugger;
-    //     setFactory(result);
-    //   });
+  
     axios
       .get("FactoryCategory/GetFactoryCategory")
 

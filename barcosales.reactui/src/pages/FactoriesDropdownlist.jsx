@@ -23,6 +23,7 @@ export default function FactoriesDropdownlist({
     const filter = factory.filter(
       (d, i) => selectcategory === d.FactoryCategoryId
     );
+    debugger;
     setFilterfactory(filter);
   }, [selectcategory]);
 
@@ -46,6 +47,7 @@ export default function FactoriesDropdownlist({
   };
 
   const handleChange = (event) => {
+    debugger;
     setSelectfactory(event.target.value);
     ddlOnchang(event.target.value);
     console.log(event.target.value);
