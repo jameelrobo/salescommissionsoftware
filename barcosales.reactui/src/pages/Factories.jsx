@@ -158,6 +158,7 @@ export default function Factories(props) {
         .put("Factory/EditFactory", factories)
         .then((res) => {
           debugger;
+          GetFactory();
           successMessageBox("Record has been updated successfully!");
 
           setFactoryId(0);
@@ -173,6 +174,7 @@ export default function Factories(props) {
         .post("Factory/AddFactory", factories)
         .then((res) => {
           if (res.status === 200) {
+            GetFactory();
             successMessageBox("Record has been added successfully!");
           }
 
