@@ -114,6 +114,8 @@ export default function Transaction() {
     { title: "ShipToState", field: "Ship-To State" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
   ]);
+
+  const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
   const [data, setData] = useState();
   const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
@@ -448,8 +450,11 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
   }
     
   };
- 
-  const handleClick =  () => {
+ const handleClick = ()=>{
+  window.location = "/transaction/calculate";
+
+ }
+  const verifyUploadedFile =  () => {
 debugger;
     var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
     var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
@@ -749,6 +754,8 @@ debugger;
     }
     else if(transformedArray.length===data.length)
     {
+       
+      setIsEnableCalculatebttn(false);
       localStorage.setItem(
         "salesComissionData",
         JSON.stringify(transformedArray)
@@ -757,7 +764,7 @@ debugger;
         "salesComissiongridData",
         JSON.stringify(SavetransformedArray)
       );
-      window.location = "/transaction/calculate";
+   
 
     }
    
@@ -841,7 +848,7 @@ debugger;
           </Grid>
 
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <input
                 type="file"
                 color="primary"
@@ -851,18 +858,23 @@ debugger;
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
-              {/* <Link to="/transaction/calculate">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  onClick={() => handleClick()}
-                >
-                  Calculate Sales Commission
-                </Button>
-              </Link> */}
+            <Grid item xs={12} sm={4}>
+           
+           <Button
+             variant="contained"
+             color="primary"
+             fullWidth
+             onClick={() => verifyUploadedFile()}
+           >
+            Verify Uploaded File
+           </Button>
+         </Grid>
+
+            <Grid item xs={12} sm={4}>
+           
               <Button
+              //disabled="true"
+             disabled={isEnableCalculatebttn}
                 variant="contained"
                 color="primary"
                 fullWidth
