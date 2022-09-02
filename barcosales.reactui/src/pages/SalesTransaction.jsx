@@ -9,8 +9,8 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import FactoriesDropdownlist from "./FactoriesDropdownlist";
-import FactoryCategoryddl from "./FactoryCategoryddl";
+import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
+import FactoryCategoryddlTr from "./FactoryCategoryddlTr";
 import PriorYearDropdownlist from "./PriorYearDropdownlist";
 import SalesMonthsDropdownlist from "./SalesMonthsDropdownlist";
 import AddBox from "@material-ui/icons/AddBox";
@@ -105,7 +105,7 @@ export default function Transaction() {
   const classes = useStyles();
 
   const [colDefs, setColDefs] = useState([
-   { title: "IsVerified", field: "IsVerified" },
+  
     { title: "SoldToName", field: "Sold-To Name" },
     { title: "SoldToAddress", field: "Sold-To Address" },
     { title: "SoldToState", field: "Sold-To State" },
@@ -114,6 +114,7 @@ export default function Transaction() {
     { title: "ShipToCity", field: "Ship-To City" },
     { title: "ShipToState", field: "Ship-To State" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
+    { title: "IsVerified", field: "IsVerified" },
   ]);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
@@ -393,15 +394,15 @@ const res =await  axios
       return res
   };
 //======================Find commission rules=======================
-  const getcommRate = (row) => {
+  const getcommRate = (custId) => {
     debugger;
 
     let CommRuleInfo = {};
-    if (row) {
-      var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
-      var custInfo = getCustomers.find(
-        (item) => item.CustomerName.trim() === row["Sold-To Name"].trim()
-      );
+    if (custId) {
+      // var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
+      // var custInfo = getCustomers.find(
+      //   (item) => item.CustomerName.trim() === row["Sold-To Name"].trim()
+      // );
       debugger;
 //=================Case 1===========================================
 var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
@@ -419,7 +420,7 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
 
       var commRate = getCommRules.find(
         (item) =>
-          item.CustId === custInfo.CustId &&
+          item.CustId === custId &&
           item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
            item.IsActiveForAll === false && item.IsActive === true 
       );
@@ -451,6 +452,14 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
   }
     
   };
+
+  const updatedata=(logdata,id)=>{
+    debugger;
+    const dataUpdate = [...data];
+    const index = id;
+    dataUpdate[index] = logdata;
+    setData([...dataUpdate]);
+  }
  const handleClick = ()=>{
   window.location = "/transaction/calculate";
 
@@ -579,14 +588,15 @@ debugger;
 
      //Foreach Conditio==============Start to calculation==================================================
 
-     var BreakException = {};
-  try {
-    data.forEach((d, i) => {
-
+    //  var BreakException = {};
+   //try {
+    //data.forEach((d, i) => {
+      for (let i = 0; i < data.length; i++) {
+      let Isvalid="";
       debugger
       var custInfo = getCustomers.find(
         (item) =>
-          item.CustomerName.trim() === d["Sold-To Name"].trim() 
+          item.CustomerName.trim() === data[i]["Sold-To Name"].trim() 
           // ||
           // item.CustAliasName.trim() === d["Sold-To Name"].trim()
       );
@@ -598,10 +608,18 @@ debugger;
         custInfo === 0 ||
         custInfo.length === 0
       ) {
-        errorMessageBox(
-          "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
-        );
-        return;
+        // errorMessageBox(
+        //   "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
+        // );
+        debugger;
+        Isvalid=Isvalid+","+" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
+        data[i]["IsVerified"]=Isvalid;
+        setData(data);
+      //  updatedata(data[i],i)
+      break;
+        //continue;
+
+       // return;
        // throw BreakException;
       }
       var salesmanInfo = getAllSalesman.find(
@@ -616,29 +634,33 @@ debugger;
         salesmanInfo === 0 ||
         salesmanInfo.length === 0
       ) {
-        errorMessageBox(
-          "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
-        );
-        return;
+        Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
+        continue;
+        // errorMessageBox(
+        //   "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
+        // );
+        // return;
       }
 
-      let CommRuleInfo = getcommRate(d);
+      let CommRuleInfo = getcommRate(custInfo.CustId);
       if (
         CommRuleInfo === undefined ||
         CommRuleInfo === null ||
         CommRuleInfo === "" ||
         CommRuleInfo === 0
       ) {
-        errorMessageBox(
-         // "Month  should not be blank, Please select at least one Month"
-          "Does not exist the Commission Rules : "+d["Sold-To Name"].trim()
-        );
-        return;
+        Isvalid=Isvalid+","+"The Commision Rule  Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
+        continue;
+        // errorMessageBox(
+        //  // "Month  should not be blank, Please select at least one Month"
+        //   "Does not exist the Commission Rules : "+d["Sold-To Name"].trim()
+        // );
+        // return;
       }
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
         const InvoiceNo = i+1; // Will come from API
-        const TotalSalesAmt = d["TotalSalesAmt"];
+        const TotalSalesAmt = data[0]["TotalSalesAmt"];
         const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
         const grossComm = (
@@ -667,11 +689,13 @@ debugger;
           salesmanCommRate === "" ||
           salesmanCommRate === 0
         ) {
-          errorMessageBox(
+          Isvalid=Isvalid+","+"The Commision Rate  Doesn't exist in the DB  ";
+          continue;
+          // errorMessageBox(
            
-            "Does not exist the Salesman commission in salesman info and customer info : "+ salesmanInfo
-          );
-          return;
+          //   "Does not exist the Salesman commission in salesman info and customer info : "+ salesmanInfo
+          // );
+          // return;
         }
         var factoryInfo = getAllFactories.find(
           (item) =>
@@ -689,12 +713,12 @@ debugger;
           SalesmanName: salesmanInfo.SalesmanCode,
           CustId: custInfo.CustId,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
-          SoldToName: d["Sold-To Name"],
-          SoldToAddress: d["Sold-To Address"],
-          SoldToState: d["Sold-To State"],
-          ShipToAddress: d["Ship-To Address"],
-          ShipToCity: d["Ship-To City"],
-          ShipToState: d["Ship-To State"],
+          SoldToName: data[i]["Sold-To Name"].trim() ,
+          SoldToAddress: data[i]["Sold-To Address"],
+          SoldToState: data[i]["Sold-To State"],
+          ShipToAddress: data[i]["Ship-To Address"],
+          ShipToCity: data[i]["Ship-To City"],
+          ShipToState: data[i]["Ship-To State"],
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           Check: checkValue,
@@ -712,12 +736,12 @@ debugger;
           SalesmanName: "",
           CustId: custInfo.CId,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
-          SoldToName: d["Sold-To Name"],
-          SoldToAddress: d["Sold-To Address"],
-          SoldToState: d["Sold-To State"],
-          ShipToAddress: d["Ship-To Address"],
-          ShipToCity: d["Ship-To City"],
-          ShipToState: d["Ship-To State"],
+          SoldToName: data[i]["Sold-To Name"],
+          SoldToAddress: data[i]["Sold-To Address"],
+          SoldToState: data[i]["Sold-To State"],
+          ShipToAddress: data[i]["Ship-To Address"],
+          ShipToCity: data[i]["Ship-To City"],
+          ShipToState: data[i]["Ship-To State"],
           FactoryId: selectedFactoryValue,
           Check: checkValue,
           Month: selectedSalesMonthsValue,
@@ -735,11 +759,9 @@ debugger;
         transformedArray.push(obj);
         SavetransformedArray.push(objsave);
       }
-    });
+    }
 
-  } catch (e) {
-    if (e !== BreakException) throw e;
-  }
+  
     debugger;
 
     if (
@@ -811,16 +833,16 @@ debugger;
               />
             </Grid> */}
             <Grid item xs={12} sm={3}>
-              <FactoryCategoryddl
-                ddlOnchang={FactoryCategoryOnchange}
-                selectfCategory={selectedFactCategoryValue}
+              <FactoryCategoryddlTr
+                categoryddlOnchang={FactoryCategoryOnchange}
+                // selectfCategory={selectedFactCategoryValue}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <FactoriesDropdownlist
-                ddlOnchang={FactoryOnchange}
+              <FactoriesDropdownlistTr
+                factoryddlOnchang={FactoryOnchange}
                 selectcategory={selectedFactCategoryValue}
-                selectedFactoryId={selectedFactoryId}
+              //  selectedFactoryId={selectedFactoryId}
               />
             </Grid>
             {/* <Grid item xs={12} sm={3}>
