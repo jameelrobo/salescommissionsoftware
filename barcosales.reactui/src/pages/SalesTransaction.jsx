@@ -105,6 +105,7 @@ export default function Transaction() {
   const classes = useStyles();
 
   const [colDefs, setColDefs] = useState([
+   { title: "IsVerified", field: "IsVerified" },
     { title: "SoldToName", field: "Sold-To Name" },
     { title: "SoldToAddress", field: "Sold-To Address" },
     { title: "SoldToState", field: "Sold-To State" },
@@ -243,7 +244,7 @@ export default function Transaction() {
       const headers = fileData[0];
       const heads = headers.map((head) => ({ title: head, field: head }));
       // console.log(heads)
-      setColDefs(heads);
+      //setColDefs(heads);
 
       fileData.splice(0, 1);
 
