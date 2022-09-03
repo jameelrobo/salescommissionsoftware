@@ -6,8 +6,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import axios from "axios";
 export default function FactoriesDropdownlistTr({
-  factoryddlOnchang,
-  selectcategory
+  factoryddlOnchang
+ // , selectcategory
+ 
   
 }) {
   const [factory, setFactory] = React.useState([]);
@@ -20,13 +21,13 @@ export default function FactoriesDropdownlistTr({
     //createSelectItems();
   }, []);
 
-  useEffect(() => {
-    const filter = factory.filter(
-      (d, i) => selectcategory === d.FactoryCategoryId
-    );
-    debugger;
-    setFilterfactory(filter);
-  }, [selectcategory]);
+  // useEffect(() => {
+  //   const filter = factory.filter(
+  //     (d, i) => selectcategory === d.FactoryCategoryId
+  //   );
+  //   debugger;
+  //   setFilterfactory(filter);
+  // }, [selectcategory]);
 
   // useEffect(() => {
   //   debugger;
@@ -41,6 +42,7 @@ export default function FactoriesDropdownlistTr({
         debugger;
         console.log(res);
         setFactory(res.data);
+        setFilterfactory(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -51,7 +53,7 @@ export default function FactoriesDropdownlistTr({
     debugger;
     setSelectfactory(event.target.value);
     factoryddlOnchang(event.target.value);
-    console.log(event.target.value);
+    console.log("factddl :"+event.target.value);
   };
   debugger;
   // console.log(factory);
@@ -64,7 +66,8 @@ export default function FactoriesDropdownlistTr({
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={selectfactory }
+         // value={selectfactory }
+         value={selectfactory}
           label="Select Factory / Princ Code"
           onChange={handleChange}
         >

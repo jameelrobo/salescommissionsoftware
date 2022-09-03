@@ -121,14 +121,12 @@ export default function Transaction() {
   const [data, setData] = useState();
   const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
-
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("8");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
   const [checkValue, setCheckValue] = useState("");
-  const [selectedFactoryValue, setSelectedFactoryValue] = useState("22");
-  const [selectedFactCategoryValue, setSelectedFactCategoryValue] =
-    useState("");
+  const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
+  const [selectedFactCategoryValue, setSelectedFactCategoryValue] = useState("");
 
   const FactoryCategoryOnchange = (value) => {
     setSelectedFactCategoryValue(value);
@@ -139,10 +137,12 @@ export default function Transaction() {
   };
 
   const FactoryOnchange = (value) => {
-    setSelectedFactoryValue(value);
-
     debugger;
-    console.log(selectedFactoryValue);
+ 
+    console.log("Transaction :"+value);
+    setSelectedFactoryValue(value);
+    debugger;
+   
   };
   const PriorYearOnchange = (value) => {
     setSelectedPriorYearValue(value);
@@ -198,32 +198,7 @@ export default function Transaction() {
     return rows;
   };
 
-  const downloadExcel = () => {
-    const newData = data.map((row) => {
-      delete row.tableData;
-      return row;
-    });
-    const workSheet = XLSX.utils.json_to_sheet(newData);
-    const workBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workBook, workSheet, "SalesCommissionDetails");
-    //Buffer
-    XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
-    //Binary string
-    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
-    //Download
-    XLSX.writeFile(workBook, "SalesCommissionDetails.xlsx");
-  };
-  const downloadPdf = () => {
-    const doc = new jsPDF();
-    doc.text("SalesCommissionDetails", 20, 10);
-    doc.autoTable({
-      theme: "grid",
-      columns: colDefs.map((col) => ({ ...col, dataKey: col.field })),
-      body: data,
-    });
-    doc.save("SalesCommissionDetails.pdf");
-  };
-
+ 
   const importExcel = (e) => {
     const file = e.target.files[0];
 
@@ -250,9 +225,7 @@ export default function Transaction() {
       fileData.splice(0, 1);
 
       setData(convertToJson(headers, fileData));
-      // console.log(setData)
-      // localStorage.setItem('columns1', JSON.stringify(columns));
-      // localStorage.setItem('data1', JSON.stringify(convertToJson(columns, cdata)));
+       
     };
 
     if (file) {
@@ -305,7 +278,7 @@ const res =await  axios
       .get("Customer/GetCustomer")
       .then((res) => {
         debugger;
-        console.log(res.data);
+      //  console.log(res.data);
         debugger;
     // setGetCustomers(res.data);
      localStorage.setItem("AllCustomers", JSON.stringify(res.data));
@@ -329,7 +302,7 @@ const res =await  axios
       .get("Factory/GetFactory")
       .then((res) => {
         debugger;
-        console.log(res.data);
+       // console.log(res.data);
         //setData(res.data);
        // setAllFactories(res.data);
        localStorage.setItem("AllFactories", JSON.stringify(res.data));
@@ -347,7 +320,7 @@ const res =await  axios
       .get("SalesTrasaction/GetTrasaction")
       .then((res) => {
         debugger;
-        console.log(res.data);
+       // console.log(res.data);
        // setAllTransaction(res.data);
        localStorage.setItem("AllTransaction", JSON.stringify(res.data));
         return res
@@ -364,7 +337,7 @@ const res =await  axios
       .get("SalesPerson/GetSalesPerson")
       .then((res) => {
         debugger;
-        console.log(res.data);
+      //  console.log(res.data);
       //  setAllSalesman(res.data);
         localStorage.setItem("AllSalesman", JSON.stringify(res.data));
         return res
@@ -383,7 +356,7 @@ const res =await  axios
       .get("CommissionRules/GetCommissionRules")
       .then((res) => {
         debugger;
-        console.log(res);
+       // console.log(res);
       //  setGetCommRules(res.data);
       localStorage.setItem("AllCommissionRules",JSON.stringify(res.data));
         return res
@@ -399,16 +372,12 @@ const res =await  axios
 
     let CommRuleInfo = {};
     if (custId) {
-      // var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
-      // var custInfo = getCustomers.find(
-      //   (item) => item.CustomerName.trim() === row["Sold-To Name"].trim()
-      // );
-      debugger;
+    
 //=================Case 1===========================================
 var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
       var CommRules = getCommRules.find(
         (item) =>
-          item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
+          item.FactoryId === selectedFactoryValue &&
           item.IsActiveForAll === true && item.IsActive === true
       );
       debugger;
@@ -421,7 +390,7 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
       var commRate = getCommRules.find(
         (item) =>
           item.CustId === custId &&
-          item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
+          item.FactoryId === selectedFactoryValue &&
            item.IsActiveForAll === false && item.IsActive === true 
       );
       debugger;
@@ -435,7 +404,7 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
        
         var commRate1 = getCommRules.find(
           (item) =>
-          item.FactoryId === selectedFactoryValue && item.FactoryCategoryId === selectedFactCategoryValue &&
+          item.FactoryId === selectedFactoryValue  &&
           item.CustId === 0 && item.IsActiveForAll === false && item.IsActive === true
         );
         if (commRate1) {
@@ -453,13 +422,7 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
     
   };
 
-  const updatedata=(logdata,id)=>{
-    debugger;
-    const dataUpdate = [...data];
-    const index = id;
-    dataUpdate[index] = logdata;
-    setData([...dataUpdate]);
-  }
+
  const handleClick = ()=>{
   window.location = "/transaction/calculate";
 
@@ -519,11 +482,7 @@ debugger;
       return;
     }
    
-   
-    //  getAllTransaction();
-    //  getAllSalesman();
-    //  getAllFactories();
-
+  
     // if (
     //   selectedPriorYearValue === undefined ||
     //   selectedPriorYearValue === null ||
@@ -548,17 +507,17 @@ debugger;
       return;
     }
 
-    if (
-      selectedFactCategoryValue === undefined ||
-      selectedFactCategoryValue === null ||
-      selectedFactCategoryValue === "" ||
-      selectedFactCategoryValue === 0
-    ) {
-      errorMessageBox(
-        "Factory Category should not be blank, Please select at least one category"
-      );
-      return;
-    }
+    // if (
+    //   selectedFactCategoryValue === undefined ||
+    //   selectedFactCategoryValue === null ||
+    //   selectedFactCategoryValue === "" ||
+    //   selectedFactCategoryValue === 0
+    // ) {
+    //   errorMessageBox(
+    //     "Factory Category should not be blank, Please select at least one category"
+    //   );
+    //   return;
+    // }
     if (
       selectedFactoryValue === undefined ||
       selectedFactoryValue === null ||
@@ -588,9 +547,7 @@ debugger;
 
      //Foreach Conditio==============Start to calculation==================================================
 
-    //  var BreakException = {};
-   //try {
-    //data.forEach((d, i) => {
+   
       for (let i = 0; i < data.length; i++) {
       let Isvalid="";
       debugger
@@ -615,12 +572,8 @@ debugger;
         Isvalid=Isvalid+","+" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
         data[i]["IsVerified"]=Isvalid;
         setData(data);
-      //  updatedata(data[i],i)
-      break;
-        //continue;
-
-       // return;
-       // throw BreakException;
+        continue;
+        
       }
       var salesmanInfo = getAllSalesman.find(
         (item) =>
@@ -635,6 +588,8 @@ debugger;
         salesmanInfo.length === 0
       ) {
         Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
+        data[i]["IsVerified"]=Isvalid;
+        setData(data);
         continue;
         // errorMessageBox(
         //   "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
@@ -650,6 +605,8 @@ debugger;
         CommRuleInfo === 0
       ) {
         Isvalid=Isvalid+","+"The Commision Rule  Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
+        data[i]["IsVerified"]=Isvalid;
+        setData(data);
         continue;
         // errorMessageBox(
         //  // "Month  should not be blank, Please select at least one Month"
@@ -690,7 +647,9 @@ debugger;
           salesmanCommRate === 0
         ) {
           Isvalid=Isvalid+","+"The Commision Rate  Doesn't exist in the DB  ";
-          continue;
+          data[i]["IsVerified"]=Isvalid;
+        setData(data);
+        continue;
           // errorMessageBox(
            
           //   "Does not exist the Salesman commission in salesman info and customer info : "+ salesmanInfo
@@ -832,41 +791,20 @@ debugger;
                 ddlOnchang={SalesMonthsOnchange}
               />
             </Grid> */}
-            <Grid item xs={12} sm={3}>
+            {/* <Grid item xs={12} sm={3}>
               <FactoryCategoryddlTr
                 categoryddlOnchang={FactoryCategoryOnchange}
                 // selectfCategory={selectedFactCategoryValue}
               />
-            </Grid>
+            </Grid> */}
+
             <Grid item xs={12} sm={4}>
               <FactoriesDropdownlistTr
                 factoryddlOnchang={FactoryOnchange}
-                selectcategory={selectedFactCategoryValue}
-              //  selectedFactoryId={selectedFactoryId}
+           
               />
             </Grid>
-            {/* <Grid item xs={12} sm={3}>
-              <PriorYearDropdownlist
-                ddlOnchang={PriorYearOnchange}
-                selectedPriorYearValue={selectedPriorYearItem}
-              />
-            </Grid> */}
-             {/*<Grid item xs={12} sm={3}>
-              <SalesMonthsDropdownlist ddlOnchang={SalesMonthsOnchange} />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <FactoryCategoryddl
-                ddlOnchang={FactoryCategoryOnchange}
-                selectcategory={selectedFactCategoryValue}
-              />
-            </Grid>
-            <Grid item xs={12} sm={3}>
-              <FactoriesDropdownlist
-                ddlOnchang={FactoryOnchange}
-                selectcategory={selectedFactCategoryValue}
-                selectedFactoryId={selectedFactoryId}
-              />
-            </Grid> */}
+        
             <Grid item xs={12} sm={12}></Grid>
           </Grid>
 
@@ -989,16 +927,7 @@ debugger;
               >
                 Calculate Sales Commission
               </Button>
-              {/* <Link to="/transaction/calculate">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  onClick={() => handleClick()}
-                >
-                  Calculate Sales Commission
-                </Button>
-              </Link> */}
+          
             </Grid>
           </Grid>
         </form>

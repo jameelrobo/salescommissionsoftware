@@ -8,17 +8,11 @@ import axios from "axios";
 export default function SalesmanDropdownlist({ ddlOnchang,selectedSalesmanItem }) {
   const [salesmans, setSalesmans] = React.useState([]);
   const [selectedsalesman, setSelectedsalesman] = React.useState("");
-  // const [factoryCategory, setFactoryCategory] = React.useState([]);
+ 
   useEffect(() => {
     GetSalesmans();
     debugger;
-    // if (selectedSalesmanItem > 0) {
-    //   setSelectedsalesman(selectedSalesmanItem);
-    // }
-    // else{
-    //   setSelectedsalesman(selectedSalesmanItem);
-    // }
-    debugger;
+  
     let selecteditem = localStorage.getItem("selectedItem");
     if (selecteditem != null) {
       setSelectedsalesman(selecteditem);
