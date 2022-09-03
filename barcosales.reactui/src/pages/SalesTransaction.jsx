@@ -280,6 +280,21 @@ export default function Transaction() {
       fileData.splice(0, 1);
 
       setData(convertToJson(headers, fileData));
+      successMessageBox(
+        "The excell file has been uploaded Successfully!"
+      );
+      if(data.length>0)
+      {
+        successMessageBox(
+          "The excell file has been uploaded Successfully!"
+        );
+      }
+      else{
+        errorMessageBox(
+          "Invalid file input, Please Select currect Excel, CSV file"
+        );
+
+      }
        
     };
 
@@ -287,7 +302,11 @@ export default function Transaction() {
       if (getExention(file)) {
         reader.readAsBinaryString(file);
       } else {
-        alert("Invalid file input, Select Excel, CSV file");
+         
+        // alert("Invalid file input, Select Excel, CSV file");
+        errorMessageBox(
+          "Invalid file input, Please Select currect Excel, CSV file"
+        );
       }
     } else {
       setData([]);
@@ -303,7 +322,7 @@ export default function Transaction() {
 
     return formatter.format(num);
   };
-
+const [monthname, setMonthname] = useState("September");
   const [getCommRules, setGetCommRules] = useState([]);
   const [getCustomers, setGetCustomers] = useState([]);
   const [allTransaction, setAllTransaction] = useState([]);
@@ -318,11 +337,11 @@ export default function Transaction() {
     localStorage.removeItem('AllCommissionRules');
     
      getAllCustomers();
-   getAllSalesman();
+     getAllSalesman();
      getAllFactories();
-  getCommissionRules();
+     getCommissionRules();
    
-//  getAllTransaction();
+ //getAllTransaction();
 
 
   }, []);
@@ -333,7 +352,7 @@ const res =await  axios
       .get("Customer/GetCustomer")
       .then((res) => {
         debugger;
-      //  console.log(res.data);
+  console.log(res.data);
         debugger;
     // setGetCustomers(res.data);
      localStorage.setItem("AllCustomers", JSON.stringify(res.data));
@@ -357,7 +376,7 @@ const res =await  axios
       .get("Factory/GetFactory")
       .then((res) => {
         debugger;
-       // console.log(res.data);
+      console.log(res.data);
         //setData(res.data);
        // setAllFactories(res.data);
        localStorage.setItem("AllFactories", JSON.stringify(res.data));
@@ -375,7 +394,7 @@ const res =await  axios
       .get("SalesTrasaction/GetTrasaction")
       .then((res) => {
         debugger;
-       // console.log(res.data);
+    console.log(res.data);
        // setAllTransaction(res.data);
        localStorage.setItem("AllTransaction", JSON.stringify(res.data));
         return res
@@ -392,7 +411,7 @@ const res =await  axios
       .get("SalesPerson/GetSalesPerson")
       .then((res) => {
         debugger;
-      //  console.log(res.data);
+  console.log(res.data);
       //  setAllSalesman(res.data);
         localStorage.setItem("AllSalesman", JSON.stringify(res.data));
         return res
@@ -411,7 +430,7 @@ const res =await  axios
       .get("CommissionRules/GetCommissionRules")
       .then((res) => {
         debugger;
-       // console.log(res);
+ console.log(res);
       //  setGetCommRules(res.data);
       localStorage.setItem("AllCommissionRules",JSON.stringify(res.data));
         return res
@@ -482,6 +501,9 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
   window.location = "/transaction/calculate";
 
  }
+
+ //===========================Verify=======================================
+
   const verifyUploadedFile =  () => {
 debugger;
     var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
@@ -554,22 +576,22 @@ debugger;
     //   );
     //   return;
     // }
-  
-    if (
-      selectedSalesMonthsValue === undefined ||
-      selectedSalesMonthsValue === null ||
-      selectedSalesMonthsValue === "" ||
-      selectedSalesMonthsValue === 0
-    ) {
-      errorMessageBox(
-        "Month  should not be blank, Please select at least one Month"
-      );
-      return;
-    }
-    var monthinfo = monthslist.find(
-      (item) =>
-        item.number === selectedSalesMonthsValue  
-    );
+  // debugger;
+  //   if (
+  //     selectedSalesMonthsValue === undefined ||
+  //     selectedSalesMonthsValue === null ||
+  //     selectedSalesMonthsValue === "" ||
+  //     selectedSalesMonthsValue === 0
+  //   ) {
+  //     errorMessageBox(
+  //       "Month  should not be blank, Please select at least one Month"
+  //     );
+  //     return;
+  //   }
+  //   var monthinfo = monthslist.find(
+  //     (item) =>
+  //       item.number === parseInt(selectedSalesMonthsValue)  
+  //   );
 
     // if (
     //   selectedFactCategoryValue === undefined ||
@@ -582,7 +604,7 @@ debugger;
     //   );
     //   return;
     // }
-
+ 
     if (
       selectedFactoryValue === undefined ||
       selectedFactoryValue === null ||
@@ -703,7 +725,6 @@ debugger;
 
           salesmanCommRate=custInfo.CustomSalesCommRate;
 
-
         }
         if (
           salesmanCommRate === undefined ||
@@ -734,47 +755,52 @@ debugger;
         const obj = {
           TrasactionId: 0,
           SalesmId: custInfo.SalesmanId,
-          SalesmanName: salesmanInfo.SalesmanCode,
+          SalesmanCode: salesmanInfo.SalesmanCode,
           CustId: custInfo.CustId,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: data[i]["Sold-To Name"].trim() ,
           SoldToAddress: data[i]["Sold-To Address"],
           SoldToState: data[i]["Sold-To State"],
+          ShipToName: data[i]["Ship-To Name"],
           ShipToAddress: data[i]["Ship-To Address"],
           ShipToCity: data[i]["Ship-To City"],
           ShipToState: data[i]["Ship-To State"],
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
-          Check: checkValue,
-          Month: monthinfo.name,
+          CheckNo: checkValue,
+          MonthName: monthname,
           InvoiceNo,
           TotalSalesAmt,
           GrossCommRate: `${commRate}%`,
           GrossCommAmt: numberToCurrency(grossComm),
           SalesmanCommRate: `${salesmanCommRate}%`,
           SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
+          CreatedBy:1
         };
         const objsave = {
           TrasactionId: 0,
           SalesmId: CommRuleInfo.SalesmanId,
-          SalesmanName: "",
+          SalesmanCode: salesmanInfo.SalesmanCode,
           CustId: custInfo.CId,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
-          SoldToName: data[i]["Sold-To Name"],
+          SoldToName: data[i]["Sold-To Name"].trim(),
           SoldToAddress: data[i]["Sold-To Address"],
           SoldToState: data[i]["Sold-To State"],
+          ShipToName: data[i]["Ship-To Name"],
           ShipToAddress: data[i]["Ship-To Address"],
           ShipToCity: data[i]["Ship-To City"],
           ShipToState: data[i]["Ship-To State"],
           FactoryId: selectedFactoryValue,
-          Check: checkValue,
-          Month: monthinfo.name,
+          CheckNo: checkValue,
+          MonthName: monthname,
           InvoiceNo,
           TotalSalesAmt: SAmt,
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
           SalesmanCommRate: salesmanCommRate ,
           SalesmanCommAmt: salesmanCommAmt,
+          CreatedBy:1
+ 
         
         };
         debugger;
@@ -788,17 +814,15 @@ debugger;
     debugger;
 
     if (
-      transformedArray === undefined ||
-      transformedArray === null ||
-      transformedArray === "" ||
-      transformedArray === 0
+      (transformedArray === undefined ||    transformedArray === null ||    transformedArray === "" ||  transformedArray === 0)
+      && (SavetransformedArray === undefined ||  SavetransformedArray === null ||    SavetransformedArray === "" ||  SavetransformedArray === 0)
     ) {
       errorMessageBox(
-        "Factory  should not be blank, Please select at least one Factory"
+        "The uploaded file has invalid records, Please download the file and currect the records"
       );
       return;
     }
-    else if(transformedArray.length===data.length)
+    else if(transformedArray.length===data.length && SavetransformedArray.length===data.length)
     {
        
       setIsEnableCalculatebttn(false);
@@ -810,7 +834,9 @@ debugger;
         "salesComissiongridData",
         JSON.stringify(SavetransformedArray)
       );
-   
+      successMessageBox(
+        "The uploaded file has benn Varified Successfully!"
+      );
 
     }
    
@@ -874,11 +900,11 @@ const tableIcons = {
             {/* <Grid item xs={12} sm={6}>
               <PriorYearDropdownlist ddlOnchang={PriorYearOnchange} />
             </Grid>*/}
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
                 ddlOnchang={SalesMonthsOnchange}
               />
-            </Grid> 
+            </Grid>  */}
             {/* <Grid item xs={12} sm={3}>
               <FactoryCategoryddlTr
                 categoryddlOnchang={FactoryCategoryOnchange}

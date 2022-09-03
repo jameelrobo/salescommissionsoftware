@@ -76,11 +76,11 @@ export default function CalculateCommission(props) {
   const columns = [
     { title: "Customer", field: "SoldToName" },
     { title: "FactoryName", field: "FactoryName" },
-    { title: "Check", field: "Check" },
-    { title: "Month", field: "Month" },
-    { title: "Salesman", field: "SalesmanName" },
+  //  { title: "Check", field: "Check" },
+    { title: "Month", field: "MonthName" },
+    { title: "SalesmanCode", field: "SalesmanCode" },
     
-    { title: "Invoice No", field: "InvoiceNo" },
+  //  { title: "Invoice No", field: "InvoiceNo" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "GrossCommRate", field: "GrossCommRate" },
     { title: "GrossComm", field: "GrossCommAmt" },
