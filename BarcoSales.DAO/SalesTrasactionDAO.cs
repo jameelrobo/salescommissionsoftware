@@ -26,6 +26,51 @@ namespace BarcoSales.DAO
 
 
         //}
+        public string ISearchTransaction(DateTime? StartDate = null, DateTime? EndDate = null, string conn=null)
+        {
+            try
+            {
+
+
+
+
+                MySqlConnection sql_conn = new MySqlConnection(conn);
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = sql_conn;
+                //  cmd.CommandText = "CALL storedprocname (@para1, @para2)";
+                cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date)";
+
+                //  //  cmd.CommandText = "CALL storedprocname (@para1, @para2)";
+                //  cmd.CommandText = "CALL GetAllfactorycategory()";
+
+                //an out parameter
+                //cmd.Parameters.AddWithValue(para1, MySqlDbType.Int32);
+                //cmd.Parameters[para1].Direction = ParameterDirection.Output;
+
+                //an in parameter 
+
+                //cmd.Parameters.AddWithValue("@id", id);
+                //cmd.Parameters[id].Direction = ParameterDirection.Input;
+                var sqlParameters = new List<MySqlParameter>();
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = StartDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = EndDate });
+                cmd.Parameters.AddRange(sqlParameters.ToArray());
+                sql_conn.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                DataTable dt = new DataTable();
+                dt.Load(rdr);
+
+                string rules = JsonConvert.SerializeObject(dt);
+                return rules;
+            }
+
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Some unknown error has occurred.");
+                return null;
+            }
+        }
+       
         public string IGetSalesTrasaction(string conn)
         {
             try

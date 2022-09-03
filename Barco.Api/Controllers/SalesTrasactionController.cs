@@ -46,6 +46,28 @@ namespace Barco.Api.Controllers
             }
         }
 
+       
+        [HttpGet]
+        [Route("[action]")]
+        [Route("api/Trasaction/SearchTransaction")]
+        public string SearchTransaction(DateTime? StartDate=null, DateTime? EndDate=null)
+        {
+            try
+            {
+
+
+                string connString = this.Configuration.GetConnectionString("ContosoConnection");
+                
+                return salesTrasactionService.ISearchTransaction( StartDate,  EndDate, connString);
+            }
+
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Some unknown error has occurred.");
+                return null;
+            }
+        }
+
         [HttpPost]
         [Route("[action]")]
         [Route("api/Trasaction/AddTrasaction")]

@@ -32,5 +32,6 @@ namespace BarcoSales.EFModel
         public int FinYear { get; set; }
         public string MonthName { get; set; }
         public string CheckNo { get; set; }
+        public string FactoryName { get; set; }
     }
 }

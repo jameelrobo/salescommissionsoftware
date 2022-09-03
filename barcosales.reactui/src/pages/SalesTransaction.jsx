@@ -764,7 +764,7 @@ debugger;
           (grossComm * salesmanCommRate) /
           100
         ).toFixed(2);
-        const obj = {
+        const objdatagrid = {
           TrasactionId: 0,
           SalesmId: Sid,
           SalesmanCode: salesmanInfo.SalesmanCode,
@@ -804,6 +804,7 @@ debugger;
           ShipToCity: data[i]["Ship-To City"],
           ShipToState: data[i]["Ship-To State"],
           FactoryId: selectedFactoryValue,
+          FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,
           MonthName: monthname,
           InvoiceNo,
@@ -819,7 +820,7 @@ debugger;
         };
         debugger;
 
-        transformedArray.push(obj);
+        transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
       }
     }

@@ -78,26 +78,11 @@ export default function CalculateCommission(props) {
           console.log(err);
         });
       debugger;
-      // fetch(
-      //   "http://53.180.62.50.host.secureserver.net:5000/api/SalesTrasaction/AddTrasaction",
-
-      //   {
-      //     method: "POST",
-      //     headers: {
-      //       Accept: "application/form-data",
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(salesRecord),
-      //   }
-      // )
-      //   .then((res) => res.json())
-      //   .then((result) => {
-      //     //  alert(result["message"]);
-      //     if (result["status"] === "ok") {
-      //       window.location.href = "/";
-      //     }
-      //   });
+   
     });
+    successMessageBox(
+      "All the records has been inserted Successfully!"
+    );
   };
   const columns = [
     { title: "Customer", field: "SoldToName" },

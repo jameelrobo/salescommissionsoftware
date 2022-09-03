@@ -107,8 +107,8 @@ export default function Analytics(props) {
     debugger;
     console.log(selectedSalesmanValue);
   };
-  const [startDatevalue, setStartDatevalue] = useState("");
-  const [endDatevalue, setEndDatevalue] = useState("");
+  const [startDatevalue, setStartDatevalue] = useState(Date);
+  const [endDatevalue, setEndDatevalue] = useState(Date);
 
   const [data, setData] = useState();
 
@@ -117,27 +117,45 @@ export default function Analytics(props) {
   }, []);
 
   const GetSalesTransaction = () => {
+    axios
+      .get("SalesTrasaction/SearchTransaction")
+
+      .then((res) => {
+        debugger;
+        console.log(res);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
+ // const GetSalesTransaction = () => {
     // fetch("http://53.180.62.50.host.secureserver.net:5000/api/SalesTrasaction/GetTrasaction")
     //   .then((res) => res.json())
     //   .then((result) => {
     //     debugger;
     //     setData(result);
     //   });
-  };
+ // };
   //  const data = JSON.parse(localStorage.getItem("salesComissionData"));
 
   const columns = [
-    { title: "TrasactionId", field: "TrasactionId" },
+    { title: "TrasactionId", field: "TrasactionId" }, 
+    
     { title: "CustId", field: "CustId" },
     { title: "Customer", field: "SoldToName" },
     { title: "FactoryName", field: "FactoryName" },
-    { title: "Check", field: "Check" },
-    { title: "Month", field: "Month" },
-    { title: "SalesmanName", field: "SalesmanName" },
+    { title: "Check#", field: "CheckNo" },
+    { title: "MonthName", field: "MonthName" },
+    { title: "SalesmanCode", field: "SalesmanCode" },
     { title: "InvoiceNo", field: "InvoiceNo" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "GrossCommRate", field: "GrossCommRate" },
     { title: "GrossCommAmt", field: "GrossCommAmt" },
+     { title: "SalesmanCommRate", field: "SalesmanCommRate" },
+
     { title: "SalesmanCommAmt", field: "SalesmanCommAmt" },
     { title: "SoldToAddress", field: "ShipToAddress" },
     { title: "SoldToState", field: "ShipToCity" },
@@ -146,6 +164,35 @@ export default function Analytics(props) {
     { title: "ShipToCity", field: "ShipToCity" },
     { title: "ShipToState", field: "ShipToState" },
   ];
+
+  // TrasactionId: 0,
+  // SalesmId: Sid,
+  // SalesmanCode: salesmanInfo.SalesmanCode,
+  // CustId: Cid,
+  // CommissionRulesId: CommRuleInfo.CommissionRulesId,
+  // SoldToName: data[i]["Sold-To Name"].trim(),
+  // SoldToAddress: data[i]["Sold-To Address"],
+  // SoldToState: data[i]["Sold-To State"],
+  // ShipToName: data[i]["Ship-To Name"],
+  // ShipToAddress: data[i]["Ship-To Address"],
+  // ShipToCity: data[i]["Ship-To City"],
+  // ShipToState: data[i]["Ship-To State"],
+  // FactoryId: selectedFactoryValue,
+  // FactoryName: factoryInfo.FactoryName,
+  // CheckNo: checkValue,
+  // MonthName: monthname,
+  // InvoiceNo,
+  // TotalSalesAmt: SAmt,
+  // GrossCommRate: commRate,
+  // GrossCommAmt: grossComm,
+  // SalesmanCommRate: salesmanCommRate ,
+  // SalesmanCommAmt: salesmanCommAmt,
+  // CreatedBy:1,
+  // IsActive:1
+
+  const search=()=>{
+    alert(startDatevalue);
+  }
 
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -178,6 +225,7 @@ export default function Analytics(props) {
 
         <form className={classes.form}>
           <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}></Grid>
             <Grid item xs={12} sm={6}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -207,6 +255,27 @@ export default function Analytics(props) {
                 />
               </LocalizationProvider>
             </Grid>
+           
+            <Grid item xs={12} sm={12}>
+            {/* <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Search
+          </Button> */}
+
+          <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => search()}
+              >
+               Search
+              </Button>
+          </Grid>
           </Grid>
           {/* <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -216,23 +285,15 @@ export default function Analytics(props) {
               <SalesMonthsDropdownlist />
             </Grid>
           </Grid> */}
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <SalesmanDropdownlist />
             </Grid>
             <Grid item xs={12} sm={6}>
               <FactoriesDropdownlist />
             </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Search
-          </Button>
+          </Grid> */}
+        
         </form>
         <MaterialTable
           title=""

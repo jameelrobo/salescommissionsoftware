@@ -249,6 +249,11 @@ namespace BarcoSales.EFModel
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                entity.Property(e => e.FactoryName)
+                    .HasColumnType("varchar(255)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
                 entity.Property(e => e.FinYear).HasDefaultValueSql("'22'");
 
                 entity.Property(e => e.GrossCommAmt).HasColumnType("decimal(19,4)");
