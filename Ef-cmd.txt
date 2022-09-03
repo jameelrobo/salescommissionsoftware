@@ -17,6 +17,8 @@ dotnet ef dbcontext scaffold "server=localhost;port=3306;database=barcosalescomm
 
 
 PM> cd C:\Users\MohammadMusharaf\source\repos\BarcoCommission\BarcoSales.EFModel
+PM> cd D:\Repos\salescommissionsoftware\BarcoSales.EFModel
+
 PM> dotnet ef dbcontext scaffold "server=localhost;port=6600;database=barcosalescommission;uid=root;password=root" "Pomelo.EntityFrameworkCore.MySql" --force
 Build started...
 Build succeeded.

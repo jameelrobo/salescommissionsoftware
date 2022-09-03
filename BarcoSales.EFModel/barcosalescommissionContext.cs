@@ -27,7 +27,7 @@ namespace BarcoSales.EFModel
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;port=6600;database=barcosalescommission;uid=root;password=root", x => x.ServerVersion("8.0.30-mysql"));
+                optionsBuilder.UseMySql("server=localhost;port=3306;database=barcosalescommission;uid=root;password=root", x => x.ServerVersion("8.0.30-mysql"));
             }
         }
 
@@ -240,6 +240,11 @@ namespace BarcoSales.EFModel
 
                 entity.ToTable("salestrasaction");
 
+                entity.Property(e => e.CheckNo)
+                    .HasColumnType("varchar(255)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -250,12 +255,19 @@ namespace BarcoSales.EFModel
 
                 entity.Property(e => e.GrossCommRate).HasColumnType("decimal(19,4)");
 
-                entity.Property(e => e.SalesmanCommAmt).HasColumnType("decimal(19,4)");
-
-                entity.Property(e => e.SalesmanName)
+                entity.Property(e => e.MonthName)
                     .HasColumnType("varchar(255)")
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.SalesmanCode)
+                    .HasColumnType("varchar(255)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
+                entity.Property(e => e.SalesmanCommAmt).HasColumnType("decimal(19,4)");
+
+                entity.Property(e => e.SalesmanCommRate).HasColumnType("decimal(10,0)");
 
                 entity.Property(e => e.ShipToAddress)
                     .HasColumnType("varchar(50)")

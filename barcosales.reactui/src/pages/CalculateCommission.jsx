@@ -37,9 +37,35 @@ import axios from "axios";
 import PrintIcon from "@material-ui/icons/Print";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { wait } from "@testing-library/user-event/dist/utils";
+
 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function CalculateCommission(props) {
+  const successMessageBox = (successMsg) => {
+    toast.success(successMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  const errorMessageBox = (errorMsg) => {
+    toast.error(errorMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
   const handleClick = () => {
     debugger;
     salesComissiongridData.forEach((salesRecord, i) => {
@@ -94,7 +120,9 @@ export default function CalculateCommission(props) {
     setSalesComissiongridData(
       JSON.parse(localStorage.getItem("salesComissiongridData"))
     );
-    //  GetSalesTransaction();
+    successMessageBox(
+      "Sales commission calculated Successfully!"
+    );
   }, []);
 
   const GetSalesTransaction = () => {
@@ -155,6 +183,17 @@ export default function CalculateCommission(props) {
   return (
     <>
       <div>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         {/* <h4>Calculated Sales Commission </h4> */}
         {/* <Button type="submit" fullWidth variant="contained" color="primary">
           Save Calculated Sales Commission

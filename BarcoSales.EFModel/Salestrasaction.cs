@@ -12,7 +12,7 @@ namespace BarcoSales.EFModel
         public string SoldToAddress { get; set; }
         public string SoldToState { get; set; }
         public long? SalesmId { get; set; }
-        public string SalesmanName { get; set; }
+        public string SalesmanCode { get; set; }
         public long? FactoryId { get; set; }
         public long? CommissionRulesId { get; set; }
         public string ShipToName { get; set; }
@@ -22,6 +22,7 @@ namespace BarcoSales.EFModel
         public decimal? TotalSalesAmt { get; set; }
         public decimal? GrossCommRate { get; set; }
         public decimal? GrossCommAmt { get; set; }
+        public decimal? SalesmanCommRate { get; set; }
         public decimal? SalesmanCommAmt { get; set; }
         public DateTime CreatedDate { get; set; }
         public long? CreatedBy { get; set; }
@@ -29,5 +30,7 @@ namespace BarcoSales.EFModel
         public long? UpdatedBy { get; set; }
         public bool? IsActive { get; set; }
         public int FinYear { get; set; }
+        public string MonthName { get; set; }
+        public string CheckNo { get; set; }
     }
 }

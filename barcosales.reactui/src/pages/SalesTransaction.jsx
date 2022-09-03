@@ -637,6 +637,10 @@ debugger;
    
       for (let i = 0; i < data.length; i++) {
       let Isvalid="";
+      let Cid=0;
+      let Sid=0;
+       
+
       debugger
       var custInfo = getCustomers.find(
         (item) =>
@@ -662,6 +666,10 @@ debugger;
         continue;
         
       }
+      else{
+        Cid=custInfo.CustId;
+
+      }
       var salesmanInfo = getAllSalesman.find(
         (item) =>
           item.SalesmId  === custInfo.SalesmanId 
@@ -682,6 +690,10 @@ debugger;
         //   "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
         // );
         // return;
+      }
+      else{
+        Sid=salesmanInfo.SalesmId;
+
       }
 
       let CommRuleInfo = getcommRate(custInfo.CustId);
@@ -754,9 +766,9 @@ debugger;
         ).toFixed(2);
         const obj = {
           TrasactionId: 0,
-          SalesmId: custInfo.SalesmanId,
+          SalesmId: Sid,
           SalesmanCode: salesmanInfo.SalesmanCode,
-          CustId: custInfo.CustId,
+          CustId: Cid,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: data[i]["Sold-To Name"].trim() ,
           SoldToAddress: data[i]["Sold-To Address"],
@@ -775,13 +787,14 @@ debugger;
           GrossCommAmt: numberToCurrency(grossComm),
           SalesmanCommRate: `${salesmanCommRate}%`,
           SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
-          CreatedBy:1
+          CreatedBy:1,
+          IsActive:1
         };
         const objsave = {
           TrasactionId: 0,
-          SalesmId: CommRuleInfo.SalesmanId,
+          SalesmId: Sid,
           SalesmanCode: salesmanInfo.SalesmanCode,
-          CustId: custInfo.CId,
+          CustId: Cid,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: data[i]["Sold-To Name"].trim(),
           SoldToAddress: data[i]["Sold-To Address"],
@@ -799,7 +812,8 @@ debugger;
           GrossCommAmt: grossComm,
           SalesmanCommRate: salesmanCommRate ,
           SalesmanCommAmt: salesmanCommAmt,
-          CreatedBy:1
+          CreatedBy:1,
+          IsActive:1
  
         
         };
