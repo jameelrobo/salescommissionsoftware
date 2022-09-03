@@ -123,18 +123,22 @@ export default function CustomerCreate() {
   const FactoryOnchange = (value) => {
     setSelectedFactoryValue(value);
     debugger;
-    console.log(selectedFactoryValue);
+   // console.log(selectedFactoryValue);
   };
 
   const SalesmanOnchange = (value) => {
-    setSelectedSalesmanValue(value);
     debugger;
-    console.log(selectedSalesmanValue);
+    console.log(value);
+    setSelectedSalesmanValue(value);
+    //  console.log(selectedSalesmanValue);
+    debugger;
+    
   };
 
   const handleClick = (event) => {
     event.preventDefault();
-
+    debugger;
+  //  console.log(selectedSalesmanValue);
     if (
       selectedSalesmanValue === undefined ||
       selectedSalesmanValue === null ||
