@@ -12,16 +12,16 @@ export default function SalesmanDropdownlist({ ddlOnchang,selectedSalesmanItem }
   useEffect(() => {
     GetSalesmans();
     debugger;
-    if (selectedSalesmanItem > 0) {
-      setSelectedsalesman(selectedSalesmanItem);
-    }
-    else{
-      setSelectedsalesman(selectedSalesmanItem);
-    }
+    // if (selectedSalesmanItem > 0) {
+    //   setSelectedsalesman(selectedSalesmanItem);
+    // }
+    // else{
+    //   setSelectedsalesman(selectedSalesmanItem);
+    // }
     debugger;
-    let selectedsalesmanst = localStorage.getItem("selectedItem");
-    if (selectedsalesmanst != null) {
-      setSelectedsalesman(selectedsalesmanst);
+    let selecteditem = localStorage.getItem("selectedItem");
+    if (selecteditem != null) {
+      setSelectedsalesman(selecteditem);
 
       localStorage.removeItem("selectedItem");
     } else {
