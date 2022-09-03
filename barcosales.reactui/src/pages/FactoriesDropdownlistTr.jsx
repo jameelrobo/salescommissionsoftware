@@ -52,7 +52,7 @@ export default function FactoriesDropdownlistTr({
   const handleChange = (event) => {
     debugger;
     setSelectfactory(event.target.value);
-    factoryddlOnchang(event.target.value);
+    factoryddlOnchang=event.target.value;
     console.log("factddl :"+event.target.value);
   };
   debugger;

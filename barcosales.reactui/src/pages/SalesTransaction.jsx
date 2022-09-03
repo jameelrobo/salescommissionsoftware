@@ -33,30 +33,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { wait } from "@testing-library/user-event/dist/utils";
 
-const tableRef = React.createRef();
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-};
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -104,6 +81,8 @@ export default function Transaction() {
   };
   const classes = useStyles();
 
+  
+
   const [colDefs, setColDefs] = useState([
   
     { title: "SoldToName", field: "Sold-To Name" },
@@ -122,7 +101,7 @@ export default function Transaction() {
   const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
-  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("8");
+  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("9");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
   const [checkValue, setCheckValue] = useState("");
   const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
@@ -150,9 +129,10 @@ export default function Transaction() {
     console.log(selectedPriorYearValue);
   };
   const SalesMonthsOnchange = (value) => {
+    console.log(value);
     setSelectedSalesMonthsValue(value);
     debugger;
-    console.log(selectedSalesMonthsValue);
+   
   };
   const SalesmanOnchange = (value) => {
     setSelectedSalesmanValue(value);
@@ -173,6 +153,81 @@ export default function Transaction() {
     { title: "GrossComm", field: "grossComm" },
     { title: "SalesmanComm", field: "salesmanComm" },
   ];
+
+  const monthslist= [
+    {
+      "name": "January",
+      "short": "Jan",
+      "number": 1,
+      "days": 31
+    },
+    {
+      "name": "February",
+      "short": "Feb",
+      "number": 2,
+      "days": 28
+    },
+     {
+      "name": "March",
+      "short": "Mar",
+      "number": 3,
+      "days": 31
+    },
+    {
+      "name": "April",
+      "short": "Apr",
+      "number": 4,
+      "days": 30
+    },
+    {
+      "name": "May",
+      "short": "May",
+      "number": 5,
+      "days": 31
+    },
+      {
+      "name": "June",
+      "short": "Jun",
+      "number": 6,
+      "days": 30
+    },
+    {
+      "name": "July",
+      "short": "Jul",
+      "number": 7,
+      "days": 31
+    },
+     {
+      "name": "August",
+      "short": "Aug",
+      "number": 8,
+      "days": 31
+    },
+   {
+      "name": "September",
+      "short": "Sep",
+      "number": 9,
+      "days": 30
+    },
+     {
+      "name": "October",
+      "short": "Oct",
+      "number": 10,
+      "days": 31
+    },
+    {
+      "name": "November",
+      "short": "Nov",
+      "number": 11,
+      "days": 30
+    },
+    {
+      "name": "December",
+      "short": "Dec",
+      "number": 12,
+      "days": 31
+    }
+  ]
 
   const getExention = (file) => {
     const parts = file.name.split(".");
@@ -481,6 +536,11 @@ debugger;
         "Please check Salesman API, Does not exist the Commission Rules " );
       return;
     }
+    var monthinfo = getCommRules.find(
+      (item) =>
+        item.FactoryId === selectedFactoryValue &&
+        item.IsActiveForAll === true && item.IsActive === true
+    );
    
   
     // if (
@@ -494,7 +554,7 @@ debugger;
     //   );
     //   return;
     // }
-
+  
     if (
       selectedSalesMonthsValue === undefined ||
       selectedSalesMonthsValue === null ||
@@ -506,6 +566,10 @@ debugger;
       );
       return;
     }
+    var monthinfo = monthslist.find(
+      (item) =>
+        item.number === selectedSalesMonthsValue  
+    );
 
     // if (
     //   selectedFactCategoryValue === undefined ||
@@ -518,6 +582,7 @@ debugger;
     //   );
     //   return;
     // }
+
     if (
       selectedFactoryValue === undefined ||
       selectedFactoryValue === null ||
@@ -681,7 +746,7 @@ debugger;
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           Check: checkValue,
-          Month: selectedSalesMonthsValue,
+          Month: monthinfo.name,
           InvoiceNo,
           TotalSalesAmt,
           GrossCommRate: `${commRate}%`,
@@ -703,8 +768,7 @@ debugger;
           ShipToState: data[i]["Ship-To State"],
           FactoryId: selectedFactoryValue,
           Check: checkValue,
-          Month: selectedSalesMonthsValue,
-      
+          Month: monthinfo.name,
           InvoiceNo,
           TotalSalesAmt: SAmt,
           GrossCommRate: commRate,
@@ -751,6 +815,30 @@ debugger;
     }
    
   };
+  const tableRef = React.createRef();
+const tableIcons = {
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  DetailPanel: forwardRef((props, ref) => (
+    <ChevronRight {...props} ref={ref} />
+  )),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  PreviousPage: forwardRef((props, ref) => (
+    <ChevronLeft {...props} ref={ref} />
+  )),
+  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+};
 
   return (
     <>
@@ -785,12 +873,12 @@ debugger;
             </Grid>
             {/* <Grid item xs={12} sm={6}>
               <PriorYearDropdownlist ddlOnchang={PriorYearOnchange} />
-            </Grid>
+            </Grid>*/}
             <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
                 ddlOnchang={SalesMonthsOnchange}
               />
-            </Grid> */}
+            </Grid> 
             {/* <Grid item xs={12} sm={3}>
               <FactoryCategoryddlTr
                 categoryddlOnchang={FactoryCategoryOnchange}

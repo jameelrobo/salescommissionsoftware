@@ -11,11 +11,11 @@ export default function SalesMonthsDropdownlist({ salesMonthsddlOnchang }) {
   const handleChange = (event) => {
     debugger;
     setSalesMonths(event.target.value);
-    salesMonthsddlOnchang(event.target.value);
+    salesMonthsddlOnchang=event.target.value;
   };
-  useEffect(() => {
-    setSalesMonths(8);
-  }, []);
+  // useEffect(() => {
+  //  // setSalesMonths(8);
+  // }, []);
 
   return (
     <Box sx={{ minWidth: 20 }}>

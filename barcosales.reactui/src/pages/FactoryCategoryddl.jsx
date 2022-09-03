@@ -40,7 +40,7 @@ export default function FactoryCategoryddl({
 
   const handleChange = (event) => {
     setSelectedFactoryCategory(event.target.value);
-    ddlOnchang(event.target.value);
+    ddlOnchang=event.target.value;
   };
 
   return (
