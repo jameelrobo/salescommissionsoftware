@@ -322,7 +322,7 @@ export default function Transaction() {
 
     return formatter.format(num);
   };
-const [monthname, setMonthname] = useState("September");
+const [monthname, setMonthname] = useState("Sep");
   const [getCommRules, setGetCommRules] = useState([]);
   const [getCustomers, setGetCustomers] = useState([]);
   const [allTransaction, setAllTransaction] = useState([]);

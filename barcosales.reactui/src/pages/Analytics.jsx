@@ -142,27 +142,27 @@ export default function Analytics(props) {
   //  const data = JSON.parse(localStorage.getItem("salesComissionData"));
 
   const columns = [
-    { title: "TrasactionId", field: "TrasactionId" }, 
+    { title: "TId#", field: "TrasactionId" }, 
     
-    { title: "CustId", field: "CustId" },
-    { title: "Customer", field: "SoldToName" },
-    { title: "FactoryName", field: "FactoryName" },
+   // { title: "CustId", field: "CustId" },
+    { title: "Customer Name", field: "SoldToName" },
+    { title: " Factory Name ", field: "FactoryName" },
     { title: "Check#", field: "CheckNo" },
-    { title: "MonthName", field: "MonthName" },
-    { title: "SalesmanCode", field: "SalesmanCode" },
-    { title: "InvoiceNo", field: "InvoiceNo" },
-    { title: "TotalSalesAmt", field: "TotalSalesAmt" },
-    { title: "GrossCommRate", field: "GrossCommRate" },
-    { title: "GrossCommAmt", field: "GrossCommAmt" },
-     { title: "SalesmanCommRate", field: "SalesmanCommRate" },
+    { title: "Month Name", field: "MonthName" },
+    { title: "Salesman Code", field: "SalesmanCode" },
+    //{ title: "InvoiceNo", field: "InvoiceNo" },
+    { title: "TotalAmt", field: "TotalSalesAmt" },
+    { title: "GCommRate", field: "GrossCommRate" },
+    { title: "GCommAmt", field: "GrossCommAmt" },
+    { title: "CommRate", field: "SalesmanCommRate" },
 
-    { title: "SalesmanCommAmt", field: "SalesmanCommAmt" },
-    { title: "SoldToAddress", field: "ShipToAddress" },
-    { title: "SoldToState", field: "ShipToCity" },
-    { title: "ShipToName", field: "ShipToName" },
-    { title: "ShipToAddress", field: "ShipToAddress" },
-    { title: "ShipToCity", field: "ShipToCity" },
-    { title: "ShipToState", field: "ShipToState" },
+    { title: "CommAmt", field: "SalesmanCommAmt" },
+    // { title: "SoldToAddress", field: "ShipToAddress" },
+    // { title: "SoldToState", field: "ShipToCity" },
+    // { title: "ShipToName", field: "ShipToName" },
+    // { title: "ShipToAddress", field: "ShipToAddress" },
+    // { title: "ShipToCity", field: "ShipToCity" },
+    // { title: "ShipToState", field: "ShipToState" },
   ];
 
   // TrasactionId: 0,
@@ -194,17 +194,20 @@ export default function Analytics(props) {
     alert(startDatevalue);
   }
 
+  const tableRef = React.createRef();
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
     Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
     Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    // DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => (
+      <ChevronRight {...props} ref={ref} />
+    )),
     Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
     Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
     Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    // FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    // LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
     NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
     PreviousPage: forwardRef((props, ref) => (
       <ChevronLeft {...props} ref={ref} />
@@ -214,7 +217,9 @@ export default function Analytics(props) {
     SortArrow: forwardRef((props, ref) => (
       <ArrowDownward {...props} ref={ref} />
     )),
-    // ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ThirdStateCheck: forwardRef((props, ref) => (
+      <Remove {...props} ref={ref} />
+    )),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
   };
 
@@ -300,6 +305,8 @@ export default function Analytics(props) {
           columns={columns}
           data={data}
           icons={tableIcons}
+          
+          tableRef={tableRef}
           options={{
             sorting: true,
             search: true,
