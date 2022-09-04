@@ -191,7 +191,7 @@ export default function CommissonRules(props) {
     //const custInfo = getCustomers.filter(app=> custName.includes(app.toLowerCase()))
     // if (custInfo === undefined) {
     //   errorMessageBox(
-    //     "Couldn't found  Customer name, Please ender currect customer name"
+    //     "Couldn't found  Customer name, Please ender correct customer name"
     //   );
     //   return;
     //}

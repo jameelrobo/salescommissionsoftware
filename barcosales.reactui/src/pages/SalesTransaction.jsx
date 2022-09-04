@@ -82,14 +82,13 @@ export default function Transaction() {
   const classes = useStyles();
 
   const coldef=[
-  
-    { title: "SoldToName", field: "Sold-To Name" },
-    { title: "SoldToAddress", field: "Sold-To Address" },
-    { title: "SoldToState", field: "Sold-To State" },
-    { title: "ShipToName", field: "Ship-To Name" },
-    { title: "ShipToAddress", field: "Ship-To Address" },
-    { title: "ShipToCity", field: "Ship-To City" },
-    { title: "ShipToState", field: "Ship-To State" },
+    { title: "Sold-To Name", field: "Sold-To Name" },
+    { title: "Sold-To Address", field: "Sold-To Address" },
+    { title: "Sold-To State", field: "Sold-To State" },
+    { title: "Ship-To Name", field: "Ship-To Name" },
+    { title: "Ship-To Address", field: "Ship-To Address" },
+    { title: "Ship-To City", field: "Ship-To City" },
+    { title: "Ship-To State", field: "Ship-To State" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "IsVerified", field: "IsVerified" },
   ]
@@ -282,7 +281,7 @@ debugger;
       if(heads.length!==9)
      {
       errorMessageBox(
-        "Invalid file input, Please Select currect Excel, CSV file"
+        "Invalid file input, Please Select correct Excel, CSV file"
       );
       e.target.value = null
       return;
@@ -393,7 +392,7 @@ debugger;
       // }
       // else{
       //   errorMessageBox(
-      //     "Invalid file input, Please Select currect Excel, CSV file"
+      //     "Invalid file input, Please Select correct Excel, CSV file"
       //   );
 
       // }
@@ -407,7 +406,7 @@ debugger;
          
         // alert("Invalid file input, Select Excel, CSV file");
         errorMessageBox(
-          "Invalid file input, Please Select currect Excel, CSV file"
+          "Invalid file input, Please Select correct Excel file"
         );
       }
     } else {
@@ -635,6 +634,7 @@ const Refresh =()=>{
 
   const verifyUploadedFile =  () => {
     setNewData([]);
+    var IsOk=1;
 debugger;
     var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
     var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
@@ -744,6 +744,7 @@ debugger;
       errorMessageBox(
         "Factory  should not be blank, Please select at least one Factory"
       );
+      IsOk=0;
       return;
     }
     if (
@@ -756,6 +757,7 @@ debugger;
       errorMessageBox(
         "Data  should not be blank, Please upload  at least one Factory Sales file"
       );
+      IsOk=0;
       return;
     }
 
@@ -788,16 +790,10 @@ debugger;
         custInfo.length === 0
       ) {
         
-        // errorMessageBox(
-        //   "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
-        // );
-        debugger;
-       // Isvalid=" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
-        //Isvalid=" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() ;
+
     data[i]["IsVerified"]="Invalid";
         debugger;
-      // / onEditElement();
-       // setData(data);
+        IsOk=0;
     continue;
         
       }
@@ -817,10 +813,10 @@ debugger;
         salesmanInfo === 0 ||
         salesmanInfo.length === 0
       ) {
-        Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
+        //Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
 
-        data[i]["IsVerified"]="Invalid";;
-      
+        data[i]["IsVerified"]="Invalid";
+        IsOk=0;
        continue;
       
       }
@@ -838,7 +834,7 @@ debugger;
       ) {
      
      data[i]["IsVerified"]="Invalid";
-     
+     IsOk=0;
      continue;
        
       }
@@ -874,7 +870,7 @@ debugger;
           salesmanCommRate === 0
         ) {
           data[i]["IsVerified"]="Invalid";
-         // setNewData.push(data[i]);
+          IsOk=0;
           continue;
        
         }
@@ -952,6 +948,14 @@ debugger;
      
       
     }
+    if( IsOk===0)
+    {
+      errorMessageBox(
+        "The uploaded file has invalid records, Please download the file and correct the records"
+      );
+      return;
+
+    }
    
    
   
@@ -965,7 +969,7 @@ debugger;
       && (SavetransformedArray === undefined ||  SavetransformedArray === null ||    SavetransformedArray === "" ||  SavetransformedArray === 0)
     ) {
       errorMessageBox(
-        "The uploaded file has invalid records, Please download the file and currect the records"
+        "The uploaded file has invalid records, Please download the file and correct the records"
       );
       return;
     }
