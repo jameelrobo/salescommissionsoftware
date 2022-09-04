@@ -604,7 +604,7 @@ debugger;
     //   );
     //   return;
     // }
- 
+   
     if (
       selectedFactoryValue === undefined ||
       selectedFactoryValue === null ||
@@ -662,7 +662,7 @@ debugger;
         debugger;
         Isvalid=Isvalid+","+" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
         data[i]["IsVerified"]=Isvalid;
-        setData(data);
+       // setData(data);
         continue;
         
       }
@@ -684,7 +684,7 @@ debugger;
       ) {
         Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
         data[i]["IsVerified"]=Isvalid;
-        setData(data);
+      //  setData(data);
         continue;
         // errorMessageBox(
         //   "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
@@ -705,7 +705,7 @@ debugger;
       ) {
         Isvalid=Isvalid+","+"The Commision Rule  Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
         data[i]["IsVerified"]=Isvalid;
-        setData(data);
+     //   setData(data);
         continue;
         // errorMessageBox(
         //  // "Month  should not be blank, Please select at least one Month"
@@ -746,7 +746,7 @@ debugger;
         ) {
           Isvalid=Isvalid+","+"The Commision Rate  Doesn't exist in the DB  ";
           data[i]["IsVerified"]=Isvalid;
-        setData(data);
+       // setData(data);
         continue;
           // errorMessageBox(
            
@@ -823,6 +823,7 @@ debugger;
         transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
       }
+      data[i]["IsVerified"]="OK";
     }
 
   
