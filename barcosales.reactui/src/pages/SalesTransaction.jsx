@@ -97,7 +97,8 @@ export default function Transaction() {
   const [colDefs, setColDefs] = useState(coldef);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
+  const [newdata, setNewData] = useState([]);
   const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
@@ -633,6 +634,7 @@ const Refresh =()=>{
  //===========================Verify=======================================
 
   const verifyUploadedFile =  () => {
+    setNewData([]);
 debugger;
     var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
     var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
@@ -765,7 +767,7 @@ debugger;
    
       for (let i = 0; i < data.length; i++) {
 
-      let Isvalid="";
+      let Isvalid="OK";
       let Cid=0;
       let Sid=0;
        
@@ -790,12 +792,13 @@ debugger;
         //   "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
         // );
         debugger;
-        Isvalid=" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
-        data[i]["IsVerified"]="Invalid";
+       // Isvalid=" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
+        //Isvalid=" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() ;
+    data[i]["IsVerified"]="Invalid";
         debugger;
-       // onEditElement();
+      // / onEditElement();
        // setData(data);
-       // continue;
+    continue;
         
       }
       else{
@@ -815,13 +818,11 @@ debugger;
         salesmanInfo.length === 0
       ) {
         Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
-        data[i]["IsVerified"]=Isvalid;
-      //  setData(data);
-        continue;
-        // errorMessageBox(
-        //   "Please add salesman in custmer table, Does not exist Salesman of the customer info : "+d["Sold-To Name"].trim()
-        // );
-        // return;
+
+        data[i]["IsVerified"]="Invalid";;
+      
+       continue;
+      
       }
       else{
         Sid=salesmanInfo.SalesmId;
@@ -835,15 +836,11 @@ debugger;
         CommRuleInfo === "" ||
         CommRuleInfo === 0
       ) {
-        Isvalid=Isvalid+","+"The Commision Rule  Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
-        data[i]["IsVerified"]=Isvalid;
-     //   setData(data);
-        continue;
-        // errorMessageBox(
-        //  // "Month  should not be blank, Please select at least one Month"
-        //   "Does not exist the Commission Rules : "+d["Sold-To Name"].trim()
-        // );
-        // return;
+     
+     data[i]["IsVerified"]="Invalid";
+     
+     continue;
+       
       }
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
@@ -876,15 +873,10 @@ debugger;
           salesmanCommRate === "" ||
           salesmanCommRate === 0
         ) {
-          Isvalid=Isvalid+","+"The Commision Rate  Doesn't exist in the DB  ";
-          data[i]["IsVerified"]=Isvalid;
-       // setData(data);
-        continue;
-          // errorMessageBox(
-           
-          //   "Does not exist the Salesman commission in salesman info and customer info : "+ salesmanInfo
-          // );
-          // return;
+          data[i]["IsVerified"]="Invalid";
+         // setNewData.push(data[i]);
+          continue;
+       
         }
         var factoryInfo = getAllFactories.find(
           (item) =>
@@ -956,9 +948,11 @@ debugger;
         SavetransformedArray.push(objsave);
       }
       data[i]["IsVerified"]="OK";
-      setData(data);
+     
+     
+      
     }
-    
+   
    
   
   
