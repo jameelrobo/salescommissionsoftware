@@ -113,12 +113,21 @@ export default function Analytics(props) {
   const [data, setData] = useState();
 
   useEffect(() => {
-    GetSalesTransaction();
+debugger;
+    var filters = {
+      startDate: null,
+      endDate: null,
+      FactoryId: 0,
+      SalesmId: 0
+    }
+    GetSalesTransaction(filters);
+
   }, []);
 
-  const GetSalesTransaction = () => {
+  const GetSalesTransaction = (filters) => {
     axios
-      .get("SalesTrasaction/SearchTransaction")
+     
+      .post("SalesTrasaction/SearchTransaction",filters)
 
       .then((res) => {
         debugger;
@@ -131,16 +140,7 @@ export default function Analytics(props) {
   };
 
 
- // const GetSalesTransaction = () => {
-    // fetch("http://53.180.62.50.host.secureserver.net:5000/api/SalesTrasaction/GetTrasaction")
-    //   .then((res) => res.json())
-    //   .then((result) => {
-    //     debugger;
-    //     setData(result);
-    //   });
- // };
-  //  const data = JSON.parse(localStorage.getItem("salesComissionData"));
-
+ 
   const columns = [
     { title: "TId#", field: "TrasactionId" }, 
     
@@ -164,34 +164,24 @@ export default function Analytics(props) {
     // { title: "ShipToCity", field: "ShipToCity" },
     // { title: "ShipToState", field: "ShipToState" },
   ];
-
-  // TrasactionId: 0,
-  // SalesmId: Sid,
-  // SalesmanCode: salesmanInfo.SalesmanCode,
-  // CustId: Cid,
-  // CommissionRulesId: CommRuleInfo.CommissionRulesId,
-  // SoldToName: data[i]["Sold-To Name"].trim(),
-  // SoldToAddress: data[i]["Sold-To Address"],
-  // SoldToState: data[i]["Sold-To State"],
-  // ShipToName: data[i]["Ship-To Name"],
-  // ShipToAddress: data[i]["Ship-To Address"],
-  // ShipToCity: data[i]["Ship-To City"],
-  // ShipToState: data[i]["Ship-To State"],
-  // FactoryId: selectedFactoryValue,
-  // FactoryName: factoryInfo.FactoryName,
-  // CheckNo: checkValue,
-  // MonthName: monthname,
-  // InvoiceNo,
-  // TotalSalesAmt: SAmt,
-  // GrossCommRate: commRate,
-  // GrossCommAmt: grossComm,
-  // SalesmanCommRate: salesmanCommRate ,
-  // SalesmanCommAmt: salesmanCommAmt,
-  // CreatedBy:1,
-  // IsActive:1
+ 
 
   const search=()=>{
-    alert(startDatevalue);
+    debugger;
+    var sd = new Date(startDatevalue); 
+    var ed = new Date(endDatevalue); 
+var sd= sd.toLocaleDateString();
+var ed= ed.toLocaleDateString();
+
+   var filters = {
+    startDate: sd,
+    endDate: ed,
+    FactoryId: 0,
+    SalesmId: 0,
+  };
+
+   GetSalesTransaction(filters);
+    
   }
 
   const tableRef = React.createRef();

@@ -1,4 +1,5 @@
 ﻿using BarcoSales.EFModel;
+using BarcoSales.EFModel.RequestModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +9,7 @@ namespace BarcoSales.Repository
     public interface ISalesTrasaction
     {
         string IGetSalesTrasaction(string connString); 
-        string ISearchTransaction(DateTime? StartDate = null, DateTime? EndDate = null, string connString=null);
+        string ISearchTransaction(TransactionSearchRequest transactionSearchRequest, string connString=null);
      
         Salestrasaction IGetSalesTrasactionById(int id);
         Salestrasaction IAddSalesTrasaction(Salestrasaction salesTrasaction);

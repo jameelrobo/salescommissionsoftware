@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using BarcoSales.EFModel.RequestModel;
 
 namespace Barco.Api.Controllers
 {
@@ -46,11 +47,11 @@ namespace Barco.Api.Controllers
             }
         }
 
-       
-        [HttpGet]
+
+        [HttpPost]
         [Route("[action]")]
         [Route("api/Trasaction/SearchTransaction")]
-        public string SearchTransaction(DateTime? StartDate=null, DateTime? EndDate=null)
+        public string SearchTransaction(TransactionSearchRequest transactionSearchRequest)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace Barco.Api.Controllers
 
                 string connString = this.Configuration.GetConnectionString("ContosoConnection");
                 
-                return salesTrasactionService.ISearchTransaction( StartDate,  EndDate, connString);
+                return salesTrasactionService.ISearchTransaction(transactionSearchRequest, connString);
             }
 
             catch (Exception ex)

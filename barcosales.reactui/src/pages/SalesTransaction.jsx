@@ -81,9 +81,7 @@ export default function Transaction() {
   };
   const classes = useStyles();
 
-  
-
-  const [colDefs, setColDefs] = useState([
+  const coldef=[
   
     { title: "SoldToName", field: "Sold-To Name" },
     { title: "SoldToAddress", field: "Sold-To Address" },
@@ -94,7 +92,9 @@ export default function Transaction() {
     { title: "ShipToState", field: "Ship-To State" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "IsVerified", field: "IsVerified" },
-  ]);
+  ]
+
+  const [colDefs, setColDefs] = useState(coldef);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
   const [data, setData] = useState();
@@ -255,6 +255,8 @@ export default function Transaction() {
 
  
   const importExcel = (e) => {
+debugger;
+
     const file = e.target.files[0];
 
     const reader = new FileReader();
@@ -274,7 +276,106 @@ export default function Transaction() {
       // console.log(fileData)
       const headers = fileData[0];
       const heads = headers.map((head) => ({ title: head, field: head }));
-      // console.log(heads)
+      debugger;
+   console.log(heads)
+      if(heads.length!==9)
+     {
+      errorMessageBox(
+        "Invalid file input, Please Select currect Excel, CSV file"
+      );
+      e.target.value = null
+      return;
+     }
+     if(heads[0]["field"]!==coldef[0]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header, Name should be  "+coldef[0]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[1]["field"]!==coldef[1]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header, Name should be  "+coldef[1]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[2]["field"]!==coldef[2]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header , Name should be   "+coldef[2]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[3]["field"]!==coldef[3]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header , Name should be   "+coldef[3]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[4]["field"]!==coldef[4]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header , Name should be   "+coldef[4]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[5]["field"]!==coldef[5]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[5]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[6]["field"]!==coldef[6]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[6]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[7]["field"]!==coldef[7]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[7]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+     if(heads[8]["field"]!==coldef[8]['field'])
+     {
+      errorMessageBox(
+        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[8]['field']
+      );
+      e.target.value = null
+      return;
+
+     }
+    //  if(heads[9]["field"]!==coldef[9]['field'])
+    //  {
+    //   errorMessageBox(
+    //     "Invalid file Colum name, Please update file header name & Obrder N#9"+coldef[9]['field']
+    //   );
+    //   e.target.value = null
+    //   return;
+
+    //  }
       //setColDefs(heads);
 
       fileData.splice(0, 1);
@@ -283,18 +384,18 @@ export default function Transaction() {
       successMessageBox(
         "The excell file has been uploaded Successfully!"
       );
-      if(data.length>0)
-      {
-        successMessageBox(
-          "The excell file has been uploaded Successfully!"
-        );
-      }
-      else{
-        errorMessageBox(
-          "Invalid file input, Please Select currect Excel, CSV file"
-        );
+      // if(data.length>0)
+      // {
+      //   successMessageBox(
+      //     "The excell file has been uploaded Successfully!"
+      //   );
+      // }
+      // else{
+      //   errorMessageBox(
+      //     "Invalid file input, Please Select currect Excel, CSV file"
+      //   );
 
-      }
+      // }
        
     };
 
@@ -495,12 +596,39 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
   }
     
   };
+  const clearCacheData = () => {
+    caches.keys().then((names) => {
+      names.forEach((name) => {
+        caches.delete(name);
+      });
+    });
+   // alert('Complete Cache Cleared')
+  };
+  
 
-
+const Refresh =()=>{
+  setIsEnableCalculatebttn(true);
+  setData([]);
+  setColDefs(coldef);
+  localStorage.clear();
+  clearCacheData();
+  
+  
+ window.location = "/transaction";
+}
  const handleClick = ()=>{
   window.location = "/transaction/calculate";
 
  }
+
+ const onEditElement = () => {
+  let elements = [...data];
+  // let currentElementIndex = elements.findIndex((x) => x.id === elementId);
+  // if (currentElementIndex === -1) return;
+  // elements[currentElementIndex] = { id: elementId, value: "newValue" };
+  // if you do elements[currentElementIndex].value = ... your data array will be mutated. then its better you do the way above
+  setData(elements);
+};
 
  //===========================Verify=======================================
 
@@ -636,6 +764,7 @@ debugger;
 
    
       for (let i = 0; i < data.length; i++) {
+
       let Isvalid="";
       let Cid=0;
       let Sid=0;
@@ -656,14 +785,17 @@ debugger;
         custInfo === 0 ||
         custInfo.length === 0
       ) {
+        
         // errorMessageBox(
         //   "Please insert customer info in the table, Does not exist the customer : "+d["Sold-To Name"].trim()
         // );
         debugger;
-        Isvalid=Isvalid+","+" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
-        data[i]["IsVerified"]=Isvalid;
+        Isvalid=" The Customer Doesn't exist in DB  "+data[i]["Sold-To Name"].trim() 
+        data[i]["IsVerified"]="Invalid";
+        debugger;
+       // onEditElement();
        // setData(data);
-        continue;
+       // continue;
         
       }
       else{
@@ -824,10 +956,15 @@ debugger;
         SavetransformedArray.push(objsave);
       }
       data[i]["IsVerified"]="OK";
+      setData(data);
     }
-
+    
+   
+  
   
     debugger;
+    
+    
 
     if (
       (transformedArray === undefined ||    transformedArray === null ||    transformedArray === "" ||  transformedArray === 0)
@@ -939,7 +1076,7 @@ const tableIcons = {
           </Grid>
 
           <Grid container spacing={1}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
               <input
                 type="file"
                 color="primary"
@@ -949,7 +1086,7 @@ const tableIcons = {
               />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
            
            <Button
              variant="contained"
@@ -961,7 +1098,7 @@ const tableIcons = {
            </Button>
          </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
            
               <Button
               //disabled="true"
@@ -974,6 +1111,19 @@ const tableIcons = {
                 Calculate Sales Commission
               </Button>
             </Grid>
+            <Grid item xs={12} sm={3}>
+           
+           <Button
+           //disabled="true"
+        //  disabled={isEnableCalculatebttn}
+             variant="contained"
+             color="primary"
+             fullWidth
+             onClick={() => Refresh()}
+           >
+             Refresh
+           </Button>
+         </Grid>
           </Grid>
         </form>
         <Grid container spacing={1}>
