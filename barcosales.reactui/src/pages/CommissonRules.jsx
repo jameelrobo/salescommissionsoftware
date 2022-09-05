@@ -157,7 +157,7 @@ export default function CommissonRules(props) {
     { title: "IsActive", field: "IsActive" },
   ];
 
-  const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
+  const [selectedPriorYearItem, setSelectedPriorYearItem] = useState(22);
   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
   const [finYear, setFinYear] = useState("");
   const [commissionRulesId, setCommissionRulesId] = useState(0);
@@ -227,17 +227,17 @@ export default function CommissonRules(props) {
     var custId = 0;
 
     debugger;
-    if (
-      selectedPriorYearValue === undefined ||
-      selectedPriorYearValue === null ||
-      selectedPriorYearValue === "" ||
-      selectedPriorYearValue === 0
-    ) {
-      errorMessageBox(
-        "Fin Year should not be blank, Please select at least one Fin Year"
-      );
-      return;
-    }
+    // if (
+    //   selectedPriorYearValue === undefined ||
+    //   selectedPriorYearValue === null ||
+    //   selectedPriorYearValue === "" ||
+    //   selectedPriorYearValue === 0
+    // ) {
+    //   errorMessageBox(
+    //     "Fin Year should not be blank, Please select at least one Fin Year"
+    //   );
+    //   return;
+    // }
 
     if (
       selectedFactCategoryValue === undefined ||
@@ -363,11 +363,11 @@ export default function CommissonRules(props) {
 
       .then((res) => {
         debugger;
-
+        
         setCommissionRulesId(res.data[0].CommissionRulesId);
         setSelectedFactCategoryValue(res.data[0].FactoryCategoryId);
         setSelectedFactoryValue(res.data[0].FactoryId);
-        setSelectedPriorYearItem(res.data[0].FinYearId);
+       // setSelectedPriorYearItem(res.data[0].FinYearId);
         setFactoryName(res.data[0].FactoryName);
         setCustomerName(res.data[0].CustomerName);
         setSelectedPriorYearValue(res.data[0].FinYearId);
@@ -420,7 +420,7 @@ export default function CommissonRules(props) {
       tooltip: "Edit Factory",
       onClick: (event, rowData) => {
         debugger;
-
+       // refresh();
         UpdateFactory(rowData.CommissionRulesId);
       },
     },
@@ -437,10 +437,10 @@ export default function CommissonRules(props) {
 
     setSelectedFactCategoryValue("");
     setSelectedFactoryValue("");
-    setSelectedPriorYearItem("");
+   // setSelectedPriorYearItem(22);
     setFactoryName("");
     setCustomerName("");
-    setSelectedPriorYearValue("");
+    setSelectedPriorYearValue("22");
     setChecked(true);
     setCommissionRate("");
     setSelectedFactoryId("");
@@ -482,13 +482,13 @@ export default function CommissonRules(props) {
         <h3>Add / Update Commission Rules</h3>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={3}>
+            {/* <Grid item xs={12} sm={3}>
               <PriorYearDropdownlist
                 ddlOnchang={PriorYearOnchange}
                 selectedPriorYearValue={selectedPriorYearItem}
               />
-            </Grid>
-            <Grid item xs={12} sm={3}>
+            </Grid> */}
+            <Grid item xs={12} sm={4}>
               <FactoryCategoryddl
                 ddlOnchang={FactoryCategoryOnchange}
                 selectfCategory={selectedFactCategoryValue}
@@ -501,7 +501,7 @@ export default function CommissonRules(props) {
                 selectedFactoryId={selectedFactoryId}
               />
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={4}>
               <label>Is Active For All</label>
 
               <Checkbox
@@ -549,7 +549,7 @@ export default function CommissonRules(props) {
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={4}>
               <label>IsActive</label>
 
               <Checkbox

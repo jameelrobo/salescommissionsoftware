@@ -40,7 +40,7 @@ export default function FactoryCategoryddl({
 
   const handleChange = (event) => {
     setSelectedFactoryCategory(event.target.value);
-    ddlOnchang=event.target.value;
+    ddlOnchang(event.target.value);
   };
 
   return (
@@ -52,13 +52,13 @@ export default function FactoryCategoryddl({
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={selectedfactoryCategory || ""}
+          value={selectedfactoryCategory}
           label="Select Prior Year"
           onChange={handleChange}
         >
           {factoryCategory.map((d, i) => (
             <MenuItem value={d["FactoryCategoryId"]}>
-              {" "}
+               
               {d["FactoryCategoryName"]}
             </MenuItem>
           ))}

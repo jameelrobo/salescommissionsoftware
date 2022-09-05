@@ -352,12 +352,18 @@ export default function Factories(props) {
 
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <FactoryCategoryddl
                 ddlOnchang={FactoryCategoryOnchange}
                 selectcategory={selectedFactCategoryValue}
               />
-              {/* <FactoriesDropdownlist ddlOnchang={FactoryOnchange} /> */}
+               
+            </Grid> */}
+            <Grid item xs={12} sm={6}>
+              <FactoryCategoryddl
+                ddlOnchang={FactoryCategoryOnchange}
+                selectfCategory={selectedFactCategoryValue}
+              />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
