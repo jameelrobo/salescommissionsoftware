@@ -281,7 +281,7 @@ debugger;
       if(heads.length!==9)
      {
       errorMessageBox(
-        "Invalid file input, Please Select correct Excel, CSV file"
+        "Invalid file input, Please Select correct Excel file"
       );
       e.target.value = null
       return;
@@ -289,7 +289,7 @@ debugger;
      if(heads[0]["field"]!==coldef[0]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header, Name should be  "+coldef[0]['field']
+        "Invalid file Colum name, Please update file header, Name should be in colum A : "+coldef[0]['field']
       );
       e.target.value = null
       return;
@@ -298,7 +298,7 @@ debugger;
      if(heads[1]["field"]!==coldef[1]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header, Name should be  "+coldef[1]['field']
+        "Invalid file Colum name, Please update file header, Name should be in colum B : "+coldef[1]['field']
       );
       e.target.value = null
       return;
@@ -307,7 +307,7 @@ debugger;
      if(heads[2]["field"]!==coldef[2]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header , Name should be   "+coldef[2]['field']
+        "Invalid file Colum name, Please update file header , Name should be in colum C :   "+coldef[2]['field']
       );
       e.target.value = null
       return;
@@ -316,7 +316,7 @@ debugger;
      if(heads[3]["field"]!==coldef[3]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header , Name should be   "+coldef[3]['field']
+        "Invalid file Colum name, Please update file header , Name should be in colum D : "+coldef[3]['field']
       );
       e.target.value = null
       return;
@@ -325,7 +325,7 @@ debugger;
      if(heads[4]["field"]!==coldef[4]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header , Name should be   "+coldef[4]['field']
+        "Invalid file Colum name, Please update file header , Name should be in colum E : "+coldef[4]['field']
       );
       e.target.value = null
       return;
@@ -334,7 +334,7 @@ debugger;
      if(heads[5]["field"]!==coldef[5]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[5]['field']
+        "Invalid file Colum name, Please update file header name , Name should be in colum F : "+coldef[5]['field']
       );
       e.target.value = null
       return;
@@ -343,7 +343,7 @@ debugger;
      if(heads[6]["field"]!==coldef[6]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[6]['field']
+        "Invalid file Colum name, Please update file header name , Name should be in colum G : "+coldef[6]['field']
       );
       e.target.value = null
       return;
@@ -352,7 +352,7 @@ debugger;
      if(heads[7]["field"]!==coldef[7]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[7]['field']
+        "Invalid file Colum name, Please update file header name , Name should be in colum H : "+coldef[7]['field']
       );
       e.target.value = null
       return;
@@ -361,7 +361,7 @@ debugger;
      if(heads[8]["field"]!==coldef[8]['field'])
      {
       errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be   "+coldef[8]['field']
+        "Invalid file Colum name, Please update file header name , Name should be in colum I : "+coldef[8]['field']
       );
       e.target.value = null
       return;
@@ -423,13 +423,13 @@ debugger;
 
     return formatter.format(num);
   };
-const [monthname, setMonthname] = useState("Sep");
+  const [monthname, setMonthname] = useState("Sep");
   const [getCommRules, setGetCommRules] = useState([]);
   const [getCustomers, setGetCustomers] = useState([]);
   const [allTransaction, setAllTransaction] = useState([]);
   const [allSalesman, setAllSalesman] = useState([]);
   const [getCommrulesId, setGetCommrulesId] = useState();
-   const [allFactories, setAllFactories] = useState([]);
+  const [allFactories, setAllFactories] = useState([]);
 
   useEffect(() => {
     localStorage.removeItem('AllCustomers');
@@ -621,15 +621,7 @@ const Refresh =()=>{
 
  }
 
- const onEditElement = () => {
-  let elements = [...data];
-  // let currentElementIndex = elements.findIndex((x) => x.id === elementId);
-  // if (currentElementIndex === -1) return;
-  // elements[currentElementIndex] = { id: elementId, value: "newValue" };
-  // if you do elements[currentElementIndex].value = ... your data array will be mutated. then its better you do the way above
-  setData(elements);
-};
-
+ 
  //===========================Verify=======================================
 
   const verifyUploadedFile =  () => {
