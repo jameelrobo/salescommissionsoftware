@@ -31,8 +31,13 @@ namespace BarcoSales.DAO
         {
             try
             {
-
-
+                string startDate = "";
+                string EndDate = "";
+              
+                  startDate = transactionSearchRequest.StartDate.ToString("yyyy-MM-dd");
+                      EndDate = transactionSearchRequest.EndDate.ToString("yyyy-MM-dd");
+              
+                 
 
 
                 MySqlConnection sql_conn = new MySqlConnection(conn);
@@ -43,8 +48,8 @@ namespace BarcoSales.DAO
 
              
                 var sqlParameters = new List<MySqlParameter>();
-                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = transactionSearchRequest.StartDate });
-                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = transactionSearchRequest.EndDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = startDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = EndDate });
                 cmd.Parameters.AddRange(sqlParameters.ToArray());
                 sql_conn.Open();
                 MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
