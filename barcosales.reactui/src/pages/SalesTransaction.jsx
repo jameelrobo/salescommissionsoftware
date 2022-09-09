@@ -27,8 +27,8 @@ import FilterList from "@material-ui/icons/FilterList";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import FirstPage from "@material-ui/icons/FirstPage";
-import LastPage from "@material-ui/icons/LastPage";
+// import FirstPage from "@material-ui/icons/FirstPage";
+// import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
 import Button from "@material-ui/core/Button";
 
@@ -60,9 +60,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const EXTENSIONS = ["xlsx", "xls", "csv"];
+const EXTENSIONS = ["xlsx", "xls"];
 
 export default function Transaction() {
+
+  const tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => (
+      <ChevronRight {...props} ref={ref} />
+    )),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    // FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    // LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => (
+      <ChevronLeft {...props} ref={ref} />
+    )),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => (
+      <ArrowDownward {...props} ref={ref} />
+    )),
+    // ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  };
+
   const successMessageBox = (successMsg) => {
     toast.success(successMsg, {
       position: "top-center",
@@ -99,28 +126,28 @@ export default function Transaction() {
     { title: "IsVerified", field: "IsVerified" },
   ];
 
-  const [colDefs, setColDefs] = useState(coldef);
+ // const [colDefs, setColDefs] = useState([]);
   const [data, setData] = useState([]);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
 
   const [checkValue, setCheckValue] = useState("");
   const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
-  // const [selectedFactCategoryValue, setSelectedFactCategoryValue] =  useState("");
+ const [selectedFactCategoryValue, setSelectedFactCategoryValue] =  useState("");
   // const [newdata, setNewData] = useState([]);
   // const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
-  // const [selectedFactoryId, setSelectedFactoryId] = useState(0);
+   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
   // const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
-  // const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("9");
+ const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("9");
   // const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
 
-  // const FactoryCategoryOnchange = (value) => {
-  //   setSelectedFactCategoryValue(value);
-  //   setSelectedFactoryId("");
-  //   setSelectedFactoryValue("");
-  //   debugger;
-  //   console.log(selectedFactCategoryValue);
-  // };
+  const FactoryCategoryOnchange = (value) => {
+    setSelectedFactCategoryValue(value);
+    setSelectedFactoryId("");
+    setSelectedFactoryValue("");
+    debugger;
+    console.log(selectedFactCategoryValue);
+  };
 
   const FactoryOnchange = (value) => {
     debugger;
@@ -134,12 +161,12 @@ export default function Transaction() {
   //   debugger;
   //   console.log(selectedPriorYearValue);
   // };
-  // const SalesMonthsOnchange = (value) => {
-  //   console.log(value);
-  //   setSelectedSalesMonthsValue(value);
-  //   debugger;
+  const SalesMonthsOnchange = (value) => {
+    console.log(value);
+    setSelectedSalesMonthsValue(value);
+    debugger;
 
-  // };
+  };
   // const SalesmanOnchange = (value) => {
   //   setSelectedSalesmanValue(value);
   //   debugger;
@@ -461,10 +488,10 @@ export default function Transaction() {
         debugger;
         return (CommRuleInfo = commRate1);
       } else {
-        errorMessageBox(
-          "Does not exist commission rules in the database, Please create at leat one rule"
-        );
-        return;
+        // errorMessageBox(
+        //   "Does not exist commission rules in the database, Please create at leat one rule"
+        // );
+        return null;
       }
     }
   };
@@ -480,7 +507,7 @@ export default function Transaction() {
   const Refresh = () => {
     setIsEnableCalculatebttn(true);
     setData([]);
-    setColDefs(coldef);
+   // setColDefs(coldef);
     localStorage.clear();
     clearCacheData();
 
@@ -823,34 +850,8 @@ export default function Transaction() {
       successMessageBox("The uploaded file has benn Varified Successfully!");
     }
   };
-  const tableRef = React.createRef();
-  const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => (
-      <ChevronRight {...props} ref={ref} />
-    )),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => (
-      <ChevronLeft {...props} ref={ref} />
-    )),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => (
-      <ArrowDownward {...props} ref={ref} />
-    )),
-    ThirdStateCheck: forwardRef((props, ref) => (
-      <Remove {...props} ref={ref} />
-    )),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-  };
+
+ 
 
   return (
     <>
@@ -888,16 +889,17 @@ export default function Transaction() {
               <SalesMonthsDropdownlist
                 ddlOnchang={SalesMonthsOnchange}
               />
-            </Grid>  */}
-            {/* <Grid item xs={12} sm={3}>
-              <FactoryCategoryddlTr
-                categoryddlOnchang={FactoryCategoryOnchange}
-                // selectfCategory={selectedFactCategoryValue}
+            </Grid> 
+            <Grid item xs={12} sm={3}>
+            <FactoryCategoryddlTr
+                ddlOnchang={FactoryCategoryOnchange}
+                selectfCategory={selectedFactCategoryValue}
               />
             </Grid> */}
 
             <Grid item xs={12} sm={4}>
-              <FactoriesDropdownlistTr factoryddlOnchang={FactoryOnchange} />
+              <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} />
             </Grid>
 
             <Grid item xs={12} sm={12}></Grid>
@@ -956,9 +958,9 @@ export default function Transaction() {
           {/* ============================Used Material Table============================= */}
             <MaterialTable
               title="Customer Sales Details"
-              columns={colDefs}
+              columns={coldef}
               data={data}
-              icons={tableIcons}
+       icons={tableIcons}
               editable={{
                 onRowAdd: (newData) =>
                   new Promise((resolve, reject) => {

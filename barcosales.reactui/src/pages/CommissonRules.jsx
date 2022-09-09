@@ -1,14 +1,12 @@
 import React, { useState, Component, useEffect, forwardRef } from "react";
-import MaterialTable, { Column } from "material-table";
+
 import { Link } from "react-router-dom";
 
+import MaterialTable, { Column } from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
-
 import Button from "@material-ui/core/Button";
-
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -18,11 +16,11 @@ import Clear from "@material-ui/icons/Clear";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
 import FilterList from "@material-ui/icons/FilterList";
-import axios from "axios";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
+import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import FactoriesDropdownlist from "./FactoriesDropdownlist";
@@ -62,7 +60,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+
 export default function CommissonRules(props) {
+  const tableRef = React.createRef();
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -615,16 +616,16 @@ export default function CommissonRules(props) {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "SalesCommission",
+            exportFileName: "CommissionRules",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,
             // showSelectAllCheckbox: false,
             showTextRowsSelected: false,
-            selectionProps: (rowData) => ({
-              disabled: rowData.age == null,
-              // color:"primary"
-            }),
+            // selectionProps: (rowData) => ({
+            //   disabled: rowData.age == null,
+            //   // color:"primary"
+            // }),
             grouping: true,
             columnsButton: true,
             rowStyle: (data, index) =>
