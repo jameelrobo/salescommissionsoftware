@@ -1,18 +1,20 @@
-import React, { useState, Component, useEffect, forwardRef , useRef, } from "react";
-import MaterialTable, { Column } from "material-table";
+import React, {
+  useState,
+  Component,
+  useEffect,
+  forwardRef,
+  useRef,
+} from "react";
+
 import { Link } from "react-router-dom";
-import { findIndex } from "lodash";
 import * as XLSX from "xlsx";
-import Button from "@material-ui/core/Button";
+
 import axios from "axios";
-import jsPDF from "jspdf";
 import "jspdf-autotable";
+
+import MaterialTable, { Column } from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
-import FactoryCategoryddlTr from "./FactoryCategoryddlTr";
-import PriorYearDropdownlist from "./PriorYearDropdownlist";
-import SalesMonthsDropdownlist from "./SalesMonthsDropdownlist";
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
 import Check from "@material-ui/icons/Check";
@@ -28,12 +30,16 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
+import Button from "@material-ui/core/Button";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { wait } from "@testing-library/user-event/dist/utils";
 
-
+import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
+import FactoryCategoryddlTr from "./FactoryCategoryddlTr";
+import PriorYearDropdownlist from "./PriorYearDropdownlist";
+import SalesMonthsDropdownlist from "./SalesMonthsDropdownlist";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,7 +87,7 @@ export default function Transaction() {
   };
   const classes = useStyles();
 
-  const coldef=[
+  const coldef = [
     { title: "Sold-To Name", field: "Sold-To Name" },
     { title: "Sold-To Address", field: "Sold-To Address" },
     { title: "Sold-To State", field: "Sold-To State" },
@@ -91,143 +97,54 @@ export default function Transaction() {
     { title: "Ship-To State", field: "Ship-To State" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "IsVerified", field: "IsVerified" },
-  ]
+  ];
 
   const [colDefs, setColDefs] = useState(coldef);
+  const [data, setData] = useState([]);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
-  const [data, setData] = useState([]);
-  const [newdata, setNewData] = useState([]);
-  const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
-  const [selectedFactoryId, setSelectedFactoryId] = useState(0);
-  const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
-  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("9");
-  const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
+
   const [checkValue, setCheckValue] = useState("");
   const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
-  const [selectedFactCategoryValue, setSelectedFactCategoryValue] = useState("");
+  // const [selectedFactCategoryValue, setSelectedFactCategoryValue] =  useState("");
+  // const [newdata, setNewData] = useState([]);
+  // const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
+  // const [selectedFactoryId, setSelectedFactoryId] = useState(0);
+  // const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
+  // const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("9");
+  // const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
 
-  const FactoryCategoryOnchange = (value) => {
-    setSelectedFactCategoryValue(value);
-    setSelectedFactoryId("");
-    setSelectedFactoryValue("");
-    debugger;
-    console.log(selectedFactCategoryValue);
-  };
+  // const FactoryCategoryOnchange = (value) => {
+  //   setSelectedFactCategoryValue(value);
+  //   setSelectedFactoryId("");
+  //   setSelectedFactoryValue("");
+  //   debugger;
+  //   console.log(selectedFactCategoryValue);
+  // };
 
   const FactoryOnchange = (value) => {
     debugger;
- 
-    console.log("Transaction :"+value);
+
+    console.log("Transaction :" + value);
     setSelectedFactoryValue(value);
     debugger;
-   
   };
-  const PriorYearOnchange = (value) => {
-    setSelectedPriorYearValue(value);
-    debugger;
-    console.log(selectedPriorYearValue);
-  };
-  const SalesMonthsOnchange = (value) => {
-    console.log(value);
-    setSelectedSalesMonthsValue(value);
-    debugger;
-   
-  };
-  const SalesmanOnchange = (value) => {
-    setSelectedSalesmanValue(value);
-    debugger;
-    console.log(selectedSalesmanValue);
-  };
+  // const PriorYearOnchange = (value) => {
+  //   setSelectedPriorYearValue(value);
+  //   debugger;
+  //   console.log(selectedPriorYearValue);
+  // };
+  // const SalesMonthsOnchange = (value) => {
+  //   console.log(value);
+  //   setSelectedSalesMonthsValue(value);
+  //   debugger;
 
-  const columns1 = [
-    { title: "Action", field: "Action" },
-    { title: "Customer", field: "customer" },
-      { title: "Factory", field: "factory" },
-    { title: "Check", field: "check" },
-    { title: "Month", field: "month" },
-    { title: "Salesman", field: "salesman" },
-    { title: "InvoiceNo", field: "invoiceNo" },
-    { title: "TotalSalesAmt", field: "TotalSalesAmt" },
-    { title: "GrossCommRate", field: "commRate" },
-    { title: "GrossComm", field: "grossComm" },
-    { title: "SalesmanComm", field: "salesmanComm" },
-  ];
-
-  const monthslist= [
-    {
-      "name": "January",
-      "short": "Jan",
-      "number": 1,
-      "days": 31
-    },
-    {
-      "name": "February",
-      "short": "Feb",
-      "number": 2,
-      "days": 28
-    },
-     {
-      "name": "March",
-      "short": "Mar",
-      "number": 3,
-      "days": 31
-    },
-    {
-      "name": "April",
-      "short": "Apr",
-      "number": 4,
-      "days": 30
-    },
-    {
-      "name": "May",
-      "short": "May",
-      "number": 5,
-      "days": 31
-    },
-      {
-      "name": "June",
-      "short": "Jun",
-      "number": 6,
-      "days": 30
-    },
-    {
-      "name": "July",
-      "short": "Jul",
-      "number": 7,
-      "days": 31
-    },
-     {
-      "name": "August",
-      "short": "Aug",
-      "number": 8,
-      "days": 31
-    },
-   {
-      "name": "September",
-      "short": "Sep",
-      "number": 9,
-      "days": 30
-    },
-     {
-      "name": "October",
-      "short": "Oct",
-      "number": 10,
-      "days": 31
-    },
-    {
-      "name": "November",
-      "short": "Nov",
-      "number": 11,
-      "days": 30
-    },
-    {
-      "name": "December",
-      "short": "Dec",
-      "number": 12,
-      "days": 31
-    }
-  ]
+  // };
+  // const SalesmanOnchange = (value) => {
+  //   setSelectedSalesmanValue(value);
+  //   debugger;
+  //   console.log(selectedSalesmanValue);
+  // };
 
   const getExention = (file) => {
     const parts = file.name.split(".");
@@ -253,9 +170,8 @@ export default function Transaction() {
     return rows;
   };
 
- 
   const importExcel = (e) => {
-debugger;
+    debugger;
 
     const file = e.target.files[0];
 
@@ -277,324 +193,280 @@ debugger;
       const headers = fileData[0];
       const heads = headers.map((head) => ({ title: head, field: head }));
       debugger;
-   console.log(heads)
-      if(heads.length!==9)
-     {
-      errorMessageBox(
-        "Invalid file input, Please Select correct Excel file"
-      );
-      e.target.value = null
-      return;
-     }
-     if(heads[0]["field"]!==coldef[0]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header, Name should be in colum A : "+coldef[0]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[1]["field"]!==coldef[1]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header, Name should be in colum B : "+coldef[1]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[2]["field"]!==coldef[2]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header , Name should be in colum C :   "+coldef[2]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[3]["field"]!==coldef[3]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header , Name should be in colum D : "+coldef[3]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[4]["field"]!==coldef[4]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header , Name should be in colum E : "+coldef[4]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[5]["field"]!==coldef[5]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be in colum F : "+coldef[5]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[6]["field"]!==coldef[6]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be in colum G : "+coldef[6]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[7]["field"]!==coldef[7]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be in colum H : "+coldef[7]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-     if(heads[8]["field"]!==coldef[8]['field'])
-     {
-      errorMessageBox(
-        "Invalid file Colum name, Please update file header name , Name should be in colum I : "+coldef[8]['field']
-      );
-      e.target.value = null
-      return;
-
-     }
-    //  if(heads[9]["field"]!==coldef[9]['field'])
-    //  {
-    //   errorMessageBox(
-    //     "Invalid file Colum name, Please update file header name & Obrder N#9"+coldef[9]['field']
-    //   );
-    //   e.target.value = null
-    //   return;
-
-    //  }
-      //setColDefs(heads);
+      console.log(heads);
+      if (heads.length !== 9) {
+        errorMessageBox("Invalid file input, Please Select correct Excel file");
+        e.target.value = null;
+        return;
+      }
+      if (heads[0]["field"] !== coldef[0]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header, Name should be in colum A : " +
+            coldef[0]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[1]["field"] !== coldef[1]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header, Name should be in colum B : " +
+            coldef[1]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[2]["field"] !== coldef[2]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header , Name should be in colum C :   " +
+            coldef[2]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[3]["field"] !== coldef[3]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header , Name should be in colum D : " +
+            coldef[3]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[4]["field"] !== coldef[4]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header , Name should be in colum E : " +
+            coldef[4]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[5]["field"] !== coldef[5]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header name , Name should be in colum F : " +
+            coldef[5]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[6]["field"] !== coldef[6]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header name , Name should be in colum G : " +
+            coldef[6]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[7]["field"] !== coldef[7]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header name , Name should be in colum H : " +
+            coldef[7]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
+      if (heads[8]["field"] !== coldef[8]["field"]) {
+        errorMessageBox(
+          "Invalid file Colum name, Please update file header name , Name should be in colum I : " +
+            coldef[8]["field"]
+        );
+        e.target.value = null;
+        return;
+      }
 
       fileData.splice(0, 1);
 
       setData(convertToJson(headers, fileData));
-      successMessageBox(
-        "The excell file has been uploaded Successfully!"
-      );
-      // if(data.length>0)
-      // {
-      //   successMessageBox(
-      //     "The excell file has been uploaded Successfully!"
-      //   );
-      // }
-      // else{
-      //   errorMessageBox(
-      //     "Invalid file input, Please Select correct Excel, CSV file"
-      //   );
-
-      // }
-       
+      successMessageBox("The excell file has been uploaded Successfully!");
     };
 
     if (file) {
       if (getExention(file)) {
         reader.readAsBinaryString(file);
       } else {
-         
         // alert("Invalid file input, Select Excel, CSV file");
-        errorMessageBox(
-          "Invalid file input, Please Select correct Excel file"
-        );
+        errorMessageBox("Invalid file input, Please Select correct Excel file");
       }
     } else {
       setData([]);
-      setColDefs([]);
+      //setColDefs(coldef);
     }
   };
 
+  // ***********************  Currency Converter******************************
   const numberToCurrency = (num) => {
     const formatter = new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
     });
-
     return formatter.format(num);
   };
+
+  // ***********************  Currency Converter end******************************
   const [monthname, setMonthname] = useState("Sep");
-  const [getCommRules, setGetCommRules] = useState([]);
-  const [getCustomers, setGetCustomers] = useState([]);
-  const [allTransaction, setAllTransaction] = useState([]);
-  const [allSalesman, setAllSalesman] = useState([]);
-  const [getCommrulesId, setGetCommrulesId] = useState();
-  const [allFactories, setAllFactories] = useState([]);
+  // const [getCommRules, setGetCommRules] = useState([]);
+  // const [getCustomers, setGetCustomers] = useState([]);
+  // const [allTransaction, setAllTransaction] = useState([]);
+  // const [allSalesman, setAllSalesman] = useState([]);
+  // const [getCommrulesId, setGetCommrulesId] = useState();
+  // const [allFactories, setAllFactories] = useState([]);
 
   useEffect(() => {
-    localStorage.removeItem('AllCustomers');
-    localStorage.removeItem('AllFactories');
-    localStorage.removeItem('AllSalesman');
-    localStorage.removeItem('AllCommissionRules');
-    
-     getAllCustomers();
-     getAllSalesman();
-     getAllFactories();
-     getCommissionRules();
-   
- //getAllTransaction();
+    localStorage.removeItem("AllCustomers");
+    localStorage.removeItem("AllFactories");
+    localStorage.removeItem("AllSalesman");
+    localStorage.removeItem("AllCommissionRules");
 
+    getAllCustomers();
+    getAllSalesman();
+    getAllFactories();
+    getCommissionRules();
+    //getAllTransaction();
 
+    console.log("Formload");
   }, []);
 
-  const getAllCustomers =  async () => {
+  const getAllCustomers = async () => {
     debugger;
-const res =await  axios
+    const res = await axios
       .get("Customer/GetCustomer")
       .then((res) => {
         debugger;
-  console.log(res.data);
+        console.log(res.data);
         debugger;
-    // setGetCustomers(res.data);
-     localStorage.setItem("AllCustomers", JSON.stringify(res.data));
-     debugger;
+        // setGetCustomers(res.data);
+        localStorage.setItem("AllCustomers", JSON.stringify(res.data));
+        debugger;
         return res.data;
         //setData(res.data);
-       
       })
       .catch((err) => {
-       console.log(err);
-       //return res.data;
+        console.log(err);
+        //return res.data;
       });
-      debugger;
-      //setGetCustomers(res.data); 
-      return res;
+    debugger;
+    //setGetCustomers(res.data);
+    return res;
   };
 
-  const getAllFactories = async  () => {
-  
-    const res =await  axios
+  const getAllFactories = async () => {
+    const res = await axios
       .get("Factory/GetFactory")
       .then((res) => {
         debugger;
-      console.log(res.data);
+        console.log(res.data);
         //setData(res.data);
-       // setAllFactories(res.data);
-       localStorage.setItem("AllFactories", JSON.stringify(res.data));
-        return res
+        // setAllFactories(res.data);
+        localStorage.setItem("AllFactories", JSON.stringify(res.data));
+        return res;
       })
       .catch((err) => {
         console.log(err);
-        return res
+        return res;
       });
   };
 
-  const getAllTransaction = async  () => {
+  const getAllTransaction = async () => {
     debugger;
-    const res =await   axios
+    const res = await axios
       .get("SalesTrasaction/GetTrasaction")
       .then((res) => {
         debugger;
-    console.log(res.data);
-       // setAllTransaction(res.data);
-       localStorage.setItem("AllTransaction", JSON.stringify(res.data));
-        return res
+        console.log(res.data);
+        // setAllTransaction(res.data);
+        localStorage.setItem("AllTransaction", JSON.stringify(res.data));
+        return res;
       })
       .catch((err) => {
         console.log(err);
-        return res
+        return res;
       });
   };
 
-  const getAllSalesman =  async  () => {
+  const getAllSalesman = async () => {
     debugger;
-    const res =await   axios
+    const res = await axios
       .get("SalesPerson/GetSalesPerson")
       .then((res) => {
         debugger;
-  console.log(res.data);
-      //  setAllSalesman(res.data);
+        console.log(res.data);
+        //  setAllSalesman(res.data);
         localStorage.setItem("AllSalesman", JSON.stringify(res.data));
-        return res
+        return res;
       })
       .catch((err) => {
         console.log(err);
-        return res
+        return res;
       });
   };
 
-
- 
-  const getCommissionRules =  async () => {
+  const getCommissionRules = async () => {
     debugger;
-    const res =await   axios
+    const res = await axios
       .get("CommissionRules/GetCommissionRules")
       .then((res) => {
         debugger;
- console.log(res);
-      //  setGetCommRules(res.data);
-      localStorage.setItem("AllCommissionRules",JSON.stringify(res.data));
-        return res
+        console.log(res);
+        //  setGetCommRules(res.data);
+        localStorage.setItem("AllCommissionRules", JSON.stringify(res.data));
+        return res;
       })
       .catch((err) => {
         console.log(err);
       });
-      return res
+    return res;
   };
-//======================Find commission rules=======================
+  //======================Find commission rules=======================
   const getcommRate = (custId) => {
     debugger;
 
     let CommRuleInfo = {};
     if (custId) {
-    
-//=================Case 1===========================================
-var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
+      //=================Case 1===========================================
+      var getCommRules = JSON.parse(localStorage.getItem("AllCommissionRules"));
       var CommRules = getCommRules.find(
         (item) =>
           item.FactoryId === selectedFactoryValue &&
-          item.IsActiveForAll === true && item.IsActive === true
+          item.IsActiveForAll === true &&
+          item.IsActive === true
       );
       debugger;
       if (CommRules) {
         CommRuleInfo = CommRules;
         return CommRuleInfo;
       }
-//=================Case 2===========================================
+      //=================Case 2===========================================
 
       var commRate = getCommRules.find(
         (item) =>
           item.CustId === custId &&
           item.FactoryId === selectedFactoryValue &&
-           item.IsActiveForAll === false && item.IsActive === true 
+          item.IsActiveForAll === false &&
+          item.IsActive === true
       );
       debugger;
       if (commRate) {
         CommRuleInfo = commRate;
         debugger;
         return CommRuleInfo;
- //=================Case 3===========================================
+        //=================Case 3===========================================
       }
-      
-       
-        var commRate1 = getCommRules.find(
-          (item) =>
-          item.FactoryId === selectedFactoryValue  &&
-          item.CustId === 0 && item.IsActiveForAll === false && item.IsActive === true
-        );
-        if (commRate1) {
-        debugger;
-        return CommRuleInfo = commRate1;
-      
-    }
-    else{
-      errorMessageBox(
-        "Does not exist commission rules in the database, Please create at leat one rule"
+
+      var commRate1 = getCommRules.find(
+        (item) =>
+          item.FactoryId === selectedFactoryValue &&
+          item.CustId === 0 &&
+          item.IsActiveForAll === false &&
+          item.IsActive === true
       );
-      return ;
+      if (commRate1) {
+        debugger;
+        return (CommRuleInfo = commRate1);
+      } else {
+        errorMessageBox(
+          "Does not exist commission rules in the database, Please create at leat one rule"
+        );
+        return;
+      }
     }
-  }
-    
   };
   const clearCacheData = () => {
     caches.keys().then((names) => {
@@ -602,36 +474,32 @@ var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
         caches.delete(name);
       });
     });
-   // alert('Complete Cache Cleared')
+    // alert('Complete Cache Cleared')
   };
+
+  const Refresh = () => {
+    setIsEnableCalculatebttn(true);
+    setData([]);
+    setColDefs(coldef);
+    localStorage.clear();
+    clearCacheData();
+
+    window.location = "/transaction";
+  };
+  const handleClick = () => {
+    window.location = "/transaction/calculate";
+  };
+
+  //===========================Verify=======================================
+
+  const verifyUploadedFile = () => {
   
-
-const Refresh =()=>{
-  setIsEnableCalculatebttn(true);
-  setData([]);
-  setColDefs(coldef);
-  localStorage.clear();
-  clearCacheData();
-  
-  
- window.location = "/transaction";
-}
- const handleClick = ()=>{
-  window.location = "/transaction/calculate";
-
- }
-
- 
- //===========================Verify=======================================
-
-  const verifyUploadedFile =  () => {
-    setNewData([]);
-    var IsOk=1;
-debugger;
-    var getCustomers= JSON.parse(localStorage.getItem("AllCustomers"));
-    var getCommRules= JSON.parse(localStorage.getItem("AllCommissionRules"));
-    var getAllSalesman= JSON.parse(localStorage.getItem("AllSalesman"));
-    var getAllFactories= JSON.parse(localStorage.getItem("AllFactories"));
+    var IsOk = 1;
+    debugger;
+    var getCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
+    var getCommRules = JSON.parse(localStorage.getItem("AllCommissionRules"));
+    var getAllSalesman = JSON.parse(localStorage.getItem("AllSalesman"));
+    var getAllFactories = JSON.parse(localStorage.getItem("AllFactories"));
 
     if (
       getAllFactories === undefined ||
@@ -641,7 +509,8 @@ debugger;
       getAllFactories.length === 0
     ) {
       errorMessageBox(
-        "Please check Factories API, Does not exist the Factories " );
+        "Please check Factories API, Does not exist the Factories "
+      );
       return;
     }
 
@@ -653,10 +522,11 @@ debugger;
       getCustomers.length === 0
     ) {
       errorMessageBox(
-        "Please check custmer API, Does not exist the customers " );
+        "Please check custmer API, Does not exist the customers "
+      );
       return;
     }
-   
+
     if (
       getCommRules === undefined ||
       getCommRules === null ||
@@ -665,7 +535,8 @@ debugger;
       getCommRules.length === 0
     ) {
       errorMessageBox(
-        "Please check Commission Rules API, Does not exist the Commission Rules " );
+        "Please check Commission Rules API, Does not exist the Commission Rules "
+      );
       return;
     }
 
@@ -677,16 +548,17 @@ debugger;
       getAllSalesman.length === 0
     ) {
       errorMessageBox(
-        "Please check Salesman API, Does not exist the Commission Rules " );
+        "Please check Salesman API, Does not exist the Commission Rules "
+      );
       return;
     }
     var monthinfo = getCommRules.find(
       (item) =>
         item.FactoryId === selectedFactoryValue &&
-        item.IsActiveForAll === true && item.IsActive === true
+        item.IsActiveForAll === true &&
+        item.IsActive === true
     );
-   
-  
+
     // if (
     //   selectedPriorYearValue === undefined ||
     //   selectedPriorYearValue === null ||
@@ -698,22 +570,22 @@ debugger;
     //   );
     //   return;
     // }
-  // debugger;
-  //   if (
-  //     selectedSalesMonthsValue === undefined ||
-  //     selectedSalesMonthsValue === null ||
-  //     selectedSalesMonthsValue === "" ||
-  //     selectedSalesMonthsValue === 0
-  //   ) {
-  //     errorMessageBox(
-  //       "Month  should not be blank, Please select at least one Month"
-  //     );
-  //     return;
-  //   }
-  //   var monthinfo = monthslist.find(
-  //     (item) =>
-  //       item.number === parseInt(selectedSalesMonthsValue)  
-  //   );
+    // debugger;
+    //   if (
+    //     selectedSalesMonthsValue === undefined ||
+    //     selectedSalesMonthsValue === null ||
+    //     selectedSalesMonthsValue === "" ||
+    //     selectedSalesMonthsValue === 0
+    //   ) {
+    //     errorMessageBox(
+    //       "Month  should not be blank, Please select at least one Month"
+    //     );
+    //     return;
+    //   }
+    //   var monthinfo = monthslist.find(
+    //     (item) =>
+    //       item.number === parseInt(selectedSalesMonthsValue)
+    //   );
 
     // if (
     //   selectedFactCategoryValue === undefined ||
@@ -726,7 +598,7 @@ debugger;
     //   );
     //   return;
     // }
-   
+
     if (
       selectedFactoryValue === undefined ||
       selectedFactoryValue === null ||
@@ -736,7 +608,7 @@ debugger;
       errorMessageBox(
         "Factory  should not be blank, Please select at least one Factory"
       );
-      IsOk=0;
+      IsOk = 0;
       return;
     }
     if (
@@ -749,29 +621,25 @@ debugger;
       errorMessageBox(
         "Data  should not be blank, Please upload  at least one Factory Sales file"
       );
-      IsOk=0;
+      IsOk = 0;
       return;
     }
 
     const transformedArray = [];
     const SavetransformedArray = [];
 
-     //Foreach Conditio==============Start to calculation==================================================
+    //Foreach Conditio==============Start to calculation==================================================
 
-   
-      for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
+      let Isvalid = "OK";
+      let Cid = 0;
+      let Sid = 0;
 
-      let Isvalid="OK";
-      let Cid=0;
-      let Sid=0;
-       
-
-      debugger
+      debugger;
       var custInfo = getCustomers.find(
-        (item) =>
-          item.CustomerName.trim() === data[i]["Sold-To Name"].trim() 
-          // ||
-          // item.CustAliasName.trim() === d["Sold-To Name"].trim()
+        (item) => item.CustomerName.trim() === data[i]["Sold-To Name"].trim()
+        // ||
+        // item.CustAliasName.trim() === d["Sold-To Name"].trim()
       );
 
       if (
@@ -781,21 +649,15 @@ debugger;
         custInfo === 0 ||
         custInfo.length === 0
       ) {
-        
-
-    data[i]["IsVerified"]="Invalid";
+        data[i]["IsVerified"] = "Invalid";
         debugger;
-        IsOk=0;
-    continue;
-        
-      }
-      else{
-        Cid=custInfo.CustId;
-
+        IsOk = 0;
+        continue;
+      } else {
+        Cid = custInfo.CustId;
       }
       var salesmanInfo = getAllSalesman.find(
-        (item) =>
-          item.SalesmId  === custInfo.SalesmanId 
+        (item) => item.SalesmId === custInfo.SalesmanId
       );
 
       if (
@@ -805,16 +667,13 @@ debugger;
         salesmanInfo === 0 ||
         salesmanInfo.length === 0
       ) {
-        //Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim() 
+        //Isvalid=Isvalid+","+"The Salesman Doesn't exist in the DB  "+data[i]["Sold-To Name"].trim()
 
-        data[i]["IsVerified"]="Invalid";
-        IsOk=0;
-       continue;
-      
-      }
-      else{
-        Sid=salesmanInfo.SalesmId;
-
+        data[i]["IsVerified"] = "Invalid";
+        IsOk = 0;
+        continue;
+      } else {
+        Sid = salesmanInfo.SalesmId;
       }
 
       let CommRuleInfo = getcommRate(custInfo.CustId);
@@ -824,15 +683,13 @@ debugger;
         CommRuleInfo === "" ||
         CommRuleInfo === 0
       ) {
-     
-     data[i]["IsVerified"]="Invalid";
-     IsOk=0;
-     continue;
-       
+        data[i]["IsVerified"] = "Invalid";
+        IsOk = 0;
+        continue;
       }
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
-        const InvoiceNo = i+1; // Will come from API
+        const InvoiceNo = i + 1; // Will come from API
         const TotalSalesAmt = data[0]["TotalSalesAmt"];
         const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
@@ -840,20 +697,16 @@ debugger;
           (Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")) * commRate) /
           100
         ).toFixed(2);
-        var salesmanCommRate =0
+        var salesmanCommRate = 0;
         if (
           custInfo.CustomSalesCommRate === undefined ||
           custInfo.CustomSalesCommRate === null ||
           custInfo.CustomSalesCommRate === "" ||
           custInfo.CustomSalesCommRate === 0
         ) {
-          salesmanCommRate=  salesmanInfo.CommissionRate
-         
-        }
-        else{
-
-          salesmanCommRate=custInfo.CustomSalesCommRate;
-
+          salesmanCommRate = salesmanInfo.CommissionRate;
+        } else {
+          salesmanCommRate = custInfo.CustomSalesCommRate;
         }
         if (
           salesmanCommRate === undefined ||
@@ -861,28 +714,24 @@ debugger;
           salesmanCommRate === "" ||
           salesmanCommRate === 0
         ) {
-          data[i]["IsVerified"]="Invalid";
-          IsOk=0;
+          data[i]["IsVerified"] = "Invalid";
+          IsOk = 0;
           continue;
-       
         }
         var factoryInfo = getAllFactories.find(
-          (item) =>
-            item.FactoryId  === selectedFactoryValue 
+          (item) => item.FactoryId === selectedFactoryValue
         );
         debugger;
-        const salesmanCommAmt = 
-        (
-          (grossComm * salesmanCommRate) /
-          100
-        ).toFixed(2);
+        const salesmanCommAmt = ((grossComm * salesmanCommRate) / 100).toFixed(
+          2
+        );
         const objdatagrid = {
           TrasactionId: 0,
           SalesmId: Sid,
           SalesmanCode: salesmanInfo.SalesmanCode,
           CustId: Cid,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
-          SoldToName: data[i]["Sold-To Name"].trim() ,
+          SoldToName: data[i]["Sold-To Name"].trim(),
           SoldToAddress: data[i]["Sold-To Address"],
           SoldToState: data[i]["Sold-To State"],
           ShipToName: data[i]["Ship-To Name"],
@@ -899,8 +748,8 @@ debugger;
           GrossCommAmt: numberToCurrency(grossComm),
           SalesmanCommRate: `${salesmanCommRate}%`,
           SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
-          CreatedBy:1,
-          IsActive:1
+          CreatedBy: 1,
+          IsActive: 1,
         };
         const objsave = {
           TrasactionId: 0,
@@ -923,51 +772,45 @@ debugger;
           TotalSalesAmt: SAmt,
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
-          SalesmanCommRate: salesmanCommRate ,
+          SalesmanCommRate: salesmanCommRate,
           SalesmanCommAmt: salesmanCommAmt,
-          CreatedBy:1,
-          IsActive:1
- 
-        
+          CreatedBy: 1,
+          IsActive: 1,
         };
         debugger;
 
         transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
       }
-      data[i]["IsVerified"]="OK";
-     
-     
-      
+      data[i]["IsVerified"] = "OK";
     }
-    if( IsOk===0)
-    {
+    if (IsOk === 0) {
       errorMessageBox(
         "The uploaded file has invalid records, Please download the file and correct the records"
       );
       return;
-
     }
-   
-   
-  
-  
+
     debugger;
-    
-    
 
     if (
-      (transformedArray === undefined ||    transformedArray === null ||    transformedArray === "" ||  transformedArray === 0)
-      && (SavetransformedArray === undefined ||  SavetransformedArray === null ||    SavetransformedArray === "" ||  SavetransformedArray === 0)
+      (transformedArray === undefined ||
+        transformedArray === null ||
+        transformedArray === "" ||
+        transformedArray === 0) &&
+      (SavetransformedArray === undefined ||
+        SavetransformedArray === null ||
+        SavetransformedArray === "" ||
+        SavetransformedArray === 0)
     ) {
       errorMessageBox(
         "The uploaded file has invalid records, Please download the file and correct the records"
       );
       return;
-    }
-    else if(transformedArray.length===data.length && SavetransformedArray.length===data.length)
-    {
-       
+    } else if (
+      transformedArray.length === data.length &&
+      SavetransformedArray.length === data.length
+    ) {
       setIsEnableCalculatebttn(false);
       localStorage.setItem(
         "salesComissionData",
@@ -977,37 +820,37 @@ debugger;
         "salesComissiongridData",
         JSON.stringify(SavetransformedArray)
       );
-      successMessageBox(
-        "The uploaded file has benn Varified Successfully!"
-      );
-
+      successMessageBox("The uploaded file has benn Varified Successfully!");
     }
-   
   };
   const tableRef = React.createRef();
-const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  DetailPanel: forwardRef((props, ref) => (
-    <ChevronRight {...props} ref={ref} />
-  )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => (
-    <ChevronLeft {...props} ref={ref} />
-  )),
-  ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-};
+  const tableIcons = {
+    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+    DetailPanel: forwardRef((props, ref) => (
+      <ChevronRight {...props} ref={ref} />
+    )),
+    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+    PreviousPage: forwardRef((props, ref) => (
+      <ChevronLeft {...props} ref={ref} />
+    )),
+    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+    SortArrow: forwardRef((props, ref) => (
+      <ArrowDownward {...props} ref={ref} />
+    )),
+    ThirdStateCheck: forwardRef((props, ref) => (
+      <Remove {...props} ref={ref} />
+    )),
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  };
 
   return (
     <>
@@ -1023,10 +866,8 @@ const tableIcons = {
           draggable
           pauseOnHover
         />
-        
-        <form className={classes.form}>
-      
 
+        <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}>
               <Link to="/transaction/addsales">
@@ -1056,12 +897,9 @@ const tableIcons = {
             </Grid> */}
 
             <Grid item xs={12} sm={4}>
-              <FactoriesDropdownlistTr
-                factoryddlOnchang={FactoryOnchange}
-           
-              />
+              <FactoriesDropdownlistTr factoryddlOnchang={FactoryOnchange} />
             </Grid>
-        
+
             <Grid item xs={12} sm={12}></Grid>
           </Grid>
 
@@ -1077,22 +915,20 @@ const tableIcons = {
             </Grid>
 
             <Grid item xs={12} sm={3}>
-           
-           <Button
-             variant="contained"
-             color="primary"
-             fullWidth
-             onClick={() => verifyUploadedFile()}
-           >
-            Verify Uploaded File
-           </Button>
-         </Grid>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => verifyUploadedFile()}
+              >
+                Verify Uploaded File
+              </Button>
+            </Grid>
 
             <Grid item xs={12} sm={3}>
-           
               <Button
-              //disabled="true"
-             disabled={isEnableCalculatebttn}
+                //disabled="true"
+                disabled={isEnableCalculatebttn}
                 variant="contained"
                 color="primary"
                 fullWidth
@@ -1102,22 +938,22 @@ const tableIcons = {
               </Button>
             </Grid>
             <Grid item xs={12} sm={3}>
-           
-           <Button
-           //disabled="true"
-        //  disabled={isEnableCalculatebttn}
-             variant="contained"
-             color="primary"
-             fullWidth
-             onClick={() => Refresh()}
-           >
-             Refresh
-           </Button>
-         </Grid>
+              <Button
+                //disabled="true"
+                //  disabled={isEnableCalculatebttn}
+                variant="contained"
+                color="primary"
+                fullWidth
+                onClick={() => Refresh()}
+              >
+                Refresh
+              </Button>
+            </Grid>
           </Grid>
         </form>
         <Grid container spacing={1}>
           <Grid item xs={12}>
+          {/* ============================Used Material Table============================= */}
             <MaterialTable
               title="Customer Sales Details"
               columns={colDefs}
@@ -1197,7 +1033,6 @@ const tableIcons = {
               >
                 Calculate Sales Commission
               </Button>
-          
             </Grid>
           </Grid>
         </form>

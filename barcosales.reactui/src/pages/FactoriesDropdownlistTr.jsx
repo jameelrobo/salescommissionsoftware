@@ -11,13 +11,14 @@ export default function FactoriesDropdownlistTr({
  
   
 }) {
-  const [factory, setFactory] = React.useState([]);
+ // const [factory, setFactory] = React.useState([]);
   const [filterfactory, setFilterfactory] = React.useState([]);
   const [selectfactory, setSelectfactory] = React.useState("");
 
   useEffect(() => {
     debugger
     GetFactory();
+    console.log("Factory load");
     //createSelectItems();
   }, []);
 
@@ -41,7 +42,7 @@ export default function FactoriesDropdownlistTr({
       .then((res) => {
         debugger;
         console.log(res);
-        setFactory(res.data);
+       // setFactory(res.data);
         setFilterfactory(res.data);
       })
       .catch((err) => {
