@@ -102,6 +102,7 @@ namespace BarcoSales.DAO
 
                 if (salesTrasaction != null)
                 {
+                    salesTrasaction.CreatedDate=DateTime.Now;
                     dbContext.Salestrasaction.Add(salesTrasaction);
                     dbContext.SaveChanges();
                     return salesTrasaction;

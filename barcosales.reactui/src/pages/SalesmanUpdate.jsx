@@ -45,6 +45,7 @@ export default function SalesmanUpdate() {
   const { id } = useParams();
   useEffect(() => {
     debugger;
+   
     if (updateAction === 0) {
       axios
         .get("SalesPerson/GetSalesPersonId?id=" + id)
@@ -71,21 +72,24 @@ export default function SalesmanUpdate() {
     }
     // setUpdateAction(0);
   }, [id]);
-  const [commissionRate, setCommissionRate] = useState();
-  const [salesmId, setSalesmId] = useState();
-  const [salesmanCode, setSalesmanCode] = useState();
-  const [salesmanName, setSalesmanName] = useState();
-  const [designation, setDesignation] = useState();
-  const [emailId, setEmailId] = useState();
+
+  
+
+  const [commissionRate, setCommissionRate] = useState("");
+  const [salesmId, setSalesmId] = useState("");
+  const [salesmanCode, setSalesmanCode] = useState("");
+  const [salesmanName, setSalesmanName] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [emailId, setEmailId] = useState("");
   const [joiningDate, setJoiningDate] = useState(null);
   const [createdDate, setCreatedDate] = useState(null);
-  const [address, setAddress] = useState();
-  const [city, setCity] = useState();
-  const [state, setState] = useState();
-  const [zip, setZip] = useState();
-  const [mobile, setMobile] = useState();
-  const [princCode, setPrincCode] = useState();
-  const [isActive, setIsActive] = useState();
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zip, setZip] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [princCode, setPrincCode] = useState("");
+  const [isActive, setIsActive] = useState("");
 
   const handleClick = (event) => {
     event.preventDefault();
