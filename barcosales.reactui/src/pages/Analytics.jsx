@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import MaterialTable, { Column } from "material-table";
 
 import "jspdf-autotable";
-import FactoriesDropdownlist from "./FactoriesDropdownlist";
+import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
 import SalesmanDropdownlist from "./SalesmanDropdownlist";
 
 import axios from "axios";
@@ -86,6 +86,8 @@ export default function Analytics(props) {
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
+  
+  const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
 
   const FactoryOnchange = (value) => {
     setSelectedFactoryValue(value);
@@ -251,7 +253,19 @@ var ed= ed.toLocaleDateString();
               </LocalizationProvider>
             </Grid>
            
-            <Grid item xs={12} sm={12}>
+        
+        
+            <Grid item xs={12} sm={6}>
+              <SalesmanDropdownlist
+                ddlOnchang={SalesmanOnchange}
+                 selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
+        
+            <Grid item xs={12} sm={6}>
+              <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} />
+            </Grid>
             {/* <Button
             type="submit"
             fullWidth
@@ -262,6 +276,7 @@ var ed= ed.toLocaleDateString();
             Search
           </Button> */}
 
+          <Grid item xs={12} sm={12}>
           <Button
                 variant="contained"
                 color="primary"
@@ -271,23 +286,8 @@ var ed= ed.toLocaleDateString();
                Search
               </Button>
           </Grid>
+          
           </Grid>
-          {/* <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <PriorYearDropdownlist />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <SalesMonthsDropdownlist />
-            </Grid>
-          </Grid> */}
-          {/* <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <SalesmanDropdownlist />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FactoriesDropdownlist />
-            </Grid>
-          </Grid> */}
         
         </form>
         <MaterialTable
