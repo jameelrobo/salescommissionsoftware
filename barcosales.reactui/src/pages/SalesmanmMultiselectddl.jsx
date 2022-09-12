@@ -12,18 +12,12 @@ import axios from "axios";
  // import { MenuProps, useStyles, options } from "./utils";
  import { MenuProps, useStyles} from "./UtilMultiSelectOption";
 
-//  const options = [
-//     "Oliver Hansen",
-//     "Van Henry",
-//     "April Tucker",
-//     "Ralph Hubbard",
-//     "Omar Alexander",
-//     "Carlos Abbott",
-//     "Miriam Wagner",
-//     "Bradley Wilkerson",
-//     "Virginia Andrews",
-//     "Kelly Snyder"
-//   ];
+ const options1 = [
+    "Barret",
+    "Dan",
+    "Bar"
+     
+   ];
 export default function SalesmanmMultiselectddl({ ddlOnchang}){
     useEffect(() => {
         debugger
@@ -52,13 +46,13 @@ export default function SalesmanmMultiselectddl({ ddlOnchang}){
 
 
     
-    
+  
  
   
     const handleChange = (event) => {
       const value = event.target.value;
       if (value[value.length - 1] === "all") {
-        setSelected(selected.length === options.length ? [] : options);
+        setSelected(selected.length === options.length ? [] :   options.map((d, i) => (  d["SalesmanCode"]    )));
         return;
       }
       setSelected(value);
