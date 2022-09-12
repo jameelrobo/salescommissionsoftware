@@ -10,6 +10,7 @@ import MaterialTable, { Column } from "material-table";
 
 import "jspdf-autotable";
 import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
+import MultiselectFcotoryddl from "./MultiselectFcotoryddl";
 import SalesmanDropdownlist from "./SalesmanDropdownlist";
 
 import axios from "axios";
@@ -82,7 +83,7 @@ const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function Analytics(props) {
   const classes = useStyles();
 
-  const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
+  const [selectedFactoryValue, setSelectedFactoryValue] = useState([]);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
@@ -92,7 +93,7 @@ export default function Analytics(props) {
   const FactoryOnchange = (value) => {
     setSelectedFactoryValue(value);
     debugger;
-    console.log(selectedFactoryValue);
+    console.log(value);
   };
   const PriorYearOnchange = (value) => {
     setSelectedPriorYearValue(value);
@@ -263,8 +264,9 @@ var ed= ed.toLocaleDateString();
             </Grid>
         
             <Grid item xs={12} sm={6}>
-              <FactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} />
+              {/* <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} /> */}
+               <MultiselectFcotoryddl   factoryddlOnchang={FactoryOnchange} />
             </Grid>
             {/* <Button
             type="submit"
