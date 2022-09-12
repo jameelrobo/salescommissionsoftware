@@ -10,6 +10,7 @@ import MaterialTable, { Column } from "material-table";
 
 import "jspdf-autotable";
 import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
+import SalesmanmMultiselectddl from "./SalesmanmMultiselectddl";
 import MultiselectFcotoryddl from "./MultiselectFcotoryddl";
 import SalesmanDropdownlist from "./SalesmanDropdownlist";
 
@@ -105,6 +106,7 @@ export default function Analytics(props) {
     debugger;
     console.log(selectedSalesMonthsValue);
   };
+
   const SalesmanOnchange = (value) => {
     setSelectedSalesmanValue(value);
     debugger;
@@ -257,9 +259,9 @@ var ed= ed.toLocaleDateString();
         
         
             <Grid item xs={12} sm={6}>
-              <SalesmanDropdownlist
+              <SalesmanmMultiselectddl
                 ddlOnchang={SalesmanOnchange}
-                 selectedSalesmanItem={selectedSalesmanItem}
+                // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
         
