@@ -1,116 +1,122 @@
-import React, { useEffect } from "react";
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
+import React, { useState,useEffect } from "react";
+import Checkbox from "@material-ui/core/Checkbox";
+import InputLabel from "@material-ui/core/InputLabel";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import axios from "axios";
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-// const MenuProps = {
-//   PaperProps: {
-//     style: {
-//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP 
-//     },
-//   },
-// };
-
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
  
 
-  export default function MultipleSelectFactoryddl({
-    factoryddlOnchang
-   // , selectcategory
-   
-    
-  }) {
-    const [factory, setFactory] = React.useState([]);
-    const [filterfactory, setFilterfactory] = React.useState([]);
-    const [selectfactory, setSelectfactory] = React.useState("");
-  
+ // import { MenuProps, useStyles, options } from "./utils";
+ import { MenuProps, useStyles} from "./UtilMultiSelectOption";
+
+//  const options = [
+//     "Oliver Hansen",
+//     "Van Henry",
+//     "April Tucker",
+//     "Ralph Hubbard",
+//     "Omar Alexander",
+//     "Carlos Abbott",
+//     "Miriam Wagner",
+//     "Bradley Wilkerson",
+//     "Virginia Andrews",
+//     "Kelly Snyder"
+//   ];
+export default function MultiselectFcotoryddl({ ddlOnchang}){
     useEffect(() => {
-      debugger
-      GetFactory();
-      console.log("Factory load");
-      //createSelectItems();
-    }, []);
-  const [personName, setPersonName] = React.useState([]);
-  const [selectedFacTId, setSelectedFacTId] = React.useState([]);
+        debugger
+        GetFactory();
 
-  const handleChange = (event) => {
-    debugger;
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-    factoryddlOnchang(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  };
-  const GetFactory = () => {
-    axios
-      .get("Factory/GetFactory")
-  
-      .then((res) => {
-        debugger;
-        console.log(res);
-        setFilterfactory(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  
+        console.log("salesman load");
+        //createSelectItems();
+      }, []);
+    
+      const GetFactory = () => {
+        axios
+          .get("Factory/GetFactory")
+    
+          .then((res) => {
+            debugger;
+            console.log(res);
+           // setFactory(res.data);
+           setOptions(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
 
-  return (
-    <div>
-     
-      <FormControl fullWidth>
-        <InputLabel id="demo-multiple-checkbox-label">Select Factories</InputLabel>
-        <Select
-          labelId="demo-multiple-checkbox-label"
-          id="demo-multiple-checkbox"
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<OutlinedInput label="Select Factories" />}
-          renderValue={(selected) => selected.join(', ')}
-          // MenuProps={MenuProps}
-        >
-          {/* {filterfactory.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={personName.indexOf(name) > -1} />
-              <ListItemText primary={name} />
+    const classes = useStyles();
+    const [selected, setSelected] = useState([]); 
+    // const[filterfactory,setFilterfactory] = useState([]);
+   const [options, setOptions] = useState([]);
+    const isAllSelected =  options.length > 0 && selected.length === options.length;
+
+
+    
+    
+ 
+  
+    const handleChange = (event) => {
+      const value = event.target.value;
+      if (value[value.length - 1] === "all") {
+        setSelected(selected.length === options.length ? [] : options);
+        return;
+      }
+      setSelected(value);
+    };
+    return (
+        <FormControl className={classes.formControl}>
+          <InputLabel id="mutiple-select-label">Multiple Select</InputLabel>
+          <Select
+            labelId="mutiple-select-label"
+            multiple
+            value={selected}
+            onChange={handleChange}
+            renderValue={(selected) => selected.join(", ")}
+            MenuProps={MenuProps}
+          >
+            <MenuItem
+              value="all"
+              classes={{
+                root: isAllSelected ? classes.selectedAll : ""
+              }}
+            >
+              <ListItemIcon>
+                <Checkbox
+                  classes={{ indeterminate: classes.indeterminateColor }}
+                  checked={isAllSelected}
+                  indeterminate={
+                    selected.length > 0 && selected.length < options.length
+                  }
+                />
+              </ListItemIcon>
+              <ListItemText
+                classes={{ primary: classes.selectAllText }}
+                primary="Select All"
+              />
             </MenuItem>
-          ))} */}
+            {/* {options.map((option) => (
+              <MenuItem key={option} value={option}>
+                <ListItemIcon>
+                  <Checkbox checked={selected.indexOf(option) > -1} />
+                </ListItemIcon>
+                <ListItemText primary={option} />
+              </MenuItem>
+            ))} */}
 
-          {filterfactory.map((d, i) => (
+            
+        {options.map((d, i) => (
             <MenuItem  key={d["FactoryId"]} value={d["FactoryName"]}  > 
-            <Checkbox checked={personName.indexOf(d["FactoryName"]) > -1} />
+            <ListItemIcon>
+            <Checkbox checked={selected.indexOf(d["FactoryName"]) > -1} />
+            </ListItemIcon>
             <ListItemText primary={d["FactoryName"]} />
             </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-  );
+          ))}   
+          </Select>
+        </FormControl>
+      );
 }
