@@ -62,7 +62,7 @@ export default function MultiselectFcotoryddl({ ddlOnchang}){
     const handleChange = (event) => {
       const value = event.target.value;
       if (value[value.length - 1] === "all") {
-        setSelected(selected.length === options.length ? [] : options);
+        setSelected(selected.length === options.length ? [] : options.map((d, i) => (  d["FactoryName"]    )));
         return;
       }
       setSelected(value);
