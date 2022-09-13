@@ -228,7 +228,7 @@ export default function Transaction() {
       }
       if (heads[0]["field"] !== coldef[0]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header, Name should be in colum A : " +
+          "Invalid file Column name, Please update file header, Name should be in colum A : " +
             coldef[0]["field"]
         );
         e.target.value = null;
@@ -236,7 +236,7 @@ export default function Transaction() {
       }
       if (heads[1]["field"] !== coldef[1]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header, Name should be in colum B : " +
+          "Invalid file Column name, Please update file header, Name should be in colum B : " +
             coldef[1]["field"]
         );
         e.target.value = null;
@@ -244,7 +244,7 @@ export default function Transaction() {
       }
       if (heads[2]["field"] !== coldef[2]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header , Name should be in colum C :   " +
+          "Invalid file Column name, Please update file header , Name should be in colum C :   " +
             coldef[2]["field"]
         );
         e.target.value = null;
@@ -252,7 +252,7 @@ export default function Transaction() {
       }
       if (heads[3]["field"] !== coldef[3]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header , Name should be in colum D : " +
+          "Invalid file Column name, Please update file header , Name should be in colum D : " +
             coldef[3]["field"]
         );
         e.target.value = null;
@@ -260,7 +260,7 @@ export default function Transaction() {
       }
       if (heads[4]["field"] !== coldef[4]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header , Name should be in colum E : " +
+          "Invalid file Column name, Please update file header , Name should be in colum E : " +
             coldef[4]["field"]
         );
         e.target.value = null;
@@ -268,7 +268,7 @@ export default function Transaction() {
       }
       if (heads[5]["field"] !== coldef[5]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header name , Name should be in colum F : " +
+          "Invalid file Column name, Please update file header name , Name should be in colum F : " +
             coldef[5]["field"]
         );
         e.target.value = null;
@@ -276,7 +276,7 @@ export default function Transaction() {
       }
       if (heads[6]["field"] !== coldef[6]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header name , Name should be in colum G : " +
+          "Invalid file Column name, Please update file header name , Name should be in colum G : " +
             coldef[6]["field"]
         );
         e.target.value = null;
@@ -284,7 +284,7 @@ export default function Transaction() {
       }
       if (heads[7]["field"] !== coldef[7]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header name , Name should be in colum H : " +
+          "Invalid file Column name, Please update file header name , Name should be in colum H : " +
             coldef[7]["field"]
         );
         e.target.value = null;
@@ -292,7 +292,7 @@ export default function Transaction() {
       }
       if (heads[8]["field"] !== coldef[8]["field"]) {
         errorMessageBox(
-          "Invalid file Colum name, Please update file header name , Name should be in colum I : " +
+          "Invalid file Column name, Please update file header name , Name should be in colum I : " +
             coldef[8]["field"]
         );
         e.target.value = null;
@@ -536,7 +536,7 @@ export default function Transaction() {
       getAllFactories.length === 0
     ) {
       errorMessageBox(
-        "Please check Factories API, Does not exist the Factories "
+        "Please check Factories API, Factories does not exist "
       );
       return;
     }
@@ -549,7 +549,7 @@ export default function Transaction() {
       getCustomers.length === 0
     ) {
       errorMessageBox(
-        "Please check custmer API, Does not exist the customers "
+        "Please check custmer API, ustomers does not exist   "
       );
       return;
     }
@@ -562,7 +562,7 @@ export default function Transaction() {
       getCommRules.length === 0
     ) {
       errorMessageBox(
-        "Please check Commission Rules API, Does not exist the Commission Rules "
+        "Please check Commission Rules API, Commission Rules does not exist  "
       );
       return;
     }
@@ -575,7 +575,7 @@ export default function Transaction() {
       getAllSalesman.length === 0
     ) {
       errorMessageBox(
-        "Please check Salesman API, Does not exist the Commission Rules "
+        "Please check Salesman API, Salesman does not exist  "
       );
       return;
     }
@@ -847,7 +847,7 @@ export default function Transaction() {
         "salesComissiongridData",
         JSON.stringify(SavetransformedArray)
       );
-      successMessageBox("The uploaded file has benn Varified Successfully!");
+      successMessageBox("The uploaded file has been Verified Successfully!");
     }
   };
 

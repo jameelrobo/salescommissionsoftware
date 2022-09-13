@@ -351,7 +351,7 @@ export default function Customers() {
           debugger;
           if (res.data.length > 0) {
             errorMessageBox(
-              "You can't delete this Customer, It is already used in CommRules.  : " +
+              "You can't delete this Customer, It is already used in CommissionRules.  : " +
                 rowData.CustId
             );
             return;
