@@ -195,6 +195,8 @@ export default function CustomerCreate() {
       <ToastContainer
         position="top-center"
         autoClose={5000}
+        style={{width: "40%"}} 
+        // style= {  width: 'auto'}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

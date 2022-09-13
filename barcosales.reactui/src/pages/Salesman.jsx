@@ -203,6 +203,9 @@ export default function Salesman() {
     toast.success(successMsg, {
       position: "top-center",
       autoClose: 5000,
+      style: {
+        width: '600px',
+      },
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -214,6 +217,9 @@ export default function Salesman() {
     toast.error(errorMsg, {
       position: "top-center",
       autoClose: 5000,
+      style: {
+        width: '600px',
+      },
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -230,6 +236,7 @@ export default function Salesman() {
         <ToastContainer
           position="top-center"
           autoClose={5000}
+          style={{width: "40%"}} 
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

@@ -92,6 +92,9 @@ export default function Factories(props) {
     toast.success(successMsg, {
       position: "top-center",
       autoClose: 5000,
+      style: {
+        width: '600px',
+      },
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -103,6 +106,10 @@ export default function Factories(props) {
     toast.error(errorMsg, {
       position: "top-center",
       autoClose: 5000,
+      style: {
+        width: '600px',
+      },
+      // style:"40%",
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -340,6 +347,7 @@ export default function Factories(props) {
         <ToastContainer
           position="top-center"
           autoClose={5000}
+          style={{width: "40%"}} 
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
