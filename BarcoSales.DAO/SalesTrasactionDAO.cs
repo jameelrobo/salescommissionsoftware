@@ -36,20 +36,55 @@ namespace BarcoSales.DAO
               
                   startDate = transactionSearchRequest.StartDate.ToString("yyyy-MM-dd");
                       EndDate = transactionSearchRequest.EndDate.ToString("yyyy-MM-dd");
-              
-                 
+
+                string factories = "";
+
+                string salesman = "";
+
+                if(transactionSearchRequest.FactoryId.Length > 0)
+                {
+                    for(int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
+                    {
+                        if(i== transactionSearchRequest.FactoryId.Length-1)
+                        {
+                            factories =   factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "'";
+                        }
+                        else
+                        {
+                            factories = factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "',";
+                        }
+                    
+                    }
+                }
+
+                if (transactionSearchRequest.SalesmId.Length > 0)
+                {
+                    for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
+                    {
+                        if(i== transactionSearchRequest.SalesmId.Length-1)
+                        {
+                            salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString()+"'";
+                        }
+                        else
+                        {
+                            salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString() + "'";
+                        }
+                    }
+                }
 
 
                 MySqlConnection sql_conn = new MySqlConnection(conn);
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = sql_conn;
                 //  cmd.CommandText = "CALL storedprocname (@para1, @para2)";
-                cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date)";
+                cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date,@factoryName,@salesman)";
 
              
                 var sqlParameters = new List<MySqlParameter>();
                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = startDate });
                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = EndDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@factoryName", Value = factories });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@salesman", Value = salesman });
                 cmd.Parameters.AddRange(sqlParameters.ToArray());
                 sql_conn.Open();
                 MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);

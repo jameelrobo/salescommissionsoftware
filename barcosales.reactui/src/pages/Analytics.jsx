@@ -87,11 +87,12 @@ export default function Analytics(props) {
   const [selectedFactoryValue, setSelectedFactoryValue] = useState([]);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
-  const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
+  const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
   
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
 
   const FactoryOnchange = (value) => {
+    debugger;
     setSelectedFactoryValue(value);
     debugger;
     console.log(value);
@@ -108,6 +109,7 @@ export default function Analytics(props) {
   };
 
   const SalesmanOnchange = (value) => {
+    debugger;
     setSelectedSalesmanValue(value);
     debugger;
     console.log(selectedSalesmanValue);
@@ -181,8 +183,8 @@ var ed= ed.toLocaleDateString();
    var filters = {
     startDate: sd,
     endDate: ed,
-    FactoryId: 0,
-    SalesmId: 0,
+    FactoryId: selectedFactoryValue,
+    SalesmId:selectedSalesmanValue,
   };
 
    GetSalesTransaction(filters);
@@ -260,7 +262,7 @@ var ed= ed.toLocaleDateString();
         
             <Grid item xs={12} sm={6}>
               <SalesmanmMultiselectddl
-                ddlOnchang={SalesmanOnchange}
+                ddlSalesmanSelectedItems={SalesmanOnchange}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
@@ -268,7 +270,7 @@ var ed= ed.toLocaleDateString();
             <Grid item xs={12} sm={6}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
-               <MultiselectFcotoryddl   factoryddlOnchang={FactoryOnchange} />
+               <MultiselectFcotoryddl   Selectedfactorylist={FactoryOnchange} />
             </Grid>
             {/* <Button
             type="submit"

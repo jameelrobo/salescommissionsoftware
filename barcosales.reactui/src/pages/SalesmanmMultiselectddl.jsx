@@ -12,13 +12,8 @@ import axios from "axios";
  // import { MenuProps, useStyles, options } from "./utils";
  import { MenuProps, useStyles} from "./UtilMultiSelectOption";
 
- const options1 = [
-    "Barret",
-    "Dan",
-    "Bar"
-     
-   ];
-export default function SalesmanmMultiselectddl({ ddlOnchang}){
+ 
+export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems}){
     useEffect(() => {
         debugger
         GetSalesmans();
@@ -53,13 +48,15 @@ export default function SalesmanmMultiselectddl({ ddlOnchang}){
       const value = event.target.value;
       if (value[value.length - 1] === "all") {
         setSelected(selected.length === options.length ? [] :   options.map((d, i) => (  d["SalesmanCode"]    )));
+        ddlSalesmanSelectedItems(selected.length === options.length ? [] :   options.map((d, i) => (  d["SalesmanCode"]    )));
         return;
       }
       setSelected(value);
+      ddlSalesmanSelectedItems(value)
     };
     return (
         <FormControl className={classes.formControl}>
-          <InputLabel id="mutiple-select-label">Multiple Select</InputLabel>
+          <InputLabel id="mutiple-select-label">Select Salesman</InputLabel>
           <Select
             labelId="mutiple-select-label"
             multiple

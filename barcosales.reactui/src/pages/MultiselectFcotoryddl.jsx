@@ -24,7 +24,7 @@ import axios from "axios";
 //     "Virginia Andrews",
 //     "Kelly Snyder"
 //   ];
-export default function MultiselectFcotoryddl({ ddlOnchang}){
+export default function MultiselectFcotoryddl({ Selectedfactorylist}){
     useEffect(() => {
         debugger
         GetFactory();
@@ -63,13 +63,15 @@ export default function MultiselectFcotoryddl({ ddlOnchang}){
       const value = event.target.value;
       if (value[value.length - 1] === "all") {
         setSelected(selected.length === options.length ? [] : options.map((d, i) => (  d["FactoryName"]    )));
+        Selectedfactorylist(selected.length === options.length ? [] : options.map((d, i) => (  d["FactoryName"]    )));
         return;
       }
       setSelected(value);
+      Selectedfactorylist(value);
     };
     return (
         <FormControl className={classes.formControl}>
-          <InputLabel id="mutiple-select-label">Multiple Select</InputLabel>
+          <InputLabel id="mutiple-select-label">Select Factory</InputLabel>
           <Select
             labelId="mutiple-select-label"
             multiple

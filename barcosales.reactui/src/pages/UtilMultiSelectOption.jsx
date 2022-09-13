@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    width: 300
+    width: "100%"
   },
   indeterminateColor: {
     color: "#f50057"
@@ -26,7 +26,7 @@ const MenuProps = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250
+      width: 400
     }
   },
   getContentAnchorEl: null,
