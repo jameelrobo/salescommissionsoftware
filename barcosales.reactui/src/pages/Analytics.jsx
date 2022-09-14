@@ -35,6 +35,7 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
+import { ToastContainer, toast } from "react-toastify";
 
 const tableRef = React.createRef();
 const tableIcons = {
@@ -59,6 +60,29 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+};
+
+const successMessageBox = (successMsg) => {
+  toast.success(successMsg, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+};
+const errorMessageBox = (errorMsg) => {
+  toast.error(errorMsg, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -118,6 +142,14 @@ export default function Analytics(props) {
   const [endDatevalue, setEndDatevalue] = useState(Date);
 
   const [data, setData] = useState();
+  const numberToCurrency = (num) => {
+    const formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+    return formatter.format(num);
+  };
+
 
   useEffect(() => {
 debugger;
@@ -139,7 +171,83 @@ debugger;
       .then((res) => {
         debugger;
         console.log(res);
-        setData(res.data);
+        if(res.data.length>0)
+        {
+          const transformedArray = [];
+           
+          let TotalAmt=0;
+          let TotalCommAmt=0;
+          let TotalSalesCommAmt=0;
+        for (let i = 0; i < res.data.length; i++) {
+           TotalAmt= TotalAmt+ res.data[i]["TotalSalesAmt"];
+           TotalCommAmt=TotalCommAmt+ res.data[i]["GrossCommAmt"];
+           TotalSalesCommAmt=TotalSalesCommAmt+ res.data[i]["SalesmanCommAmt"];
+           let date = new Date(res.data[i]["CreatedDate"]);
+           /* Date format you have */
+           let dateMDY = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+           /* Date converted to MM-DD-YYYY format */
+          const objdatagrid = {
+            TrasactionId:   res.data[i]["TrasactionId"],
+            SalesmId:   res.data[i]["SalesmId"],
+            SalesmanCode:   res.data[i]["SalesmanCode"],
+            CustId:   res.data[i]["CustId"],
+            CommissionRulesId:   res.data[i]["CommissionRulesId"],
+            SoldToName:  res.data[i]["SoldToName"],
+            SoldToAddress:  res.data[i]["SoldToAddress"],
+            SoldToState:  res.data[i]["SoldToState"],
+            ShipToName:  res.data[i]["ShipToName"],
+            ShipToAddress:  res.data[i]["ShipToAddress"],
+            ShipToCity:  res.data[i]["ShipToCity"],
+            ShipToState:  res.data[i]["ShipToState"],
+            FactoryId:   res.data[i]["FactoryId"],
+            FactoryName:   res.data[i]["FactoryName"],
+            CheckNo:   res.data[i]["CheckNo"],
+            CreatedDate:dateMDY,
+            MonthName:   res.data[i]["MonthName"],
+            InvoiceNo:  res.data[i]["SInvoiceNo"],
+            TotalSalesAmt: numberToCurrency(  res.data[i]["TotalSalesAmt"]),
+            GrossCommRate: `${res.data[i]["GrossCommRate"]}%`,
+            GrossCommAmt: numberToCurrency(  res.data[i]["GrossCommAmt"]),
+            SalesmanCommRate: `${  res.data[i]["SalesmanCommRate"]}%`,
+            SalesmanCommAmt: numberToCurrency(  res.data[i]["SalesmanCommAmt"]),
+            CreatedBy: 1,
+            IsActive: 1,
+          };
+          
+          transformedArray.push(objdatagrid);
+        }
+        const objdatagrid = {
+          TrasactionId:   '',
+          SalesmId:   '',
+          SalesmanCode:  'Total Amount',
+          CustId:   '',
+          CommissionRulesId:  '',
+          SoldToName: '',
+          SoldToAddress:  '',
+          SoldToState:  '',
+          ShipToName: '',
+          ShipToAddress:  '',
+          ShipToCity:  '',
+          ShipToState:  '',
+          FactoryId:  '',
+          FactoryName:   '',
+          CheckNo:   '',
+          CreatedDate:'',
+          MonthName:   '',
+          InvoiceNo:  '',
+          TotalSalesAmt: numberToCurrency(  TotalAmt),
+          GrossCommRate: '',
+          GrossCommAmt: numberToCurrency(  TotalCommAmt),
+          SalesmanCommRate: '',
+          SalesmanCommAmt: numberToCurrency(  TotalSalesCommAmt),
+          CreatedBy: 1,
+          IsActive: 1,
+        };
+        debugger;
+        transformedArray.push(objdatagrid);
+        setData(transformedArray);
+      }
+       
       })
       .catch((err) => {
         console.log(err);
@@ -149,12 +257,13 @@ debugger;
 
  
   const columns = [
-    { title: "TId#", field: "TrasactionId" }, 
+    { title: "Created Date", field: "CreatedDate" }, 
     
    // { title: "CustId", field: "CustId" },
     { title: "Customer Name", field: "SoldToName" },
     { title: " Factory Name ", field: "FactoryName" },
-    { title: "Check#", field: "CheckNo" },
+    // { title: "Check#", field: "CheckNo" },
+    
     { title: "Month Name", field: "MonthName" },
     { title: "Salesman Code", field: "SalesmanCode" },
     //{ title: "InvoiceNo", field: "InvoiceNo" },
@@ -179,14 +288,41 @@ debugger;
     var ed = new Date(endDatevalue); 
 var sd= sd.toLocaleDateString();
 var ed= ed.toLocaleDateString();
+debugger;
 
+if (
+  selectedFactoryValue === undefined ||
+  selectedFactoryValue === null ||
+  selectedFactoryValue === "" ||
+  selectedFactoryValue.length === 0
+) {
+  errorMessageBox(
+    "Factory  should not be blank, Please select at least one Factory"
+  );
+  
+  return;
+}
+if (
+  selectedSalesmanValue === undefined ||
+  selectedSalesmanValue === null ||
+  selectedSalesmanValue === "" ||
+  selectedSalesmanValue.length === 0
+) {
+  errorMessageBox(
+    "Salesman should not be blank, Please select at least one Salesman "
+  );
+  
+  return;
+}
    var filters = {
     startDate: sd,
     endDate: ed,
     FactoryId: selectedFactoryValue,
     SalesmId:selectedSalesmanValue,
   };
-
+  // setSelectedFactoryValue([]);
+  // setSelectedSalesmanValue([]);
+  setData([]);
    GetSalesTransaction(filters);
     
   }
@@ -223,6 +359,19 @@ var ed= ed.toLocaleDateString();
   return (
     <>
       <div>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          style={{width: "40%"}} 
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      
         <h3> Sales Commission Reports</h3>
 
         <form className={classes.form}>
