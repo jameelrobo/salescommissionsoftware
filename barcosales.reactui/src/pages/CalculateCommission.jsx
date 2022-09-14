@@ -171,6 +171,7 @@ export default function CalculateCommission(props) {
       <ToastContainer
           position="top-center"
           autoClose={5000}
+          style={{width: "40%"}} 
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick

@@ -27,6 +27,59 @@ namespace BarcoSales.DAO
 
 
         //}
+
+        private void insertMultsalesvalu(string cnn, string scode)
+        {
+            
+
+            using (MySqlConnection connection = new MySqlConnection(cnn))
+            {
+                try
+                {
+                    string cmdText = "INSERT INTO localpsaleman(SalesmanCode) VALUES (@SalesmanCode)";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, connection);
+                    cmd.Parameters.AddWithValue("@SalesmanCode", scode);
+
+                    connection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    //lblError.Text = "Data Saved";
+                }
+                catch (Exception ex)
+                {
+                    // MessageBox.Show("not entered");
+                    //lblError.Text = ex.Message;
+                }
+            }
+
+
+
+        }
+
+        private void insertMultfactvalu(string cnn, string scode)
+        {
+          
+            
+            using (MySqlConnection connection = new MySqlConnection(cnn))
+            {
+                try
+                {
+                    string cmdText = "INSERT INTO localfactname(FactoryName) VALUES (@FactoryName)";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, connection);
+                    cmd.Parameters.AddWithValue("@FactoryName", scode);
+                   
+                    connection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    //lblError.Text = "Data Saved";
+                }
+                catch (Exception ex )
+                {
+                   // MessageBox.Show("not entered");
+                    //lblError.Text = ex.Message;
+                }
+            }
+
+
+        }
         public string ISearchTransaction(TransactionSearchRequest transactionSearchRequest, string conn=null)
         {
             try
@@ -45,15 +98,16 @@ namespace BarcoSales.DAO
                 {
                     for(int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
                     {
-                        if(i== transactionSearchRequest.FactoryId.Length-1)
-                        {
-                            factories =   factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "'";
-                        }
-                        else
-                        {
-                            factories = factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "',";
-                        }
-                    
+                        insertMultfactvalu(conn, transactionSearchRequest.FactoryId[i]);
+                    //    if(i== transactionSearchRequest.FactoryId.Length-1)
+                    //    {
+                    //        factories =   factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "'";
+                    //    }
+                    //    else
+                    //    {
+                    //        factories = factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "',";
+                    //    }
+
                     }
                 }
 
@@ -61,14 +115,15 @@ namespace BarcoSales.DAO
                 {
                     for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
                     {
-                        if(i== transactionSearchRequest.SalesmId.Length-1)
-                        {
-                            salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString()+"'";
-                        }
-                        else
-                        {
-                            salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString() + "'";
-                        }
+                        insertMultsalesvalu(conn, transactionSearchRequest.SalesmId[i]);
+                    //    if(i== transactionSearchRequest.SalesmId.Length-1)
+                    //    {
+                    //        salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString()+"'";
+                    //    }
+                    //    else
+                    //    {
+                    //        salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString() + "'";
+                    //    }
                     }
                 }
 
@@ -77,14 +132,15 @@ namespace BarcoSales.DAO
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = sql_conn;
                 //  cmd.CommandText = "CALL storedprocname (@para1, @para2)";
-                cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date,@factoryName,@salesman)";
+                //  cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date,@factoryName,@salesman)";
+                cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date)";
 
-             
+
                 var sqlParameters = new List<MySqlParameter>();
                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = startDate });
                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = EndDate });
-                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@factoryName", Value = factories });
-                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@salesman", Value = salesman });
+                //sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@factoryName", Value = factories });
+                //sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@salesman", Value = salesman });
                 cmd.Parameters.AddRange(sqlParameters.ToArray());
                 sql_conn.Open();
                 MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
