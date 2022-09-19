@@ -71,28 +71,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Customers() {
-  const successMessageBox = (successMsg) => {
-    toast.success(successMsg, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
-  const errorMessageBox = (errorMsg) => {
-    toast.error(errorMsg, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
-  };
+  
   const classes = useStyles();
 
   const columns = [
@@ -422,6 +401,30 @@ export default function Customers() {
       },
     },
   ];
+
+  const successMessageBox = (successMsg) => {
+    toast.success(successMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  const errorMessageBox = (errorMsg) => {
+    toast.error(errorMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  
   return (
     <>
       <div>
