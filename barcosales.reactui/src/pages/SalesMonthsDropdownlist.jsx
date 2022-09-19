@@ -11,7 +11,7 @@ export default function SalesMonthsDropdownlist({ salesMonthsddlOnchang }) {
   const handleChange = (event) => {
     debugger;
     setSalesMonths(event.target.value);
-    salesMonthsddlOnchang=event.target.value;
+    salesMonthsddlOnchang(event.target.value);
   };
   // useEffect(() => {
   //  // setSalesMonths(8);
@@ -30,18 +30,18 @@ export default function SalesMonthsDropdownlist({ salesMonthsddlOnchang }) {
           label="Select Month"
           onChange={handleChange}
         >
-          <MenuItem value={1}>Jan</MenuItem>
-          <MenuItem value={2}>Feb</MenuItem>
-          <MenuItem value={3}>March</MenuItem>
-          <MenuItem value={4}>Apr</MenuItem>
-          <MenuItem value={5}>May</MenuItem>
+          <MenuItem value="Jan">Jan</MenuItem>
+          <MenuItem value="Feb">Feb</MenuItem>
+          <MenuItem value="March">March</MenuItem>
+          <MenuItem value="Apr">Apr</MenuItem>
+          {/* <MenuItem value={5}>May</MenuItem>
           <MenuItem value={6}>Jun</MenuItem>
           <MenuItem value={7}>Jul</MenuItem>
           <MenuItem value={8}>Aug</MenuItem>
           <MenuItem value={9}>Sep</MenuItem>
           <MenuItem value={10}>Oct</MenuItem>
           <MenuItem value={11}>Nov</MenuItem>
-          <MenuItem value={12}>Dec</MenuItem>
+          <MenuItem value={12}>Dec</MenuItem> */}
         </Select>
       </FormControl>
     </Box>

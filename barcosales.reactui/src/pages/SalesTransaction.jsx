@@ -138,7 +138,7 @@ export default function Transaction() {
   // const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
    const [selectedFactoryId, setSelectedFactoryId] = useState(0);
   // const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
- const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("9");
+ const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   // const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
 
   const FactoryCategoryOnchange = (value) => {
@@ -162,6 +162,7 @@ export default function Transaction() {
   //   console.log(selectedPriorYearValue);
   // };
   const SalesMonthsOnchange = (value) => {
+    debugger;
     console.log(value);
     setSelectedSalesMonthsValue(value);
     debugger;
@@ -598,17 +599,17 @@ export default function Transaction() {
     //   return;
     // }
     // debugger;
-    //   if (
-    //     selectedSalesMonthsValue === undefined ||
-    //     selectedSalesMonthsValue === null ||
-    //     selectedSalesMonthsValue === "" ||
-    //     selectedSalesMonthsValue === 0
-    //   ) {
-    //     errorMessageBox(
-    //       "Month  should not be blank, Please select at least one Month"
-    //     );
-    //     return;
-    //   }
+      if (
+        selectedSalesMonthsValue === undefined ||
+        selectedSalesMonthsValue === null ||
+        selectedSalesMonthsValue === "" ||
+        selectedSalesMonthsValue === 0
+      ) {
+        errorMessageBox(
+          "Month  should not be blank, Please select at least one Month"
+        );
+        return;
+      }
     //   var monthinfo = monthslist.find(
     //     (item) =>
     //       item.number === parseInt(selectedSalesMonthsValue)
@@ -656,9 +657,11 @@ export default function Transaction() {
     const SavetransformedArray = [];
 
     //Foreach Conditio==============Start to calculation==================================================
-
+    let TotalAmt=0;
+          let TotalCommAmt=0;
+          let TotalSalesCommAmt=0;
     for (let i = 0; i < data.length; i++) {
-      let Isvalid = "OK";
+          let Isvalid = "OK";
       let Cid = 0;
       let Sid = 0;
 
@@ -752,6 +755,11 @@ export default function Transaction() {
         const salesmanCommAmt = ((grossComm * salesmanCommRate) / 100).toFixed(
           2
         );
+
+        TotalAmt= TotalAmt+ TotalSalesAmt;
+        TotalCommAmt=TotalCommAmt+ numberToCurrency(grossComm);
+        TotalSalesCommAmt=TotalSalesCommAmt+ numberToCurrency(salesmanCommAmt);
+
         const objdatagrid = {
           TrasactionId: 0,
           SalesmId: Sid,
@@ -768,7 +776,7 @@ export default function Transaction() {
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,
-          MonthName: monthname,
+          MonthName: selectedSalesMonthsValue,
           InvoiceNo,
           TotalSalesAmt,
           GrossCommRate: `${commRate}%`,
@@ -794,7 +802,7 @@ export default function Transaction() {
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,
-          MonthName: monthname,
+          MonthName: selectedSalesMonthsValue,
           InvoiceNo,
           TotalSalesAmt: SAmt,
           GrossCommRate: commRate,
@@ -811,6 +819,36 @@ export default function Transaction() {
       }
       data[i]["IsVerified"] = "OK";
     }
+    const objdatagrid = {
+      TrasactionId:   '',
+      SalesmId:   '',
+      SalesmanCode:  'Total Amount',
+      CustId:   '',
+      CommissionRulesId:  '',
+      SoldToName: '',
+      SoldToAddress:  '',
+      SoldToState:  '',
+      ShipToName: '',
+      ShipToAddress:  '',
+      ShipToCity:  '',
+      ShipToState:  '',
+      FactoryId:  '',
+      FactoryName:   '',
+      CheckNo:   '',
+      CreatedDate:'',
+      MonthName:   '',
+      InvoiceNo:  '',
+      TotalSalesAmt: numberToCurrency(  TotalAmt),
+      GrossCommRate: '',
+      GrossCommAmt: numberToCurrency(  TotalCommAmt),
+      SalesmanCommRate: '',
+      SalesmanCommAmt: numberToCurrency(  TotalSalesCommAmt),
+      CreatedBy: 1,
+      IsActive: 1,
+    };
+    debugger;
+    transformedArray.push(objdatagrid);
+    // setData(transformedArray);
     if (IsOk === 0) {
       errorMessageBox(
         "The uploaded file has invalid records, Please download the file and correct the records"
@@ -835,7 +873,7 @@ export default function Transaction() {
       );
       return;
     } else if (
-      transformedArray.length === data.length &&
+      transformedArray.length-1 === data.length &&
       SavetransformedArray.length === data.length
     ) {
       setIsEnableCalculatebttn(false);
@@ -886,12 +924,12 @@ export default function Transaction() {
             {/* <Grid item xs={12} sm={6}>
               <PriorYearDropdownlist ddlOnchang={PriorYearOnchange} />
             </Grid>*/}
-            {/* <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
-                ddlOnchang={SalesMonthsOnchange}
+                salesMonthsddlOnchang={SalesMonthsOnchange}
               />
             </Grid> 
-            <Grid item xs={12} sm={3}>
+            {/* <Grid item xs={12} sm={3}>
             <FactoryCategoryddlTr
                 ddlOnchang={FactoryCategoryOnchange}
                 selectfCategory={selectedFactCategoryValue}
