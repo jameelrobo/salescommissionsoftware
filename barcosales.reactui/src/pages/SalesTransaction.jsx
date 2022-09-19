@@ -808,6 +808,7 @@ export default function Transaction() {
           CreatedBy: 1,
           IsActive: 1,
         };
+        data[i]["IsVerified"] = "OK";
         debugger;
         TotalAmt=  parseFloat(TotalAmt)+  parseInt(SAmt);
         TotalCommAmt=parseFloat(TotalCommAmt)+parseFloat(grossComm);
@@ -816,7 +817,7 @@ export default function Transaction() {
         transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
       }
-      data[i]["IsVerified"] = "OK";
+     
       
       
 
