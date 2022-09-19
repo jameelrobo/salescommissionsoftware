@@ -756,10 +756,6 @@ export default function Transaction() {
           2
         );
 
-        TotalAmt= TotalAmt+ TotalSalesAmt;
-        TotalCommAmt=TotalCommAmt+ numberToCurrency(grossComm);
-        TotalSalesCommAmt=TotalSalesCommAmt+ numberToCurrency(salesmanCommAmt);
-
         const objdatagrid = {
           TrasactionId: 0,
           SalesmId: Sid,
@@ -813,12 +809,19 @@ export default function Transaction() {
           IsActive: 1,
         };
         debugger;
+        TotalAmt=  parseFloat(TotalAmt)+  parseInt(SAmt);
+        TotalCommAmt=parseFloat(TotalCommAmt)+parseFloat(grossComm);
+        TotalSalesCommAmt=parseFloat(TotalSalesCommAmt)+ parseFloat(salesmanCommAmt);
 
         transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
       }
       data[i]["IsVerified"] = "OK";
+      
+      
+
     }
+    console.log(TotalAmt,TotalCommAmt, TotalSalesCommAmt);
     const objdatagrid = {
       TrasactionId:   '',
       SalesmId:   '',
@@ -838,11 +841,11 @@ export default function Transaction() {
       CreatedDate:'',
       MonthName:   '',
       InvoiceNo:  '',
-      TotalSalesAmt: numberToCurrency(  TotalAmt),
+      TotalSalesAmt: numberToCurrency(TotalAmt),
       GrossCommRate: '',
-      GrossCommAmt: numberToCurrency(  TotalCommAmt),
+      GrossCommAmt: numberToCurrency(TotalCommAmt),
       SalesmanCommRate: '',
-      SalesmanCommAmt: numberToCurrency(  TotalSalesCommAmt),
+      SalesmanCommAmt: numberToCurrency(TotalSalesCommAmt),
       CreatedBy: 1,
       IsActive: 1,
     };

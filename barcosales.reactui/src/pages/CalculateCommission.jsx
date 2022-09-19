@@ -216,7 +216,7 @@ export default function CalculateCommission(props) {
             exportFileName: "SalesCommission",
             addRowPosition: "first",
             actionsColumnIndex: -1,
-            selection: true,
+            // selection: true,
             showSelectAllCheckbox: false,
             showTextRowsSelected: false,
             grouping: true,
