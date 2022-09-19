@@ -73,7 +73,7 @@ export default function FactoriesDropdownlistTr({
           onChange={handleChange}
         >
           {filterfactory.map((d, i) => (
-            <MenuItem value={d["FactoryId"]}> {d["FactoryName"]}</MenuItem>
+            <MenuItem value={d["FactoryId"]}>{d["PrincCode"]} - {d["FactoryName"]}</MenuItem>
           ))}
         </Select>
       </FormControl>
