@@ -319,7 +319,7 @@ export default function CustomerCreate() {
 
             <Grid item xs={12} sm={6}>
               <TextField
-                required
+                
                 autoComplete="address"
                 name="address"
                 variant="outlined"
@@ -409,7 +409,7 @@ export default function CustomerCreate() {
                 name="emailId"
                 variant="outlined"
                 fullWidth
-                type="email"
+                type="text"
                 id="emailId"
                 label="Email"
                 value={emailId}

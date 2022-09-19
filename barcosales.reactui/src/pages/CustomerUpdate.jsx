@@ -338,7 +338,7 @@ export default function CustomerUpdate() {
 
             <Grid item xs={12} sm={6}>
               <TextField
-                required
+                
                 autoComplete="address"
                 name="address"
                 variant="outlined"
@@ -425,7 +425,7 @@ export default function CustomerUpdate() {
               <TextField
                 autoComplete="emailId"
                 name="emailId"
-                type="email"
+                type="text"
                 variant="outlined"
                 fullWidth
                 id="emailId"
