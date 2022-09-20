@@ -153,6 +153,58 @@ export default function Factories(props) {
       return;
     }
      
+   
+    var factories = {
+      FactoryId: factoryId,
+      FactoryName: factoryName,
+      PrincCode: princcode,
+      // commRate: commissionRate,
+      FactoryCategoryId: selectedFactCategoryValue,
+      IsActive: checked,
+    };
+    if (factoryId > 0) {
+
+      
+      var factoryInfo = data.find(
+        (item) => item.FactoryName === factoryName &&  item.PrincCode === princcode 
+        &&  item.FactoryCategoryId === selectedFactCategoryValue
+        &&  item.IsActive === checked
+        );
+        if (
+          factoryInfo === undefined ||
+          factoryInfo === null ||
+          factoryInfo === ""  
+        
+        ) 
+        {
+
+          //Go ahead
+        }
+        else
+        {
+          errorMessageBox(
+            "The Factory  Already exist in db, You can't enter same factory"
+          );
+          return;
+        }
+      axios
+        .put("Factory/EditFactory", factories)
+        .then((res) => {
+          debugger;
+          GetFactory();
+          successMessageBox("Record has been updated successfully!");
+
+          setFactoryId(0);
+          refresh();
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          errorMessageBox("Invalid  Information!");
+        });
+    } else {
+
+      
       var factoryInfo = data.find(
         (item) => item.FactoryName === factoryName &&  item.PrincCode === princcode &&  item.FactoryCategoryId === selectedFactCategoryValue);
         if (
@@ -172,32 +224,6 @@ export default function Factories(props) {
           );
           return;
         }
-   
-    var factories = {
-      FactoryId: factoryId,
-      FactoryName: factoryName,
-      PrincCode: princcode,
-      // commRate: commissionRate,
-      FactoryCategoryId: selectedFactCategoryValue,
-      IsActive: checked,
-    };
-    if (factoryId > 0) {
-      axios
-        .put("Factory/EditFactory", factories)
-        .then((res) => {
-          debugger;
-          GetFactory();
-          successMessageBox("Record has been updated successfully!");
-
-          setFactoryId(0);
-          refresh();
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-          errorMessageBox("Invalid  Information!");
-        });
-    } else {
       axios
         .post("Factory/AddFactory", factories)
         .then((res) => {

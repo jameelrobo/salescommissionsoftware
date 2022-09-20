@@ -285,33 +285,7 @@ export default function CommissonRules(props) {
       }
     }
 debugger;
-    var CommRulesinfo = data.find(
-      (item) =>
-      item.FactoryCategoryId === selectedFactCategoryValue &&
-        item.FactoryId === selectedFactoryValue &&
-        item.CustId === custId &&
-        item.CommisionRate === commissionRate &&
-        item.IsActive === checked &&
-        item.IsActiveForAll === allCustchecked 
-
-    );
-    if (
-      CommRulesinfo === undefined ||
-      CommRulesinfo === null ||
-      CommRulesinfo === ""  
     
-    ) 
-    {
-
-      //Go ahead
-    }
-    else
-    {
-      errorMessageBox(
-        "The Comm. Rule  Already exist in db, You can't create same rule"
-      );
-      return;
-    }
     var CommRule = {
       CommissionRulesId: commissionRulesId,
       FinYearId: selectedPriorYearValue,
@@ -326,6 +300,33 @@ debugger;
     };
 
     if (commissionRulesId > 0) {
+      var CommRulesinfo = data.find(
+        (item) =>
+        parseInt(item.FactoryCategoryId)=== parseInt(selectedFactCategoryValue) &&
+        parseInt(item.FactoryId) === parseInt(selectedFactoryValue) &&
+        parseInt( item.CustId) === parseInt(custId) &&
+        parseFloat(item.CommisionRate) === parseFloat(commissionRate) 
+          // item.IsActive === checked &&
+          // item.IsActiveForAll === allCustchecked 
+  
+      );
+      if (
+        CommRulesinfo === undefined ||
+        CommRulesinfo === null ||
+        CommRulesinfo === ""  
+      
+      ) 
+      {
+  
+        //Go ahead
+      }
+      else
+      {
+        errorMessageBox(
+          "The Comm. Rule  Already exist in db, You can't create same rule"
+        );
+        return;
+      }
       axios
         .put("CommissionRules/EditCommissionRules", CommRule)
         .then((res) => {
@@ -344,6 +345,34 @@ debugger;
           console.log(err);
         });
     } else {
+
+      var CommRulesinfo = data.find(
+        (item) =>
+        parseInt(item.FactoryCategoryId)=== parseInt(selectedFactCategoryValue) &&
+        parseInt(item.FactoryId) === parseInt(selectedFactoryValue) &&
+        parseInt( item.CustId) === parseInt(custId) 
+       // parseFloat(item.CommisionRate) === parseFloat(commissionRate) 
+          // item.IsActive === checked &&
+          // item.IsActiveForAll === allCustchecked 
+  
+      );
+      if (
+        CommRulesinfo === undefined ||
+        CommRulesinfo === null ||
+        CommRulesinfo === ""  
+      
+      ) 
+      {
+  
+        //Go ahead
+      }
+      else
+      {
+        errorMessageBox(
+          "The Comm. Rule  Already exist in db, You can't create same rule"
+        );
+        return;
+      }
       axios
         .post("CommissionRules/AddCommissionRules", CommRule)
         .then((res) => {
