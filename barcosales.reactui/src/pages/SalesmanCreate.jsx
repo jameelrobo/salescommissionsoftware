@@ -34,11 +34,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SalesmanCreate() {
+
+  const successMessageBox = (successMsg) => {
+    toast.success(successMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+  const errorMessageBox = (errorMsg) => {
+    toast.error(errorMsg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
   const [value, setValue] = useState("");
   const classes = useStyles();
   const [checked, setChecked] = useState(false);
   const checkChanged = (state) => {
     setChecked(!checked);
+   
   };
 
   const columns = [
@@ -69,6 +93,7 @@ export default function SalesmanCreate() {
   const [mobile, setMobile] = useState();
   const [princCode, setPrincCode] = useState();
   const [commissionRate, setCommissionRate] = useState();
+  const [salesmans, setSalesmans] = useState([]);
 
   const resetbox = () => {
     debugger;
@@ -89,6 +114,31 @@ export default function SalesmanCreate() {
   const handleClick = (event) => {
     event.preventDefault();
     debugger;
+    var salesmanInfo = salesmans.find( (item) => 
+    item.SalesmanCode === salesmanCode 
+    && item.SalesmanName=== salesmanName
+    
+      // ||
+      // item.CustAliasName.trim() === d["Sold-To Name"].trim()
+    );
+
+    
+    if (
+      salesmanInfo === undefined ||
+      salesmanInfo === null ||
+      salesmanInfo === ""  
+    ) {
+    
+     
+    }
+    else{
+      errorMessageBox(
+        "The Salesman is already exist in db, You can't enter duplicate salesman"
+      );
+      return;
+    }
+    
+
     const rows = [];
     // let cDate = Date.now();
     var salesmaninfo = {
@@ -138,41 +188,23 @@ export default function SalesmanCreate() {
       });
   };
 
-  const [users, setUsers] = useState([]);
+ 
   useEffect(() => {
-    UsersGet();
+    GetSalesman();
   }, []);
 
-  const UsersGet = () => {
-    fetch("https://www.mecallapi.com/api/users")
-      .then((res) => res.json())
-      .then((result) => {
-        setUsers(result);
-      });
-  };
+  const GetSalesman = () => {
+    debugger;
+    axios
+      .get("SalesPerson/GetSalesPerson")
 
-  const UpdateUser = (id) => {
-    window.location = "/update/" + id;
-  };
-
-  const UserDelete = (id) => {
-    var data = {
-      id: id,
-    };
-    fetch("https://www.mecallapi.com/api/users/delete", {
-      method: "DELETE",
-      headers: {
-        Accept: "application/form-data",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        alert(result["message"]);
-        if (result["status"] === "ok") {
-          UsersGet();
-        }
+      .then((res) => {
+        debugger;
+        console.log(res);
+        setSalesmans(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
