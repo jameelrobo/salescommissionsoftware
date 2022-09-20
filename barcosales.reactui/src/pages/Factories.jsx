@@ -152,6 +152,27 @@ export default function Factories(props) {
       );
       return;
     }
+     
+      var factoryInfo = data.find(
+        (item) => item.FactoryName === factoryName &&  item.PrincCode === princcode &&  item.FactoryCategoryId === selectedFactCategoryValue);
+        if (
+          factoryInfo === undefined ||
+          factoryInfo === null ||
+          factoryInfo === ""  
+        
+        ) 
+        {
+
+          //Go ahead
+        }
+        else
+        {
+          errorMessageBox(
+            "The Factory  Already exist in db, You can't enter same factory"
+          );
+          return;
+        }
+   
     var factories = {
       FactoryId: factoryId,
       FactoryName: factoryName,
@@ -183,6 +204,9 @@ export default function Factories(props) {
           if (res.status === 200) {
             GetFactory();
             successMessageBox("Record has been added successfully!");
+          }
+          else{
+            errorMessageBox("Invalid  Information!");
           }
 
           console.log(res);

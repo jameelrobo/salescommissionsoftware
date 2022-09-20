@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -91,9 +91,27 @@ export default function CustomerCreate() {
   const [newDateValue, setNewDateValue] = useState("");
   const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
-  const [customSalescommissionRate, setCustomSalescommissionRate] =
-    useState("");
+  const [customSalescommissionRate, setCustomSalescommissionRate] =  useState("");
 
+
+  const [customers, setCustomers] = useState([]);
+  useEffect(() => {
+    GetCustomers();
+  }, []);
+
+  const GetCustomers = () => {
+    axios
+      .get("Customer/GetCustomer")
+
+      .then((res) => {
+        debugger;
+        console.log(res);
+        setCustomers(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
     const resetbox = () => {
       debugger;
       // setSalesmId("");
@@ -138,7 +156,8 @@ export default function CustomerCreate() {
   const handleClick = (event) => {
     event.preventDefault();
     debugger;
-  //  console.log(selectedSalesmanValue);
+
+    
     if (
       selectedSalesmanValue === undefined ||
       selectedSalesmanValue === null ||
@@ -150,7 +169,32 @@ export default function CustomerCreate() {
       );
       return;
     }
+debugger;
+    var custInfo = customers.find( (item) => item.CustomerName.trim() === customer.trim() 
+    && item.City.trim()=== city.trim()
+    && item.State.trim()=== state.trim()
+      // ||
+      // item.CustAliasName.trim() === d["Sold-To Name"].trim()
+    );
 
+    
+    if (
+      custInfo === undefined ||
+      custInfo === null ||
+      custInfo === ""  
+    ) {
+    
+     
+    }
+    else{
+      errorMessageBox(
+        "The customer already exist in db, You can't enter duplicate in same city"
+      );
+      return;
+    }
+    
+
+    
     var custInfo = {
       CId: 0,
       CustId: custId,
