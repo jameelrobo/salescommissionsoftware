@@ -284,7 +284,34 @@ export default function CommissonRules(props) {
         custId = custinfo.CustId;
       }
     }
+debugger;
+    var CommRulesinfo = data.find(
+      (item) =>
+      item.FactoryCategoryId === selectedFactCategoryValue &&
+        item.FactoryId === selectedFactoryValue &&
+        item.CustId === custId &&
+        item.CommisionRate === commissionRate &&
+        item.IsActive === checked &&
+        item.IsActiveForAll === allCustchecked 
 
+    );
+    if (
+      CommRulesinfo === undefined ||
+      CommRulesinfo === null ||
+      CommRulesinfo === ""  
+    
+    ) 
+    {
+
+      //Go ahead
+    }
+    else
+    {
+      errorMessageBox(
+        "The Comm. Rule  Already exist in db, You can't create same rule"
+      );
+      return;
+    }
     var CommRule = {
       CommissionRulesId: commissionRulesId,
       FinYearId: selectedPriorYearValue,
@@ -306,7 +333,7 @@ export default function CommissonRules(props) {
             debugger;
             successMessageBox("Record has been updated successfully!");
             setCommissionRulesId(0);
-            refresh();
+           // refresh();
             GetCummRules();
             console.log(res);
           } else {
@@ -322,7 +349,7 @@ export default function CommissonRules(props) {
         .then((res) => {
           if (res.status === 200) {
             successMessageBox("Record has been added successfully!");
-            refresh();
+          //  refresh();
             GetCummRules();
           }
 
