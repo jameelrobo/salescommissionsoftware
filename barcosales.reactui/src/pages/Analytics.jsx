@@ -193,12 +193,12 @@ debugger;
             CustId:   res.data[i]["CustId"],
             CommissionRulesId:   res.data[i]["CommissionRulesId"],
             SoldToName:  res.data[i]["SoldToName"],
-            SoldToAddress:  res.data[i]["SoldToAddress"],
+            
             SoldToState:  res.data[i]["SoldToState"],
-            ShipToName:  res.data[i]["ShipToName"],
-            ShipToAddress:  res.data[i]["ShipToAddress"],
-            ShipToCity:  res.data[i]["ShipToCity"],
-            ShipToState:  res.data[i]["ShipToState"],
+            
+            
+            SoldToCity:  res.data[i]["SoldToCity"],
+           
             FactoryId:   res.data[i]["FactoryId"],
             FactoryName:   res.data[i]["FactoryName"],
             CheckNo:   res.data[i]["CheckNo"],
@@ -223,12 +223,8 @@ debugger;
           CustId:   '',
           CommissionRulesId:  '',
           SoldToName: '',
-          SoldToAddress:  '',
+          SoldToCity:  '',
           SoldToState:  '',
-          ShipToName: '',
-          ShipToAddress:  '',
-          ShipToCity:  '',
-          ShipToState:  '',
           FactoryId:  '',
           FactoryName:   '',
           CheckNo:   '',

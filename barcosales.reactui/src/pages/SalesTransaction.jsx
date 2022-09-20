@@ -116,12 +116,8 @@ export default function Transaction() {
 
   const coldef = [
     { title: "Sold-To Name", field: "Sold-To Name" },
-    { title: "Sold-To Address", field: "Sold-To Address" },
+    { title: "Sold-To City", field: "Sold-To City" },
     { title: "Sold-To State", field: "Sold-To State" },
-    { title: "Ship-To Name", field: "Ship-To Name" },
-    { title: "Ship-To Address", field: "Ship-To Address" },
-    { title: "Ship-To City", field: "Ship-To City" },
-    { title: "Ship-To State", field: "Ship-To State" },
     { title: "TotalSalesAmt", field: "TotalSalesAmt" },
     { title: "IsVerified", field: "IsVerified" },
   ];
@@ -222,7 +218,7 @@ export default function Transaction() {
       const heads = headers.map((head) => ({ title: head, field: head }));
       debugger;
       console.log(heads);
-      if (heads.length !== 9) {
+      if (heads.length !== 4) {
         errorMessageBox("Invalid file input, Please Select correct Excel file");
         e.target.value = null;
         return;
@@ -259,46 +255,47 @@ export default function Transaction() {
         e.target.value = null;
         return;
       }
-      if (heads[4]["field"] !== coldef[4]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header , Name should be in colum E : " +
-            coldef[4]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[5]["field"] !== coldef[5]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header name , Name should be in colum F : " +
-            coldef[5]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[6]["field"] !== coldef[6]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header name , Name should be in colum G : " +
-            coldef[6]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[7]["field"] !== coldef[7]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header name , Name should be in colum H : " +
-            coldef[7]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[8]["field"] !== coldef[8]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header name , Name should be in colum I : " +
-            coldef[8]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
+      // if (heads[4]["field"] !== coldef[4]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header , Name should be in colum E : " +
+      //       coldef[4]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // debugger;
+      // if (heads[5]["field"] !== coldef[5]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header name , Name should be in colum F : " +
+      //       coldef[5]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // if (heads[6]["field"] !== coldef[6]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header name , Name should be in colum G : " +
+      //       coldef[6]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // if (heads[7]["field"] !== coldef[7]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header name , Name should be in colum H : " +
+      //       coldef[7]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // if (heads[8]["field"] !== coldef[8]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header name , Name should be in colum I : " +
+      //       coldef[8]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
 
       fileData.splice(0, 1);
 
@@ -721,10 +718,14 @@ export default function Transaction() {
         debugger;
         const InvoiceNo = i + 1; // Will come from API
         const TotalSalesAmt = data[0]["TotalSalesAmt"];
-        const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
+       // const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
+        // const grossComm = (
+        //   (Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")) * commRate) /
+        //   100
+        // ).toFixed(2);
         const grossComm = (
-          (Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")) * commRate) /
+          (Number(TotalSalesAmt) * commRate) /
           100
         ).toFixed(2);
         var salesmanCommRate = 0;
@@ -763,12 +764,8 @@ export default function Transaction() {
           CustId: Cid,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: data[i]["Sold-To Name"].trim(),
-          SoldToAddress: data[i]["Sold-To Address"],
-          SoldToState: data[i]["Sold-To State"],
-          ShipToName: data[i]["Ship-To Name"],
-          ShipToAddress: data[i]["Ship-To Address"],
-          ShipToCity: data[i]["Ship-To City"],
-          ShipToState: data[i]["Ship-To State"],
+          SoldToCity: data[i]["Sold-To City"].trim(),
+          SoldToState: data[i]["Sold-To State"].trim(),
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,
@@ -789,18 +786,15 @@ export default function Transaction() {
           CustId: Cid,
           CommissionRulesId: CommRuleInfo.CommissionRulesId,
           SoldToName: data[i]["Sold-To Name"].trim(),
-          SoldToAddress: data[i]["Sold-To Address"],
-          SoldToState: data[i]["Sold-To State"],
-          ShipToName: data[i]["Ship-To Name"],
-          ShipToAddress: data[i]["Ship-To Address"],
-          ShipToCity: data[i]["Ship-To City"],
-          ShipToState: data[i]["Ship-To State"],
+          SoldToCity: data[i]["Sold-To City"].trim(),
+          SoldToState: data[i]["Sold-To State"].trim(),
+          
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,
           MonthName: selectedSalesMonthsValue,
           InvoiceNo,
-          TotalSalesAmt: SAmt,
+          TotalSalesAmt: TotalSalesAmt,
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
           SalesmanCommRate: salesmanCommRate,
@@ -810,7 +804,7 @@ export default function Transaction() {
         };
         data[i]["IsVerified"] = "OK";
         debugger;
-        TotalAmt=  parseFloat(TotalAmt)+  parseInt(SAmt);
+        TotalAmt=  parseFloat(TotalAmt)+  parseInt(TotalSalesAmt);
         TotalCommAmt=parseFloat(TotalCommAmt)+parseFloat(grossComm);
         TotalSalesCommAmt=parseFloat(TotalSalesCommAmt)+ parseFloat(salesmanCommAmt);
 
@@ -830,12 +824,8 @@ export default function Transaction() {
       CustId:   '',
       CommissionRulesId:  '',
       SoldToName: '',
-      SoldToAddress:  '',
       SoldToState:  '',
-      ShipToName: '',
-      ShipToAddress:  '',
-      ShipToCity:  '',
-      ShipToState:  '',
+      SoldToCity:  '',
       FactoryId:  '',
       FactoryName:   '',
       CheckNo:   '',
@@ -1045,7 +1035,7 @@ export default function Transaction() {
                 filtering: true,
                 paging: true,
                 pageSizeOptions: [2, 5, 10, 20, 25, 50, 100],
-                pageSize: 10,
+                pageSize: 50,
                 paginationType: "stepped",
                 showFirstLastPageButtons: false,
                 paginationPosition: "both",
