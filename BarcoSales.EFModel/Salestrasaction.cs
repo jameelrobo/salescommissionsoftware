@@ -26,7 +26,7 @@ namespace BarcoSales.EFModel
         public DateTime UpdatedDate { get; set; }
         public long? UpdatedBy { get; set; }
         public bool? IsActive { get; set; }
-        public int? FinYear { get; set; }
+        public string FinYear { get; set; }
         public string MonthName { get; set; }
         public string CheckNo { get; set; }
     }

@@ -280,6 +280,11 @@ namespace BarcoSales.EFModel
                     .HasCharSet("utf8mb4")
                     .HasCollation("utf8mb4_0900_ai_ci");
 
+                entity.Property(e => e.FinYear)
+                    .HasColumnType("varchar(20)")
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
+
                 entity.Property(e => e.GrossCommAmt).HasColumnType("decimal(19,4)");
 
                 entity.Property(e => e.GrossCommRate).HasColumnType("decimal(19,4)");

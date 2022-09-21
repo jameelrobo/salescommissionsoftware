@@ -70,7 +70,7 @@ export default function AddSales() {
   const columns = [
     { title: "Customer", field: "customer" },
     { title: "ShipToName", field: "shipToName" },
-    { title: "ShipToAddress", field: "shipToAddress" },
+    //{ title: "ShipToAddress", field: "shipToAddress" },
     { title: "ShipToCity", field: "shipToCity" },
     { title: "ShipToState", field: "shipToState" },
     { title: "Factory", field: "factory" },
@@ -82,7 +82,7 @@ export default function AddSales() {
     { title: "GrossCommRate", field: "commRate" },
     { title: "GrossComm", field: "grossComm" },
     { title: "SalesmanComm", field: "salesmanComm" },
-    { title: "CreationDate", field: "creationDate" },
+   // { title: "CreationDate", field: "creationDate" },
   ];
   return (
     <Container>
@@ -111,7 +111,7 @@ export default function AddSales() {
               <SalesMonthsDropdownlist />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="creationDate"
                 name="creationDate"
@@ -123,7 +123,7 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
+            </Grid> */}
 
             <Grid item xs={12} sm={4}>
               <SalesmanDropdownlist />
@@ -132,7 +132,7 @@ export default function AddSales() {
               <FactoriesDropdownlist />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="soldToName"
                 name="soldToName"
@@ -144,8 +144,8 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="ShipToAddress"
                 name="ShipToAddress"
@@ -157,9 +157,9 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
+            </Grid> */}
 
-            <Grid item xs={12} sm={4}>
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -168,8 +168,8 @@ export default function AddSales() {
                 label="Sold-To City"
                 // onChange={(e) => setLname(e.target.value)}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="ShipToState"
                 name="ShipToState"
@@ -181,8 +181,8 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="ShipToName "
                 name="ShipToName"
@@ -194,8 +194,8 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="ShipToAddress"
                 name="ShipToAddress"
@@ -207,8 +207,8 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 variant="outlined"
                 required
@@ -217,8 +217,8 @@ export default function AddSales() {
                 label="Ship-To City"
                 // onChange={(e) => setLname(e.target.value)}
               />
-            </Grid>
-            <Grid item xs={12} sm={4}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={4}>
               <TextField
                 autoComplete="ShipToState"
                 name="ShipToState"
@@ -230,7 +230,7 @@ export default function AddSales() {
                 // onChange={(e) => setFname(e.target.value)}
                 // autoFocus
               />
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12} sm={3}>
               <TextField
                 autoComplete="invoiceNo"

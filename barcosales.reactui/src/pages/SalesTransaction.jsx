@@ -133,7 +133,7 @@ export default function Transaction() {
   // const [newdata, setNewData] = useState([]);
   // const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
    const [selectedFactoryId, setSelectedFactoryId] = useState(0);
-  // const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
+  const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   // const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
 
@@ -152,11 +152,11 @@ export default function Transaction() {
     setSelectedFactoryValue(value);
     debugger;
   };
-  // const PriorYearOnchange = (value) => {
-  //   setSelectedPriorYearValue(value);
-  //   debugger;
-  //   console.log(selectedPriorYearValue);
-  // };
+  const PriorYearOnchange = (value) => {
+    setSelectedPriorYearValue(value);
+    debugger;
+    console.log(selectedPriorYearValue);
+  };
   const SalesMonthsOnchange = (value) => {
     debugger;
     console.log(value);
@@ -778,6 +778,7 @@ export default function Transaction() {
           SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
           CreatedBy: 1,
           IsActive: 1,
+          FinYear:selectedPriorYearValue
         };
         const objsave = {
           TrasactionId: 0,
@@ -801,6 +802,7 @@ export default function Transaction() {
           SalesmanCommAmt: salesmanCommAmt,
           CreatedBy: 1,
           IsActive: 1,
+          FinYear:selectedPriorYearValue
         };
         data[i]["IsVerified"] = "OK";
         debugger;
@@ -839,6 +841,7 @@ export default function Transaction() {
       SalesmanCommAmt: numberToCurrency(TotalSalesCommAmt),
       CreatedBy: 1,
       IsActive: 1,
+      FinYear:selectedPriorYearValue
     };
     debugger;
     transformedArray.push(objdatagrid);
@@ -900,10 +903,10 @@ export default function Transaction() {
           draggable
           pauseOnHover
         />
-
+         <h3> Upload / Add New Sales Files</h3>
         <form className={classes.form}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={12}>
+            {/* <Grid item xs={12} sm={12}>
               <Link to="/transaction/addsales">
                 <Button
                   type="submit"
@@ -914,10 +917,10 @@ export default function Transaction() {
                   Add New Sales Commission
                 </Button>
               </Link>
-            </Grid>
-            {/* <Grid item xs={12} sm={6}>
+            </Grid> */}
+            <Grid item xs={12} sm={4}>
               <PriorYearDropdownlist ddlOnchang={PriorYearOnchange} />
-            </Grid>*/}
+            </Grid>
             <Grid item xs={12} sm={4}>
               <SalesMonthsDropdownlist
                 salesMonthsddlOnchang={SalesMonthsOnchange}
@@ -956,7 +959,7 @@ export default function Transaction() {
                 fullWidth
                 onClick={() => verifyUploadedFile()}
               >
-                Verify Uploaded File
+                Verify Records
               </Button>
             </Grid>
 
