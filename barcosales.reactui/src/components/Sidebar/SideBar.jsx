@@ -47,62 +47,70 @@ const routes = [
     name: "CommissonRules",
     icon: <BiAnalyse />,
   },
+
+  
   {
     path: "/analytics",
     name: "Commission Reports",
     icon: <BiAnalyse />,
   },
   {
-    path: "/users",
-    name: "Users",
-    icon: <FaUser />,
-  },
-  {
     path: "/reports",
-    name: "Reports",
-    icon: <FaFile />,
-    subRoutes: [
-      {
-        path: "/settings/salesCommission",
-        name: "SalesCommission ",
-        icon: <BiAnalyse />,
-      },
-      // {
-      //   path: "/settings/2fa",
-      //   name: "2FA",
-      //   icon: <FaLock />,
-      // },
-      // {
-      //   path: "/settings/billing",
-      //   name: "Billing",
-      //   icon: <FaMoneyBill />,
-      // },
-    ],
+    name: "Group Summaries",
+    icon: <BiAnalyse />,
   },
+  // {
+  //   path: "/users",
+  //   name: "Users",
+  //   icon: <FaUser />,
+  // },
 
-  {
-    path: "/settings",
-    name: "Settings",
-    icon: <BiCog />,
-    exact: true,
-    subRoutes: [
-      {
-        path: "/users",
-        name: "Profile ",
-        icon: <FaUser />,
-      },
-      // {
-      //   path: "/settings/2fa",
-      //   name: "2FA",
-      //   icon: <FaLock />,
-      // },
-      // {
-      //   path: "/settings/billing",
-      //   name: "Billing",
-      //   icon: <FaMoneyBill />,
-      // },
-    ],
-  },
+  // {
+  //   path: "/reports",
+  //   name: "Reports",
+  //   icon: <FaFile />,
+  //   subRoutes: [
+  //     {
+  //       path: "/settings/salesCommission",
+  //       name: "SalesCommission ",
+  //       icon: <BiAnalyse />,
+  //     },
+  //     // {
+  //     //   path: "/settings/2fa",
+  //     //   name: "2FA",
+  //     //   icon: <FaLock />,
+  //     // },
+  //     // {
+  //     //   path: "/settings/billing",
+  //     //   name: "Billing",
+  //     //   icon: <FaMoneyBill />,
+  //     // },
+  //   ],
+  // },
+
+  // {
+  //   path: "/settings",
+  //   name: "Settings",
+  //   icon: <BiCog />,
+  //   exact: true,
+  //   subRoutes: [
+  //     {
+  //       path: "/users",
+  //       name: "Profile ",
+  //       icon: <FaUser />,
+  //     },
+  //     // {
+  //     //   path: "/settings/2fa",
+  //     //   name: "2FA",
+  //     //   icon: <FaLock />,
+  //     // },
+  //     // {
+  //     //   path: "/settings/billing",
+  //     //   name: "Billing",
+  //     //   icon: <FaMoneyBill />,
+  //     // },
+  //   ],
+  // },
   // {
   //   path: "/saved",
   //   name: "Saved",

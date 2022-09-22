@@ -109,3 +109,6 @@ html,
 .button {
   font-size: none;
 }
+#gridContainer {
+  height: 440px;
+}

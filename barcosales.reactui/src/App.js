@@ -30,7 +30,7 @@ import Saved from "./pages/Saved";
 import Settings from "./pages/Users";
 import Factories from "./pages/Factories";
 import CommissonRules from "./pages/CommissonRules";
-import SalesmanmMultiselectddl from "./pages/SalesmanmMultiselectddl";
+import CommissionReports from "./pages/CommissionReports";
 // import { StyledEngineProvider } from '@mui/material/styles';
 
 function App() {
@@ -79,7 +79,8 @@ function App() {
                 />
                 <Route exact path="/users" element={<Users />} />
                 <Route exact path="/messages" element={<Messages />} />
-                <Route exact path="/analytics" element={<Analytics />} />
+                <Route exact path="/analytics" element={<Analytics />} /> 
+                 <Route exact path="/reports" element={<CommissionReports />} />
                 <Route exact path="/file-manager" element={<FileManager />} />
                 <Route exact path="/order" element={<Order />} />
                 <Route exact path="/saved" element={<Saved />} />
