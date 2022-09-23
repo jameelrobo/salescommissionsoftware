@@ -559,11 +559,13 @@ export default function Transaction() {
       getCommRules === 0 ||
       getCommRules.length === 0
     ) {
+      debugger;
       errorMessageBox(
         "Please check Commission Rules API, Commission Rules does not exist  "
       );
       return;
     }
+   
 
     if (
       getAllSalesman === undefined ||
@@ -584,18 +586,18 @@ export default function Transaction() {
         item.IsActive === true
     );
 
-    // if (
-    //   selectedPriorYearValue === undefined ||
-    //   selectedPriorYearValue === null ||
-    //   selectedPriorYearValue === "" ||
-    //   selectedPriorYearValue === 0
-    // ) {
-    //   errorMessageBox(
-    //     "Fin Year should not be blank, Please select at least one Fin Year"
-    //   );
-    //   return;
-    // }
-    // debugger;
+    if (
+      selectedPriorYearValue === undefined ||
+      selectedPriorYearValue === null ||
+      selectedPriorYearValue === "" ||
+      selectedPriorYearValue === 0
+    ) {
+      errorMessageBox(
+        "Fin Year should not be blank, Please select at least one Fin Year"
+      );
+      return;
+    }
+    debugger;
       if (
         selectedSalesMonthsValue === undefined ||
         selectedSalesMonthsValue === null ||
@@ -634,6 +636,25 @@ export default function Transaction() {
         "Factory  should not be blank, Please select at least one Factory"
       );
       IsOk = 0;
+      return;
+    }
+
+    var CommRules = getCommRules.find(
+      (item) =>
+        item.FactoryId === selectedFactoryValue &&  item.IsActive === true
+    );
+
+    if (
+      CommRules === undefined ||
+      CommRules === null ||
+      CommRules === "" ||
+      CommRules === 0 ||
+      CommRules.length === 0
+    ) {
+      debugger;
+      errorMessageBox(
+        "Commission Rule is not found for selected factory , Please create atleast one comm-rule for selected factory  "
+      );
       return;
     }
     if (
@@ -845,8 +866,9 @@ export default function Transaction() {
     };
     debugger;
     transformedArray.push(objdatagrid);
-    // setData(transformedArray);
+    //setData(transformedArray);
     if (IsOk === 0) {
+      debugger;
       errorMessageBox(
         "The uploaded file has invalid records, Please download the file and correct the records"
       );
