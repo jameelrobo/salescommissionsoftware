@@ -206,7 +206,8 @@ debugger;
             MonthName:   res.data[i]["MonthName"],
             InvoiceNo:  res.data[i]["SInvoiceNo"],
             TotalSalesAmt: numberToCurrency(  res.data[i]["TotalSalesAmt"]),
-            GrossCommRate: `${res.data[i]["GrossCommRate"]}%`,
+           // GrossCommRate: `${res.data[i]["GrossCommRate"]}%`,
+            GrossCommRate: res.data[i]["GrossCommRate"],
             GrossCommAmt: numberToCurrency(  res.data[i]["GrossCommAmt"]),
             SalesmanCommRate: `${  res.data[i]["SalesmanCommRate"]}%`,
             SalesmanCommAmt: numberToCurrency(  res.data[i]["SalesmanCommAmt"]),
@@ -253,7 +254,7 @@ debugger;
 
  
   const columns = [
-    { title: "Created Date", field: "CreatedDate" }, 
+    // { title: "Created Date", field: "CreatedDate" }, 
     
    // { title: "CustId", field: "CustId" },
     { title: "Customer Name", field: "SoldToName" },
@@ -266,7 +267,7 @@ debugger;
     { title: "TotalAmt", field: "TotalSalesAmt" },
     { title: "GCommRate", field: "GrossCommRate" },
     { title: "GCommAmt", field: "GrossCommAmt" },
-    { title: "CommRate", field: "SalesmanCommRate" },
+    // { title: "CommRate", field: "SalesmanCommRate" },
 
     { title: "CommAmt", field: "SalesmanCommAmt" },
     // { title: "SoldToAddress", field: "ShipToAddress" },
