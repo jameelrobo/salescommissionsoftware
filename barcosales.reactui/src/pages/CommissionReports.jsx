@@ -38,17 +38,14 @@ import Remove from "@material-ui/icons/Remove";
 import { ToastContainer, toast } from "react-toastify";
  
 import 'devextreme/dist/css/dx.light.css';
-// import DataGrid, {
-//   Column, Selection, Summary, GroupItem, SortByGroupSummaryInfo,
-// } from 'devextreme-react/data-grid';
-
+import { exportDataGrid } from 'devextreme/pdf_exporter';
 import DataGrid, {
   Column,Selection, Summary,GroupItem, GroupPanel, Grouping, SortByGroupSummaryInfo, TotalItem, Export,
 } from 'devextreme-react/data-grid';
 import { jsPDF } from 'jspdf';
-import { exportDataGrid } from 'devextreme/pdf_exporter';
-const exportFormats = ['pdf'];
 
+ 
+const exportFormats = ['pdf'];
 
 const successMessageBox = (successMsg) => {
   toast.success(successMsg, {
@@ -95,13 +92,15 @@ const useStyles = makeStyles((theme) => ({
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function CommissionReports(props) {
 
+  
+
   const onExporting = React.useCallback((e) => {
     const doc = new jsPDF();
 
     exportDataGrid({
       jsPDFDocument: doc,
       component: e.component,
-      columnWidths: [30, 30, 30, 30, 30,30, 30],
+      //  columnWidths: [20, 20, 20, 20, 10,15, 10, 15, 15],
       customizeCell({ gridCell, pdfCell }) {
         if (gridCell.rowType === 'data' && gridCell.column.dataField === 'Phone') {
           pdfCell.text = pdfCell.text.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
@@ -126,7 +125,7 @@ export default function CommissionReports(props) {
         }
       },
     }).then(() => {
-      doc.save('Companies.pdf');
+      doc.save('SalescommissionReports.pdf');
     });
   });
 
@@ -145,7 +144,6 @@ export default function CommissionReports(props) {
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
-  
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
 
   const FactoryOnchange = (value) => {
@@ -195,7 +193,7 @@ debugger;
     GetSalesTransaction(filters);
 
   }, []);
-
+const [orders,setOrders]=useState([]);
   const GetSalesTransaction = (filters) => {
     axios
      
@@ -206,76 +204,11 @@ debugger;
         console.log(res);
         if(res.data.length>0)
         {
-          const transformedArray = [];
-           
-          let TotalAmt=0;
-          let TotalCommAmt=0;
-          let TotalSalesCommAmt=0;
-        for (let i = 0; i < res.data.length; i++) {
-           TotalAmt= TotalAmt+ res.data[i]["TotalSalesAmt"];
-           TotalCommAmt=TotalCommAmt+ res.data[i]["GrossCommAmt"];
-           TotalSalesCommAmt=TotalSalesCommAmt+ res.data[i]["SalesmanCommAmt"];
-           let date = new Date(res.data[i]["CreatedDate"]);
-           /* Date format you have */
-           let dateMDY = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-           /* Date converted to MM-DD-YYYY format */
-          const objdatagrid = {
-            TrasactionId:   res.data[i]["TrasactionId"],
-            SalesmId:   res.data[i]["SalesmId"],
-            SalesmanCode:   res.data[i]["SalesmanCode"],
-            CustId:   res.data[i]["CustId"],
-            CommissionRulesId:   res.data[i]["CommissionRulesId"],
-            SoldToName:  res.data[i]["SoldToName"],
-            
-            SoldToState:  res.data[i]["SoldToState"],
-            
-            
-            SoldToCity:  res.data[i]["SoldToCity"],
-           
-            FactoryId:   res.data[i]["FactoryId"],
-            FactoryName:   res.data[i]["FactoryName"],
-            CheckNo:   res.data[i]["CheckNo"],
-            CreatedDate:dateMDY,
-            MonthName:   res.data[i]["MonthName"],
-            InvoiceNo:  res.data[i]["SInvoiceNo"],
-            TotalSalesAmt: numberToCurrency(  res.data[i]["TotalSalesAmt"]),
-            GrossCommRate: `${res.data[i]["GrossCommRate"]}%`,
-            GrossCommAmt: numberToCurrency(  res.data[i]["GrossCommAmt"]),
-            SalesmanCommRate: `${  res.data[i]["SalesmanCommRate"]}%`,
-            SalesmanCommAmt: numberToCurrency(  res.data[i]["SalesmanCommAmt"]),
-            CreatedBy: 1,
-            IsActive: 1,
-          };
-          
-          transformedArray.push(objdatagrid);
+          debugger;
+  orders=res.data;
+
         }
-        const objdatagrid = {
-          TrasactionId:   '',
-          SalesmId:   '',
-          SalesmanCode:  'Total Amount',
-          CustId:   '',
-          CommissionRulesId:  '',
-          SoldToName: '',
-          SoldToCity:  '',
-          SoldToState:  '',
-          FactoryId:  '',
-          FactoryName:   '',
-          CheckNo:   '',
-          CreatedDate:'',
-          MonthName:   '',
-          InvoiceNo:  '',
-          TotalSalesAmt: numberToCurrency(  TotalAmt),
-          GrossCommRate: '',
-          GrossCommAmt: numberToCurrency(  TotalCommAmt),
-          SalesmanCommRate: '',
-          SalesmanCommAmt: numberToCurrency(  TotalSalesCommAmt),
-          CreatedBy: 1,
-          IsActive: 1,
-        };
-        debugger;
-        transformedArray.push(objdatagrid);
-        setData(transformedArray);
-      }
+    
        
       })
       .catch((err) => {
@@ -285,31 +218,7 @@ debugger;
 
 
  
-  const columns = [
-    { title: "Created Date", field: "CreatedDate" }, 
-    
-   // { title: "CustId", field: "CustId" },
-    { title: "Customer Name", field: "SoldToName" },
-    { title: " Factory Name ", field: "FactoryName" },
-    // { title: "Check#", field: "CheckNo" },
-    
-    { title: "Month Name", field: "MonthName" },
-    { title: "Salesman Code", field: "SalesmanCode" },
-    //{ title: "InvoiceNo", field: "InvoiceNo" },
-    { title: "TotalAmt", field: "TotalSalesAmt" },
-    { title: "GCommRate", field: "GrossCommRate" },
-    { title: "GCommAmt", field: "GrossCommAmt" },
-    { title: "CommRate", field: "SalesmanCommRate" },
-
-    { title: "CommAmt", field: "SalesmanCommAmt" },
-    // { title: "SoldToAddress", field: "ShipToAddress" },
-    // { title: "SoldToState", field: "ShipToCity" },
-    // { title: "ShipToName", field: "ShipToName" },
-    // { title: "ShipToAddress", field: "ShipToAddress" },
-    // { title: "ShipToCity", field: "ShipToCity" },
-    // { title: "ShipToState", field: "ShipToState" },
-  ];
- 
+   
 
   const search=()=>{
     debugger;
@@ -355,7 +264,33 @@ if (
    GetSalesTransaction(filters);
     
   }
-  const orders = [{
+  const orders2=[{
+    CheckNo :    "",
+    CommissionRulesId  :   1,
+    CreatedBy   :    1,
+    CreatedDate  :   "2022-09-20T00:00:00",
+    CustId    :     1221 ,
+    FactoryId  :    1 ,
+    FactoryName  :    "Charman MFG",
+    FinYear  :  null,
+    GrossCommAmt  : 19.61,
+    GrossCommRate: 5,
+    InvoiceNo:6,
+    IsActivetrue: 1,
+    MonthName : "March" ,
+    SalesmId:2,
+    SalesmanCode :"Dan B.",
+    SalesmanCommAmt:11.77,
+    SalesmanCommRate:60,
+    SoldToCity:"TOLLESON",
+    SoldToName:"ANS DISTRIBUTING",
+    SoldToState:"AZ",
+    TotalSalesAmt:392.17,
+    TrasactionId:1,
+    UpdatedBy:null,
+    UpdatedDate:"2022-09-20T22:33:15"
+  }]
+  const orders1 = [{
     ID: 1,
     OrderNumber: 35703,
     OrderDate: '2014-04-10',
@@ -866,94 +801,76 @@ if (
           </Grid>
         
         </form>
-        {/* <MaterialTable
-          title=""
-          columns={columns}
-          data={data}
-          icons={tableIcons}
-          
-          tableRef={tableRef}
-          options={{
-            sorting: true,
-            search: true,
-            searchFieldAlignment: "right",
-            searchAutoFocus: true,
-            searchFieldVariant: "standard",
-            filtering: true,
-            paging: true,
-            pageSizeOptions: [2, 5, 10, 20, 25, 50, 100],
-            pageSize: 10,
-            paginationType: "stepped",
-            showFirstLastPageButtons: false,
-            paginationPosition: "both",
-            exportButton: true,
-            exportAllData: true,
-            exportFileName: "SalesCommission",
-            addRowPosition: "first",
-            actionsColumnIndex: -1,
-            // selection: true,
-            showSelectAllCheckbox: false,
-            showTextRowsSelected: false,
-            selectionProps: (rowData) => ({
-              disabled: rowData.age == null,
-              // color:"primary"
-            }),
-            grouping: true,
-            columnsButton: true,
-            rowStyle: (data, index) =>
-              index % 2 === 0 ? { background: "#f5f5f5" } : null,
-            headerStyle: { background: "#f44336", color: "#fff" },
-          }}
-        /> */}
+       
 
         <div class="dx-viewport">
     <div class="demo-container">
+
+    {/* { title: "Created Date", field: "CreatedDate" }, 
+    
+   
+     { title: "Customer Name", field: "SoldToName" },
+     { title: "Factory Name ", field: "FactoryName" },
+     // { title: "Check#", field: "CheckNo" },
+     
+     { title: "Month Name", field: "MonthName" },
+     { title: "Salesman Code", field: "SalesmanCode" },
+     //{ title: "InvoiceNo", field: "InvoiceNo" },
+     { title: "TotalAmt", field: "TotalSalesAmt" },
+     { title: "GCommRate", field: "GrossCommRate" },
+     { title: "GCommAmt", field: "GrossCommAmt" },
+     { title: "CommRate", field: "SalesmanCommRate" },
+ 
+     { title: "CommAmt", field: "SalesmanCommAmt" }, */}
+
+     {/* GrossCommAmt  : 19.61,
+    GrossCommRate: 5,
+    InvoiceNo:6,
+    IsActivetrue: 1,
+    MonthName : "March" ,
+    SalesmId:2,
+    SalesmanCode :"Dan B.",
+    SalesmanCommAmt:11.77,
+    SalesmanCommRate:60,
+    SoldToCity:"TOLLESON",
+    SoldToName:"ANS DISTRIBUTING",
+    SoldToState:"AZ",
+    TotalSalesAmt:392.17, */}
+
+{/* width={100} */}
     <React.Fragment>
         <DataGrid
           id="gridContainer"
-          dataSource={orders}
-          keyExpr="ID"
+          dataSource={orders2}
+          keyExpr="TrasactionId"
           showBorders={true}
-          onExporting={onExporting}>
-
+          onExporting={onExporting} 
+          >
+          
 <Export enabled={true} formats={exportFormats} />
         <GroupPanel visible={true} />
         <Grouping autoExpandAll={true} />
-      
+       
           <Selection mode="single" />
-          <Column dataField="OrderNumber" width={100} alignment="center" caption="Invoice Number" />
-          <Column dataField="OrderDate" alignment="center" width={130} dataType="date" />
-          <Column dataField="Employee" groupIndex={0} />
-          <Column dataField="CustomerStoreCity" alignment="center" caption="City" />
-          <Column dataField="CustomerStoreState" alignment="center" caption="State" />
-          <Column dataField="SaleAmount" alignment="center" format="currency" />
-          <Column dataField="TotalAmount" alignment="center" format="currency" />
+          {/* <Column dataField="CreatedDate" alignment="center"   caption="Date" /> */}
+          <Column dataField="SoldToName" alignment="center" caption="Customer" />
+          <Column dataField="FactoryName" alignment="center"  caption="Factory"   />
+          <Column dataField="MonthName" alignment="center"  caption="Month"   />
+          <Column dataField="SalesmanCode" alignment="center" caption="Salesman" />
+          <Column dataField="TotalSalesAmt" alignment="right" format="currency" caption="TotalAmt"/>
+          <Column dataField="GrossCommRate" alignment="center" caption="GCommRate"/>
+          <Column dataField="GrossCommAmt" alignment="right" format="currency" caption="GCommAmt"/>
+          {/* <Column dataField="SalesmanCommRate" alignment="center" caption="SCommRate"/> */}
+          <Column dataField="SalesmanCommAmt" alignment="right" format="currency" caption="SCommAmt"/>
+          <Column dataField="FactoryName" groupIndex={0} /> 
+        
 
           <Summary>
-            <GroupItem
+            <GroupItem   column="FactoryName"  summaryType="count"  displayFormat="{0} FactoryName" />
+            <GroupItem   column="TotalSalesAmt"     summaryType="sum"    showInGroupFooter={true}  valueFormat="currency"   alignByColumn={true} displayFormat="{0}" />
+            <GroupItem   column="GrossCommAmt"     summaryType="sum"    showInGroupFooter={true}  valueFormat="currency"   alignByColumn={true} displayFormat="{0}" />
+            <GroupItem   column="SalesmanCommAmt"      summaryType="sum"    showInGroupFooter={true}  valueFormat="currency"   alignByColumn={true} displayFormat="{0}" />
             
-              column="OrderNumber"
-              summaryType="count"
-              displayFormat="{0} orders" />
-            <GroupItem
-              column="SaleAmount"
-            summaryType="max"
-              valueFormat="currency"
-              showInGroupFooter={false}
-              alignByColumn={true} />
-            <GroupItem
-              column="TotalAmount"
-           summaryType="max"
-              valueFormat="currency"
-              showInGroupFooter={false}
-              alignByColumn={true} />
-            <GroupItem
-             alignment="left"
-              column="TotalAmount"
-              summaryType="sum"
-              valueFormat="currency"
-              displayFormat="Total: {0}"
-              showInGroupFooter={true} />
           </Summary>
           <SortByGroupSummaryInfo summaryItem="count" />
         </DataGrid>
