@@ -547,7 +547,7 @@ export default function Transaction() {
       getCustomers.length === 0
     ) {
       errorMessageBox(
-        "Please check custmer API, ustomers does not exist   "
+        "Please check custmer API, customers does not exist   "
       );
       return;
     }
@@ -653,7 +653,7 @@ export default function Transaction() {
     ) {
       debugger;
       errorMessageBox(
-        "Commission Rule is not found for selected factory , Please create atleast one comm-rule for selected factory  "
+        "Commission Rule is not found for selected factory , Please create a rule for the selected factory "
       );
       return;
     }
@@ -697,7 +697,7 @@ export default function Transaction() {
         custInfo === 0 ||
         custInfo.length === 0
       ) {
-        data[i]["IsVerified"] = "Invalid";
+        data[i]["IsVerified"] = "Customer doesn't exist in db";
         debugger;
         IsOk = 0;
         continue;
@@ -870,7 +870,7 @@ export default function Transaction() {
     if (IsOk === 0) {
       debugger;
       errorMessageBox(
-        "The uploaded file has invalid records, Please download the file and correct the records"
+        "The uploaded records have errors and look at the grid against each line item to fix it."
       );
       return;
     }
@@ -888,7 +888,7 @@ export default function Transaction() {
         SavetransformedArray === 0)
     ) {
       errorMessageBox(
-        "The uploaded file has invalid records, Please download the file and correct the records"
+        "The uploaded records have errors and look at the grid against each line item to fix it."
       );
       return;
     } else if (

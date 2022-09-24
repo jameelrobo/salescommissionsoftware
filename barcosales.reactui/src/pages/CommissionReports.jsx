@@ -269,92 +269,11 @@ export default function CommissionReports(props) {
       FactoryId: selectedFactoryValue,
       SalesmId: selectedSalesmanValue,
     };
-    // setSelectedFactoryValue([]);
-    // setSelectedSalesmanValue([]);
+   
     setData([]);
     GetSalesTransaction(filters);
   };
-  // const orders2 = [
-  //   {
-  //     CheckNo: "",
-  //     CommissionRulesId: 1,
-  //     CreatedBy: 1,
-  //     CreatedDate: "2022-09-20T00:00:00",
-  //     CustId: 1221,
-  //     FactoryId: 1,
-  //     FactoryName: "Charman MFG",
-  //     FinYear: null,
-  //     GrossCommAmt: 19.61,
-  //     GrossCommRate: 5,
-  //     InvoiceNo: 6,
-  //     IsActivetrue: 1,
-  //     MonthName: "March",
-  //     SalesmId: 2,
-  //     SalesmanCode: "Dan B.",
-  //     SalesmanCommAmt: 11.77,
-  //     SalesmanCommRate: 60,
-  //     SoldToCity: "TOLLESON",
-  //     SoldToName: "ANS DISTRIBUTING",
-  //     SoldToState: "AZ",
-  //     TotalSalesAmt: 392.17,
-  //     TrasactionId: 1,
-  //     UpdatedBy: null,
-  //     UpdatedDate: "2022-09-20T22:33:15",
-  //   },
-  //   {
-  //     CheckNo: "",
-  //     CommissionRulesId: 1,
-  //     CreatedBy: 1,
-  //     CreatedDate: "2022-09-20T00:00:00",
-  //     CustId: 1221,
-  //     FactoryId: 1,
-  //     FactoryName: "Charman MFG",
-  //     FinYear: null,
-  //     GrossCommAmt: 19.61,
-  //     GrossCommRate: 5,
-  //     InvoiceNo: 6,
-  //     IsActivetrue: 1,
-  //     MonthName: "March",
-  //     SalesmId: 2,
-  //     SalesmanCode: "Dan B.",
-  //     SalesmanCommAmt: 11.77,
-  //     SalesmanCommRate: 60,
-  //     SoldToCity: "TOLLESON",
-  //     SoldToName: "ANS DISTRIBUTING",
-  //     SoldToState: "AZ",
-  //     TotalSalesAmt: 392.17,
-  //     TrasactionId: 1,
-  //     UpdatedBy: null,
-  //     UpdatedDate: "2022-09-20T22:33:15",
-  //   },
-  //   {
-  //     CheckNo: "",
-  //     CommissionRulesId: 1,
-  //     CreatedBy: 1,
-  //     CreatedDate: "2022-09-20T00:00:00",
-  //     CustId: 1221,
-  //     FactoryId: 1,
-  //     FactoryName: "Charman MFG",
-  //     FinYear: null,
-  //     GrossCommAmt: 19.61,
-  //     GrossCommRate: 5,
-  //     InvoiceNo: 6,
-  //     IsActivetrue: 1,
-  //     MonthName: "March",
-  //     SalesmId: 2,
-  //     SalesmanCode: "Dan B.",
-  //     SalesmanCommAmt: 11.77,
-  //     SalesmanCommRate: 60,
-  //     SoldToCity: "TOLLESON",
-  //     SoldToName: "ANS DISTRIBUTING",
-  //     SoldToState: "AZ",
-  //     TotalSalesAmt: 392.17,
-  //     TrasactionId: 1,
-  //     UpdatedBy: null,
-  //     UpdatedDate: "2022-09-20T22:33:15",
-  //   }
-  // ];
- 
+
   
 
   return (
@@ -493,28 +412,29 @@ export default function CommissionReports(props) {
                 <Column
                   dataField="TotalSalesAmt"
                   alignment="right"
-                 //  format="currency"
+                format="currency"
                   displayFormat="{0}"
                   caption="TotalAmt"
                 />
                 <Column
                   dataField="GrossCommRate"
+                  // format="percent"
                   alignment="center"
                   caption="GCommRate"
                 />
                 <Column
                   dataField="GrossCommAmt"
-                  
+                  displayFormat="{0}"
                   alignment="right"
-                  //format="currency"
+                 format="currency"
                   caption="GCommAmt"
                 />
                 {/* <Column dataField="SalesmanCommRate" alignment="center" caption="SCommRate"/> */}
                 <Column
                   dataField="SalesmanCommAmt"
-                 
+                  displayFormat="{0}"
                   alignment="right"
-                  //format="currency"
+                format="currency"
                   caption="SCommAmt"
                 />
                 <Column dataField="FactoryName" groupIndex={0} />
@@ -529,7 +449,7 @@ export default function CommissionReports(props) {
                     column="TotalSalesAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-                  //  valueFormat="currency"
+                 valueFormat="currency"
                     alignByColumn={true}
                     displayFormat="{0}"
                   />
@@ -537,7 +457,7 @@ export default function CommissionReports(props) {
                     column="GrossCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-                   // valueFormat="currency"
+           valueFormat="currency"
                     alignByColumn={true}
                     displayFormat="{0}"
                   />
@@ -545,22 +465,19 @@ export default function CommissionReports(props) {
                     column="SalesmanCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-                    //valueFormat="currency"
+           valueFormat="currency"
                     
                     alignByColumn={true}
                     displayFormat="{0}"
                   />
                 <TotalItem
               column="SaleAmount"
+              
               summaryType="count"
               displayFormat="Total count: {0} companies"
             />
             
- <TotalItem
-              column="SaleAmount"
-              summaryType="sum"
-              valueFormat="currency" />  
-
+ 
           </Summary>
           {/* <Summary>
             <TotalItem
