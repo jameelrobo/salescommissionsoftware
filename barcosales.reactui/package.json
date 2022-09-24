@@ -21,6 +21,8 @@
     "date-fns": "^2.29.2",
     "devextreme": "22.1.5",
     "devextreme-react": "22.1.5",
+    "exceljs": "^4.3.0",
+    "file-saver": "^2.0.5",
     "framer-motion": "^6.2.3",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.24",
