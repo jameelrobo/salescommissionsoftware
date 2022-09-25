@@ -24,7 +24,7 @@ namespace BarcoSales.EFModel
         public bool? IsActive { get; set; }
         public long? SalesmanId { get; set; }
         public decimal? CustomSalesCommRate { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
     }
 }
