@@ -37,8 +37,10 @@ import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
 import { ToastContainer, toast } from "react-toastify";
 
-import "devextreme/dist/css/dx.light.css";
-import { exportDataGrid } from "devextreme/pdf_exporter";
+//import "devextreme/dist/css/dx.light.css";
+// import { exportDataGrid } from 'devextreme/excel_exporter';
+// import { Workbook } from 'exceljs';
+// import saveAs from 'file-saver';
 import DataGrid, {
   Column,
   Selection,
@@ -50,9 +52,19 @@ import DataGrid, {
   TotalItem,
   Export,
 } from "devextreme-react/data-grid";
-import { jsPDF } from "jspdf";
+// import { jsPDF } from "jspdf";
 
-const exportFormats = ["pdf"];
+// const exportFormats = ["pdf"];
+
+import 'devextreme/dist/css/dx.light.css';
+//import DataGrid, { Export } from 'devextreme-react/data-grid';
+import { jsPDF } from 'jspdf';
+import { exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
+import { Workbook } from 'exceljs';
+import { saveAs } from 'file-saver-es';
+import { exportDataGrid } from 'devextreme/excel_exporter';
+ 
+const exportFormats = ['xlsx', 'pdf'];
 
 const successMessageBox = (successMsg) => {
   toast.success(successMsg, {
@@ -98,66 +110,96 @@ const useStyles = makeStyles((theme) => ({
 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function CommissionReports(props) {
+
+  // ************************This is for  Excel Export ***************************
   const onExporting = React.useCallback((e) => {
-    const doc = new jsPDF();
+    if (e.format === 'xlsx') {
+        const workbook = new Workbook();
+        const worksheet = workbook.addWorksheet('Companies');
+      exportDataGrid({
+            component: e.component,
+            worksheet,
+            autoFilterEnabled: true,
+        }).then(() => {
+            workbook.xlsx.writeBuffer().then((buffer) => {
+            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'SalesCommission.xlsx');
+            });
+        });
+        e.cancel = true;
+    } 
+    else if (e.format === 'pdf') {
+        const doc = new jsPDF();
+        exportDataGridToPdf({
+            jsPDFDocument: doc,
+            component: e.component
+        }).then(() => {
+            doc.save('SalesCommission.pdf');
+        })
+    };
+});
+  
 
-    exportDataGrid({
-      jsPDFDocument: doc,
-      component: e.component,
-      //  columnWidths: [20, 20, 20, 20, 10,15, 10, 15, 15],
-      customizeCell({ gridCell, pdfCell }) {
-        if (
-          gridCell.rowType === "data" &&
-          gridCell.column.dataField === "Phone"
-        ) {
-          pdfCell.text = pdfCell.text.replace(
-            /(\d{3})(\d{3})(\d{4})/,
-            "($1) $2-$3"
-          );
-        } else if (gridCell.rowType === "group") {
-          pdfCell.backgroundColor = "#BEDFE6";
-        } else if (gridCell.rowType === "totalFooter") {
-          pdfCell.font.style = "italic";
-        }
-      },
-      customDrawCell(options) {
-        const { gridCell, pdfCell } = options;
+// ************************This is for  Excel Export end ***************************
 
-        if (
-          gridCell.rowType === "data" &&
-          gridCell.column.dataField === "Website"
-        ) {
-          options.cancel = true;
-          doc.setFontSize(11);
-          doc.setTextColor("#0000FF");
+  // ************************This is for  Pdf Export ***************************
 
-          const textHeight = doc.getTextDimensions(pdfCell.text).h;
-          doc.textWithLink(
-            "website",
-            options.rect.x + pdfCell.padding.left,
-            options.rect.y + options.rect.h / 2 + textHeight / 2,
-            { url: pdfCell.text }
-          );
-        }
-      },
-    }).then(() => {
-      doc.save("SalescommissionReports.pdf");
-    });
-  });
+  
+  // const onExporting = React.useCallback((e) => {
+  //   const doc = new jsPDF();
 
-  const renderGridCell = React.useCallback(
-    (data) => (
-      <a href={data.text} target="_blank" rel="noopener noreferrer">
-        Website
-      </a>
-    ),
-    []
-  );
+  //   exportDataGrid({
+  //     jsPDFDocument: doc,
+  //     component: e.component,
+  //     //  columnWidths: [20, 20, 20, 20, 10,15, 10, 15, 15],
+  //     customizeCell({ gridCell, pdfCell }) {
+  //       if (
+  //         gridCell.rowType === "data" &&
+  //         gridCell.column.dataField === "Phone"
+  //       ) {
+  //         pdfCell.text = pdfCell.text.replace(
+  //           /(\d{3})(\d{3})(\d{4})/,
+  //           "($1) $2-$3"
+  //         );
+  //       } else if (gridCell.rowType === "group") {
+  //         pdfCell.backgroundColor = "#BEDFE6";
+  //       } else if (gridCell.rowType === "totalFooter") {
+  //         pdfCell.font.style = "italic";
+  //       }
+  //     },
+  //     customDrawCell(options) {
+  //       const { gridCell, pdfCell } = options;
 
-  const phoneNumberFormat = React.useCallback((value) => {
-    const USNumber = value.match(/(\d{3})(\d{3})(\d{4})/);
-    return `(${USNumber[1]}) ${USNumber[2]}-${USNumber[3]}`;
-  }, []);
+  //       if (
+  //         gridCell.rowType === "data" &&
+  //         gridCell.column.dataField === "Website"
+  //       ) {
+  //         options.cancel = true;
+  //         doc.setFontSize(11);
+  //         doc.setTextColor("#0000FF");
+
+  //         const textHeight = doc.getTextDimensions(pdfCell.text).h;
+  //         doc.textWithLink(
+  //           "website",
+  //           options.rect.x + pdfCell.padding.left,
+  //           options.rect.y + options.rect.h / 2 + textHeight / 2,
+  //           { url: pdfCell.text }
+  //         );
+  //       }
+  //     },
+  //   }).then(() => {
+  //     doc.save("SalescommissionReports.pdf");
+  //   });
+  // });
+  // const phoneNumberFormat = React.useCallback((value) => {
+  //   const USNumber = value.match(/(\d{3})(\d{3})(\d{4})/);
+  //   return `(${USNumber[1]}) ${USNumber[2]}-${USNumber[3]}`;
+  // }, []);
+
+   // ************************This is for  Pdf Export ***************************
+
+ 
+
+ 
 
   const classes = useStyles();
 
@@ -383,7 +425,8 @@ export default function CommissionReports(props) {
               
             {/* <rowType dataField="SoldToName" alignment="center" caption="Customer2"/> */}
            
-                <Export enabled={true} formats={exportFormats} />
+                {/* <Export enabled={true} formats={exportFormats} /> */}
+                
                 <GroupPanel visible={true} />
                 <Grouping autoExpandAll={true} />
 
@@ -394,11 +437,11 @@ export default function CommissionReports(props) {
                   alignment="center"
                   caption="Customer"
                 />
-                <Column
+                {/* <Column
                   dataField="FactoryName"
                   alignment="center"
                   caption="Factory"
-                />
+                /> */}
                 <Column
                   dataField="MonthName"
                   alignment="center"
@@ -532,6 +575,7 @@ export default function CommissionReports(props) {
           </Summary> */}
                 
                 <SortByGroupSummaryInfo summaryItem="count" />
+                <Export enabled={true} formats={exportFormats}></Export>
               </DataGrid>
             </React.Fragment>
           </div>
