@@ -445,7 +445,29 @@ export default function CommissionReports(props) {
                     summaryType="count"
                     displayFormat="{0} FactoryName"
                   />
+                  <TotalItem
+                    column="FactoryName"
+                    summaryType="count"
+                    displayFormat="Total Records : {0} "
+                    showInGroupFooter={true}
+                  />
+                   <TotalItem
+                    column="SalesmanCode"
+                    
+                    showInGroupFooter={true}
+                 
+                    alignByColumn={true}
+                    displayFormat="Total for Salesman : "
+                  />
                   <GroupItem
+                    column="TotalSalesAmt"
+                    summaryType="sum"
+                    showInGroupFooter={true}
+                 valueFormat="currency"
+                    alignByColumn={true}
+                    displayFormat="{0}"
+                  />
+                  <TotalItem
                     column="TotalSalesAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
@@ -461,6 +483,14 @@ export default function CommissionReports(props) {
                     alignByColumn={true}
                     displayFormat="{0}"
                   />
+                   <TotalItem
+                    column="GrossCommAmt"
+                    summaryType="sum"
+                    showInGroupFooter={true}
+           valueFormat="currency"
+                    alignByColumn={true}
+                    displayFormat=" {0}"
+                  />
                   <GroupItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
@@ -470,12 +500,21 @@ export default function CommissionReports(props) {
                     alignByColumn={true}
                     displayFormat="{0}"
                   />
-                <TotalItem
+                   <TotalItem
+                    column="SalesmanCommAmt"
+                    summaryType="sum"
+                    showInGroupFooter={true}
+           valueFormat="currency"
+                    
+                    alignByColumn={true}
+                    displayFormat="{0}"
+                  />
+                {/* <TotalItem
               column="SaleAmount"
               
               summaryType="count"
               displayFormat="Total count: {0} companies"
-            />
+            /> */}
             
  
           </Summary>
