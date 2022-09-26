@@ -9,10 +9,13 @@ import Grid from "@material-ui/core/Grid";
 // import MaterialTable, { Column } from "material-table";
 
 import "jspdf-autotable";
-import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
+
 import SalesmanmMultiselectddl from "./SalesmanmMultiselectddl";
 import MultiselectFcotoryddl from "./MultiselectFcotoryddl";
-import SalesmanDropdownlist from "./SalesmanDropdownlist";
+
+import MultiselectMonthddl from "./MultiselectMonthddl";
+import MultiselectYearddl from "./MultiselectYearddl";
+
 
 import axios from "axios";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -204,10 +207,11 @@ export default function CommissionReports(props) {
   const classes = useStyles();
 
   const [selectedFactoryValue, setSelectedFactoryValue] = useState([]);
-  const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
-  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
-  const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
+  const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
+  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
+  
+  
 
   const FactoryOnchange = (value) => {
     debugger;
@@ -369,15 +373,27 @@ export default function CommissionReports(props) {
                 />
               </LocalizationProvider>
             </Grid>
+            <Grid item xs={12} sm={3}>
+              <MultiselectYearddl
+                selectedYears={PriorYearOnchange}
+                // selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={3}>
+              {/* <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} /> */}
+              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange} />
+            </Grid>
+
+            <Grid item xs={12} sm={3}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={3}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} />
