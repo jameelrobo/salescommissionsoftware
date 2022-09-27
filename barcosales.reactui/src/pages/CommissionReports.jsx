@@ -21,6 +21,7 @@ import axios from "axios";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Checkbox from "@mui/material/Checkbox";
 
 import TextField from "@material-ui/core/TextField";
 import AddBox from "@material-ui/icons/AddBox";
@@ -66,7 +67,9 @@ import { exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
 import { Workbook } from 'exceljs';
 import { saveAs } from 'file-saver-es';
 import { exportDataGrid } from 'devextreme/excel_exporter';
- 
+
+
+const label = { inputProps: { "aria-label": "Checkbox demo" } }; 
 const exportFormats = ['xlsx', 'pdf'];
 
 const successMessageBox = (successMsg) => {
@@ -210,9 +213,13 @@ export default function CommissionReports(props) {
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
+  const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false);
   
-  
-
+  const DateWisecheckChanged = (state) => {
+    debugger;
+    setIsDateWisecheckChanged(!isDateWisecheckChanged);
+    //setIsDisable(!allCustchecked);
+  };
   const FactoryOnchange = (value) => {
     debugger;
     setSelectedFactoryValue(value);
@@ -253,8 +260,11 @@ export default function CommissionReports(props) {
     var filters = {
       startDate: null,
       endDate: null,
+      SelectedYears: 0,
+      SelectedMonths: 0,
       FactoryId: 0,
-      SalesmId: 0,
+      SalesmId: 0
+     
     };
     GetSalesTransaction(filters);
   }, []);
@@ -286,6 +296,31 @@ export default function CommissionReports(props) {
     debugger;
 
     if (
+      selectedPriorYearValue === undefined ||
+      selectedPriorYearValue === null ||
+      selectedPriorYearValue === "" ||
+      selectedPriorYearValue.length === 0
+    ) {
+      errorMessageBox(
+        "Years  should not be blank, Please select at least one year"
+      );
+
+      return;
+    }
+    if (
+      selectedSalesMonthsValue === undefined ||
+      selectedSalesMonthsValue === null ||
+      selectedSalesMonthsValue === "" ||
+      selectedSalesMonthsValue.length === 0
+    ) {
+      errorMessageBox(
+        "Month should not be blank, Please select at least one Month"
+      );
+
+      return;
+    }
+
+    if (
       selectedFactoryValue === undefined ||
       selectedFactoryValue === null ||
       selectedFactoryValue === "" ||
@@ -312,10 +347,14 @@ export default function CommissionReports(props) {
     var filters = {
       startDate: sd,
       endDate: ed,
+      SelectedYears: selectedPriorYearValue,
+      SelectedMonths: selectedSalesMonthsValue,
       FactoryId: selectedFactoryValue,
       SalesmId: selectedSalesmanValue,
+      IsDatewise:isDateWisecheckChanged
+  
     };
-   
+   debugger;
     setData([]);
     GetSalesTransaction(filters);
   };
@@ -344,7 +383,20 @@ export default function CommissionReports(props) {
         <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}></Grid>
-            <Grid item xs={12} sm={6}>
+
+            <Grid item xs={12} sm={2}>
+              <label>IsDateWise</label>
+
+              <Checkbox
+                {...label}
+                checked={isDateWisecheckChanged}
+                onChange={DateWisecheckChanged}
+                color="primary"
+                size="medium"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={5}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
@@ -359,7 +411,7 @@ export default function CommissionReports(props) {
               </LocalizationProvider>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={5}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"
@@ -373,6 +425,9 @@ export default function CommissionReports(props) {
                 />
               </LocalizationProvider>
             </Grid>
+
+           
+
             <Grid item xs={12} sm={3}>
               <MultiselectYearddl
                 selectedYears={PriorYearOnchange}

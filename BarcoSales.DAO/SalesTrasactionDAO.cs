@@ -27,10 +27,9 @@ namespace BarcoSales.DAO
 
 
         //}
-
         private void insertMultsalesvalu(string cnn, string scode)
         {
-            
+
 
             using (MySqlConnection connection = new MySqlConnection(cnn))
             {
@@ -39,6 +38,58 @@ namespace BarcoSales.DAO
                     string cmdText = "INSERT INTO localpsaleman(SalesmanCode) VALUES (@SalesmanCode)";
                     MySqlCommand cmd = new MySqlCommand(cmdText, connection);
                     cmd.Parameters.AddWithValue("@SalesmanCode", scode);
+
+                    connection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    //lblError.Text = "Data Saved";
+                }
+                catch (Exception ex)
+                {
+                    // MessageBox.Show("not entered");
+                    //lblError.Text = ex.Message;
+                }
+            }
+
+
+
+        }
+
+        private void insertMultYearsvalu(string cnn, string Years)
+        {
+
+
+            using (MySqlConnection connection = new MySqlConnection(cnn))
+            {
+                try
+                {
+                    string cmdText = "INSERT INTO localYears(Years) VALUES (@Years)";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, connection);
+                    cmd.Parameters.AddWithValue("@Years", Years);
+
+                    connection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    //lblError.Text = "Data Saved";
+                }
+                catch (Exception ex)
+                {
+                    // MessageBox.Show("not entered");
+                    //lblError.Text = ex.Message;
+                }
+            }
+
+
+        }
+        private void insertMultMonthsvalu(string cnn, string Months)
+        {
+            
+
+            using (MySqlConnection connection = new MySqlConnection(cnn))
+            {
+                try
+                {
+                    string cmdText = "INSERT INTO localMonths(Months) VALUES (@Months)";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, connection);
+                    cmd.Parameters.AddWithValue("@Months", Months);
 
                     connection.Open();
                     int result = cmd.ExecuteNonQuery();
@@ -90,23 +141,36 @@ namespace BarcoSales.DAO
                   startDate = transactionSearchRequest.StartDate.ToString("yyyy-MM-dd");
                       EndDate = transactionSearchRequest.EndDate.ToString("yyyy-MM-dd");
 
-                string factories = "";
+                //string factories = "";
 
-                string salesman = "";
+                //string salesman = "";
 
-                if(transactionSearchRequest.FactoryId.Length > 0)
+                if (transactionSearchRequest.SelectedYears.Length > 0)
+                {
+                    for (int i = 0; i < transactionSearchRequest.SelectedYears.Length; i++)
+                    {
+                        insertMultYearsvalu(conn, transactionSearchRequest.SelectedYears[i]);
+
+
+                    }
+                }
+
+                if (transactionSearchRequest.SelectedMonths.Length > 0)
+                {
+                    for (int i = 0; i < transactionSearchRequest.SelectedMonths.Length; i++)
+                    {
+                        insertMultMonthsvalu(conn, transactionSearchRequest.SelectedMonths[i]);
+
+                    }
+                }
+
+
+                if (transactionSearchRequest.FactoryId.Length > 0)
                 {
                     for(int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
                     {
                         insertMultfactvalu(conn, transactionSearchRequest.FactoryId[i]);
-                    //    if(i== transactionSearchRequest.FactoryId.Length-1)
-                    //    {
-                    //        factories =   factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "'";
-                    //    }
-                    //    else
-                    //    {
-                    //        factories = factories + "'" + transactionSearchRequest.FactoryId[i].ToString() + "',";
-                    //    }
+               
 
                     }
                 }
@@ -116,14 +180,7 @@ namespace BarcoSales.DAO
                     for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
                     {
                         insertMultsalesvalu(conn, transactionSearchRequest.SalesmId[i]);
-                    //    if(i== transactionSearchRequest.SalesmId.Length-1)
-                    //    {
-                    //        salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString()+"'";
-                    //    }
-                    //    else
-                    //    {
-                    //        salesman = salesman + "'" + transactionSearchRequest.SalesmId[i].ToString() + "'";
-                    //    }
+                  
                     }
                 }
 
@@ -133,13 +190,14 @@ namespace BarcoSales.DAO
                 cmd.Connection = sql_conn;
                 //  cmd.CommandText = "CALL storedprocname (@para1, @para2)";
                 //  cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date,@factoryName,@salesman)";
-                cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date)";
+               // cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date)";
+               cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise21(@start_date,@end_date,@IsDatewise)";
 
 
                 var sqlParameters = new List<MySqlParameter>();
                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = startDate });
                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = EndDate });
-                //sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@factoryName", Value = factories });
+                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Bool, ParameterName = "@IsDatewise", Value = transactionSearchRequest.IsDatewise });
                 //sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@salesman", Value = salesman });
                 cmd.Parameters.AddRange(sqlParameters.ToArray());
                 sql_conn.Open();
