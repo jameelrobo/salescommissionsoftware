@@ -39,7 +39,12 @@ import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
 import { ToastContainer, toast } from "react-toastify";
-
+import {
+  Edit as EditIcon,
+  Add as AddIcon,
+  Delete as DeleIcon,
+} from "@material-ui/icons";
+import { confirm } from "react-confirm-box";
 const tableRef = React.createRef();
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -64,6 +69,44 @@ const tableIcons = {
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
+const onClick1 = async (rowData) => {
+  const result = await confirm(
+    "Do you really want to delete this trasaction Id = " + rowData.TrasactionId + "?"
+  );
+
+  if (result) {
+    debugger;
+
+    // axios
+    // .put("CommissionRules/EditCommissionRules", CommRule)
+    // .then((res) => {
+    //   if (res.status === 200) {
+    //     debugger;
+    //     successMessageBox("Record has been updated successfully!");
+    //     setCommissionRulesId(0);
+    //    // refresh();
+    //     GetCummRules();
+    //     console.log(res);
+    //   } else {
+    //     errorMessageBox("Invalid  Information!");
+    //   }
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+    
+  }
+};
+const actions = [
+  
+  {
+    icon: () => <DeleIcon />,
+    tooltip: "Delete Transaction",
+    onClick: (event, rowData) => {
+      onClick1(rowData);
+    },
+  },
+];
 
 const successMessageBox = (successMsg) => {
   toast.success(successMsg, {
@@ -265,11 +308,10 @@ export default function Analytics(props) {
 
  
   const columns = [
-    // { title: "Created Date", field: "CreatedDate" }, 
+    { title: "TrnsId", field: "TrasactionId" },
     
-   // { title: "CustId", field: "CustId" },
     { title: "Customer Name", field: "SoldToName" },
-    { title: " Factory Name ", field: "FactoryName" },
+    { title: "Factory Name ", field: "FactoryName" },
     // { title: "Check#", field: "CheckNo" },
     
     { title: "Month Name", field: "MonthName" },
@@ -281,6 +323,7 @@ export default function Analytics(props) {
     // { title: "CommRate", field: "SalesmanCommRate" },
 
     { title: "CommAmt", field: "SalesmanCommAmt" },
+    { title: "Created Date", field: "CreatedDate" }, 
     // { title: "SoldToAddress", field: "ShipToAddress" },
     // { title: "SoldToState", field: "ShipToCity" },
     // { title: "ShipToName", field: "ShipToName" },
@@ -510,7 +553,7 @@ export default function Analytics(props) {
           columns={columns}
           data={data}
           icons={tableIcons}
-          
+          actions={actions}
           tableRef={tableRef}
           options={{
             sorting: true,
@@ -529,7 +572,7 @@ export default function Analytics(props) {
             exportAllData: true,
             exportFileName: "SalesCommission",
             addRowPosition: "first",
-            actionsColumnIndex: -1,
+            // actionsColumnIndex: -1,
             // selection: true,
             showSelectAllCheckbox: false,
             showTextRowsSelected: false,
