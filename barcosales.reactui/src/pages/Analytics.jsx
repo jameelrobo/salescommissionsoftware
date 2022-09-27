@@ -13,11 +13,14 @@ import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
 import SalesmanmMultiselectddl from "./SalesmanmMultiselectddl";
 import MultiselectFcotoryddl from "./MultiselectFcotoryddl";
 import SalesmanDropdownlist from "./SalesmanDropdownlist";
+import MultiselectMonthddl from "./MultiselectMonthddl";
+import MultiselectYearddl from "./MultiselectYearddl";
 
 import axios from "axios";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Checkbox from "@mui/material/Checkbox";
 
 import TextField from "@material-ui/core/TextField";
 import AddBox from "@material-ui/icons/AddBox";
@@ -103,18 +106,23 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
 }));
-
+const label = { inputProps: { "aria-label": "Checkbox demo" } }; 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function Analytics(props) {
   const classes = useStyles();
 
-  const [selectedFactoryValue, setSelectedFactoryValue] = useState([]);
-  const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
-  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
-  const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
   
+  const [selectedFactoryValue, setSelectedFactoryValue] = useState([]);
+  const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
+  const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
+  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
+  const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false); 
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
-
+  const DateWisecheckChanged = (state) => {
+    debugger;
+    setIsDateWisecheckChanged(!isDateWisecheckChanged);
+    //setIsDisable(!allCustchecked);
+  };
   const FactoryOnchange = (value) => {
     debugger;
     setSelectedFactoryValue(value);
@@ -152,13 +160,16 @@ export default function Analytics(props) {
 
 
   useEffect(() => {
-debugger;
+    debugger;
     var filters = {
       startDate: null,
       endDate: null,
+      SelectedYears: 0,
+      SelectedMonths: 0,
       FactoryId: 0,
       SalesmId: 0
-    }
+     
+    };
     GetSalesTransaction(filters);
 
   }, []);
@@ -279,50 +290,78 @@ debugger;
   ];
  
 
-  const search=()=>{
+  const search = () => {
     debugger;
-    var sd = new Date(startDatevalue); 
-    var ed = new Date(endDatevalue); 
-var sd= sd.toLocaleDateString();
-var ed= ed.toLocaleDateString();
-debugger;
+    var sd = new Date(startDatevalue);
+    var ed = new Date(endDatevalue);
+    var sd = sd.toLocaleDateString();
+    var ed = ed.toLocaleDateString();
+    debugger;
 
-if (
-  selectedFactoryValue === undefined ||
-  selectedFactoryValue === null ||
-  selectedFactoryValue === "" ||
-  selectedFactoryValue.length === 0
-) {
-  errorMessageBox(
-    "Factory  should not be blank, Please select at least one Factory"
-  );
+    if (
+      selectedPriorYearValue === undefined ||
+      selectedPriorYearValue === null ||
+      selectedPriorYearValue === "" ||
+      selectedPriorYearValue.length === 0
+    ) {
+      errorMessageBox(
+        "Years  should not be blank, Please select at least one year"
+      );
+
+      return;
+    }
+    if (
+      selectedSalesMonthsValue === undefined ||
+      selectedSalesMonthsValue === null ||
+      selectedSalesMonthsValue === "" ||
+      selectedSalesMonthsValue.length === 0
+    ) {
+      errorMessageBox(
+        "Month should not be blank, Please select at least one Month"
+      );
+
+      return;
+    }
+
+    if (
+      selectedFactoryValue === undefined ||
+      selectedFactoryValue === null ||
+      selectedFactoryValue === "" ||
+      selectedFactoryValue.length === 0
+    ) {
+      errorMessageBox(
+        "Factory  should not be blank, Please select at least one Factory"
+      );
+
+      return;
+    }
+    if (
+      selectedSalesmanValue === undefined ||
+      selectedSalesmanValue === null ||
+      selectedSalesmanValue === "" ||
+      selectedSalesmanValue.length === 0
+    ) {
+      errorMessageBox(
+        "Salesman should not be blank, Please select at least one Salesman "
+      );
+
+      return;
+    }
+    var filters = {
+      startDate: sd,
+      endDate: ed,
+      SelectedYears: selectedPriorYearValue,
+      SelectedMonths: selectedSalesMonthsValue,
+      FactoryId: selectedFactoryValue,
+      SalesmId: selectedSalesmanValue,
+      IsDatewise:isDateWisecheckChanged
   
-  return;
-}
-if (
-  selectedSalesmanValue === undefined ||
-  selectedSalesmanValue === null ||
-  selectedSalesmanValue === "" ||
-  selectedSalesmanValue.length === 0
-) {
-  errorMessageBox(
-    "Salesman should not be blank, Please select at least one Salesman "
-  );
-  
-  return;
-}
-   var filters = {
-    startDate: sd,
-    endDate: ed,
-    FactoryId: selectedFactoryValue,
-    SalesmId:selectedSalesmanValue,
+    };
+   debugger;
+    setData([]);
+    GetSalesTransaction(filters);
   };
-  // setSelectedFactoryValue([]);
-  // setSelectedSalesmanValue([]);
-  setData([]);
-   GetSalesTransaction(filters);
-    
-  }
+
 
   const tableRef = React.createRef();
   const tableIcons = {
@@ -373,8 +412,21 @@ if (
 
         <form className={classes.form}>
           <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}></Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}></Grid>
+
+            <Grid item xs={12} sm={2}>
+              <label>IsDateWise</label>
+
+              <Checkbox
+                {...label}
+                checked={isDateWisecheckChanged}
+                onChange={DateWisecheckChanged}
+                color="primary"
+                size="medium"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={5}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
@@ -389,7 +441,7 @@ if (
               </LocalizationProvider>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={5}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"
@@ -403,20 +455,33 @@ if (
                 />
               </LocalizationProvider>
             </Grid>
+
            
-        
-        
-            <Grid item xs={12} sm={6}>
+
+            <Grid item xs={12} sm={3}>
+              <MultiselectYearddl
+                selectedYears={PriorYearOnchange}
+                // selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={3}>
+              {/* <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} /> */}
+              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange} />
+            </Grid>
+
+            <Grid item xs={12} sm={3}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
-        
-            <Grid item xs={12} sm={6}>
+
+            <Grid item xs={12} sm={3}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
-               <MultiselectFcotoryddl   Selectedfactorylist={FactoryOnchange} />
+              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} />
             </Grid>
             {/* <Button
             type="submit"
@@ -428,19 +493,17 @@ if (
             Search
           </Button> */}
 
-          <Grid item xs={12} sm={12}>
-          <Button
+            <Grid item xs={12} sm={12}>
+              <Button
                 variant="contained"
                 color="primary"
                 fullWidth
                 onClick={() => search()}
               >
-               Search
+                Search
               </Button>
+            </Grid>
           </Grid>
-          
-          </Grid>
-        
         </form>
         <MaterialTable
           title=""
