@@ -69,44 +69,7 @@ const tableIcons = {
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
-const onClick1 = async (rowData) => {
-  const result = await confirm(
-    "Do you really want to delete this trasaction Id = " + rowData.TrasactionId + "?"
-  );
 
-  if (result) {
-    debugger;
-
-    // axios
-    // .put("CommissionRules/EditCommissionRules", CommRule)
-    // .then((res) => {
-    //   if (res.status === 200) {
-    //     debugger;
-    //     successMessageBox("Record has been updated successfully!");
-    //     setCommissionRulesId(0);
-    //    // refresh();
-    //     GetCummRules();
-    //     console.log(res);
-    //   } else {
-    //     errorMessageBox("Invalid  Information!");
-    //   }
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
-    
-  }
-};
-const actions = [
-  
-  {
-    icon: () => <DeleIcon />,
-    tooltip: "Delete Transaction",
-    onClick: (event, rowData) => {
-      onClick1(rowData);
-    },
-  },
-];
 
 const successMessageBox = (successMsg) => {
   toast.success(successMsg, {
@@ -305,7 +268,44 @@ export default function Analytics(props) {
       });
   };
 
-
+  const onClick1 = async (rowData) => {
+    const result = await confirm(
+      "Do you really want to delete this trasaction Id = " + rowData.TrasactionId + "?"
+    );
+  
+    if (result) {
+      debugger;
+      rowData.IsActive=false;
+      axios
+      .put("Trasaction/EditTrasaction", rowData)
+      .then((res) => {
+        if (res.status === 200) {
+          debugger;
+          successMessageBox("Record has been updated successfully!");
+         // setCommissionRulesId(0);
+         // refresh();
+         TransctionSearch();
+          console.log(res);
+        } else {
+          errorMessageBox("Invalid  Information!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      
+    }
+  };
+  const actions = [
+    
+    {
+      icon: () => <DeleIcon />,
+      tooltip: "Delete Transaction",
+      onClick: (event, rowData) => {
+        onClick1(rowData);
+      },
+    },
+  ];
  
   const columns = [
     { title: "TrnsId", field: "TrasactionId" },
@@ -333,7 +333,7 @@ export default function Analytics(props) {
   ];
  
 
-  const search = () => {
+  const TransctionSearch = () => {
     debugger;
     var sd = new Date(startDatevalue);
     var ed = new Date(endDatevalue);
@@ -407,33 +407,33 @@ export default function Analytics(props) {
 
 
   const tableRef = React.createRef();
-  const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => (
-      <ChevronRight {...props} ref={ref} />
-    )),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => (
-      <ChevronLeft {...props} ref={ref} />
-    )),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => (
-      <ArrowDownward {...props} ref={ref} />
-    )),
-    ThirdStateCheck: forwardRef((props, ref) => (
-      <Remove {...props} ref={ref} />
-    )),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-  };
+  // const tableIcons = {
+  //   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+  //   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  //   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  //   Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+  //   DetailPanel: forwardRef((props, ref) => (
+  //     <ChevronRight {...props} ref={ref} />
+  //   )),
+  //   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  //   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  //   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+  //   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+  //   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+  //   NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+  //   PreviousPage: forwardRef((props, ref) => (
+  //     <ChevronLeft {...props} ref={ref} />
+  //   )),
+  //   ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+  //   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+  //   SortArrow: forwardRef((props, ref) => (
+  //     <ArrowDownward {...props} ref={ref} />
+  //   )),
+  //   ThirdStateCheck: forwardRef((props, ref) => (
+  //     <Remove {...props} ref={ref} />
+  //   )),
+  //   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  // };
 
   return (
     <>
@@ -541,7 +541,7 @@ export default function Analytics(props) {
                 variant="contained"
                 color="primary"
                 fullWidth
-                onClick={() => search()}
+                onClick={() => TransctionSearch()}
               >
                 Search
               </Button>
