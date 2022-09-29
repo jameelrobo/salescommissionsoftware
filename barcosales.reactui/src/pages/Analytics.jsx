@@ -190,44 +190,41 @@ export default function Analytics(props) {
         console.log(res);
         if(res.data.length>0)
         {
+          let results = res.data.filter(item => item.IsActive === true);
           const transformedArray = [];
            
           let TotalAmt=0;
           let TotalCommAmt=0;
           let TotalSalesCommAmt=0;
-        for (let i = 0; i < res.data.length; i++) {
-           TotalAmt= TotalAmt+ res.data[i]["TotalSalesAmt"];
-           TotalCommAmt=TotalCommAmt+ res.data[i]["GrossCommAmt"];
-           TotalSalesCommAmt=TotalSalesCommAmt+ res.data[i]["SalesmanCommAmt"];
-           let date = new Date(res.data[i]["CreatedDate"]);
+        for (let i = 0; i < results.length; i++) {
+           TotalAmt= TotalAmt+ results[i]["TotalSalesAmt"];
+           TotalCommAmt=TotalCommAmt+ results[i]["GrossCommAmt"];
+           TotalSalesCommAmt=TotalSalesCommAmt+ results[i]["SalesmanCommAmt"];
+           let date = new Date(results[i]["CreatedDate"]);
            /* Date format you have */
            let dateMDY = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
            /* Date converted to MM-DD-YYYY format */
           const objdatagrid = {
-            TrasactionId:   res.data[i]["TrasactionId"],
-            SalesmId:   res.data[i]["SalesmId"],
-            SalesmanCode:   res.data[i]["SalesmanCode"],
-            CustId:   res.data[i]["CustId"],
-            CommissionRulesId:   res.data[i]["CommissionRulesId"],
-            SoldToName:  res.data[i]["SoldToName"],
-            
-            SoldToState:  res.data[i]["SoldToState"],
-            
-            
-            SoldToCity:  res.data[i]["SoldToCity"],
-           
-            FactoryId:   res.data[i]["FactoryId"],
-            FactoryName:   res.data[i]["FactoryName"],
-            CheckNo:   res.data[i]["CheckNo"],
+            TrasactionId:   results[i]["TrasactionId"],
+            SalesmId:   results[i]["SalesmId"],
+            SalesmanCode:   results[i]["SalesmanCode"],
+            CustId:   results[i]["CustId"],
+            CommissionRulesId:   results[i]["CommissionRulesId"],
+            SoldToName:  results[i]["SoldToName"],
+            SoldToState:  results[i]["SoldToState"],
+            SoldToCity:  results[i]["SoldToCity"],
+            FactoryId:   results[i]["FactoryId"],
+            FactoryName:   results[i]["FactoryName"],
+            CheckNo:   results[i]["CheckNo"],
             CreatedDate:dateMDY,
-            MonthName:   res.data[i]["MonthName"],
-            InvoiceNo:  res.data[i]["SInvoiceNo"],
-            TotalSalesAmt: numberToCurrency(  res.data[i]["TotalSalesAmt"]),
-           // GrossCommRate: `${res.data[i]["GrossCommRate"]}%`,
-            GrossCommRate: res.data[i]["GrossCommRate"],
-            GrossCommAmt: numberToCurrency(  res.data[i]["GrossCommAmt"]),
-            SalesmanCommRate: `${  res.data[i]["SalesmanCommRate"]}%`,
-            SalesmanCommAmt: numberToCurrency(  res.data[i]["SalesmanCommAmt"]),
+            MonthName:   results[i]["MonthName"],
+            InvoiceNo:  results[i]["SInvoiceNo"],
+            TotalSalesAmt:  results[i]["TotalSalesAmt"],
+           // GrossCommRate: `${results[i]["GrossCommRate"]}%`,
+            GrossCommRate: results[i]["GrossCommRate"],
+            GrossCommAmt:  results[i]["GrossCommAmt"],
+            SalesmanCommRate:   results[i]["SalesmanCommRate"] ,
+            SalesmanCommAmt:  results[i]["SalesmanCommAmt"],
             CreatedBy: 1,
             IsActive: 1,
           };
@@ -249,11 +246,11 @@ export default function Analytics(props) {
           CreatedDate:'',
           MonthName:   '',
           InvoiceNo:  '',
-          TotalSalesAmt: numberToCurrency(  TotalAmt),
+          TotalSalesAmt:  TotalAmt,
           GrossCommRate: '',
-          GrossCommAmt: numberToCurrency(  TotalCommAmt),
+          GrossCommAmt: TotalCommAmt,
           SalesmanCommRate: '',
-          SalesmanCommAmt: numberToCurrency(  TotalSalesCommAmt),
+          SalesmanCommAmt: TotalSalesCommAmt,
           CreatedBy: 1,
           IsActive: 1,
         };
@@ -277,7 +274,7 @@ export default function Analytics(props) {
       debugger;
       rowData.IsActive=false;
       axios
-      .put("Trasaction/EditTrasaction", rowData)
+      .put("SalesTrasaction/EditTrasaction", rowData)
       .then((res) => {
         if (res.status === 200) {
           debugger;
