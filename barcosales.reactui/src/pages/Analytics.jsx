@@ -294,19 +294,26 @@ export default function Analytics(props) {
   };
 
   const onClick1 = async (rowData) => {
-    const result = await confirm(
-      "Do you really want to delete this trasaction Id = " + rowData.TrasactionId + "?"
-    );
+    // const result = await confirm(
+    //   "Do you really want to Update this trasaction Id = " + rowData.TrasactionId + "?"
+    // );
   
-    if (result) {
+    
       debugger;
      // rowData.IsActive=false;
+     if(isShowDeletecheckChanged)
+     {
+      const result = await confirm(
+        "Do you really want to revoke this trasaction Id = " + rowData.TrasactionId + "?"
+      );
+    
+      if (result) {
       axios
-      .post("SalesTrasaction/DeActiveTransaction?TId="+rowData.TrasactionId)
+      .post("SalesTrasaction/ActiveTransaction?TId="+rowData.TrasactionId)
       .then((res) => {
         if (res.status === 200) {
           debugger;
-          successMessageBox("Record has been updated successfully!");
+          successMessageBox("Record has been revoke successfully!");
          // setCommissionRulesId(0);
          // refresh();
          TransctionSearch();
@@ -318,8 +325,34 @@ export default function Analytics(props) {
       .catch((err) => {
         console.log(err);
       });
-      
     }
+     }
+     else{
+      const result = await confirm(
+        "Do you really want to delete this trasaction Id = " + rowData.TrasactionId + "?"
+      );
+    
+      if (result) {
+      axios
+      .post("SalesTrasaction/DeActiveTransaction?TId="+rowData.TrasactionId)
+      .then((res) => {
+        if (res.status === 200) {
+          debugger;
+          successMessageBox("Record has been deleted successfully!");
+         // setCommissionRulesId(0);
+         // refresh();
+         TransctionSearch();
+          console.log(res);
+        } else {
+          errorMessageBox("Invalid  Information!");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+    }
+  
   };
   const actions = [
     

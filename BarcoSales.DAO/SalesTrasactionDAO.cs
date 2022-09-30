@@ -27,6 +27,40 @@ namespace BarcoSales.DAO
 
 
         //}
+
+   public int IActiveTransaction(string cnn, Int64 TId)
+        {
+
+
+            using (MySqlConnection connection = new MySqlConnection(cnn))
+            {
+                try
+                {
+
+
+                    //string cmdText = "INSERT INTO localpsaleman(SalesmanCode) VALUES (@SalesmanCode)";
+                    string cmdText = "CALL sp_ActiveTransaction(@TId)";
+                   // cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise21(@start_date,@end_date,@IsDatewise)";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, connection);
+                    cmd.Parameters.AddWithValue("@TId", TId);
+
+                    connection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    //lblError.Text = "Data Saved";
+                    return result;
+
+                }
+                catch (Exception ex)
+                {
+                    return 0;
+                    // MessageBox.Show("not entered");
+                    //lblError.Text = ex.Message;
+                }
+            }
+
+
+
+        }
         public int IDeActiveTransaction(string cnn, Int64 TId)
         {
 

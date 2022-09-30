@@ -9,8 +9,8 @@ namespace BarcoSales.Repository
     public interface ISalesTrasaction
     {
         string IGetSalesTrasaction(string connString);  
-        int IDeActiveTransaction(string connString,Int64 TId); 
-
+        int IDeActiveTransaction(string connString,Int64 TId);
+        int IActiveTransaction(string connString,Int64 TId); 
         string ISearchTransaction(TransactionSearchRequest transactionSearchRequest, string connString=null);
      
         Salestrasaction IGetSalesTrasactionById(int id);

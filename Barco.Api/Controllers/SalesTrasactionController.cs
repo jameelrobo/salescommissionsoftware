@@ -65,7 +65,25 @@ namespace Barco.Api.Controllers
                 return 0;
             }
         }
+ [HttpPost]
+        [Route("[action]")]
+        [Route("api/Trasaction/ActiveTransaction")]
+        public int ActiveTransaction(Int64 TId)
+        {
+            try
+            {
 
+
+                string connString = this.Configuration.GetConnectionString("ContosoConnection");
+                return salesTrasactionService.IActiveTransaction(connString, TId);
+            }
+
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Some unknown error has occurred.");
+                return 0;
+            }
+        }
         [HttpPost]
         [Route("[action]")]
         [Route("api/Trasaction/SearchTransaction")]
