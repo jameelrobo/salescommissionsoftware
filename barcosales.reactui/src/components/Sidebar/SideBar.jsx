@@ -51,12 +51,12 @@ const routes = [
   
   {
     path: "/analytics",
-    name: "Commission Reports",
+    name: "Manage Transaction ",
     icon: <BiAnalyse />,
   },
   {
     path: "/reports",
-    name: "Group Summaries",
+    name: "Commisson Reports ",
     icon: <BiAnalyse />,
   },
   // {
