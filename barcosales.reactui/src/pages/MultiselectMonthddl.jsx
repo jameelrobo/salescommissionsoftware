@@ -17,7 +17,16 @@ export default function MultiselectMonthddl({ SelectedMonths}){
  const options = [
   "Jan",
   "Feb",
-  "March"
+  "Mar",
+  "April",
+  "May",
+  "June",
+  "July",
+  "Aug",
+  "Sept",
+  "Oct",
+  "Nov",
+  "Dec"
   
 ];
     // useEffect(() => {
