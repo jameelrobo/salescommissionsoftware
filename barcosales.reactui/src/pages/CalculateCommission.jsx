@@ -56,6 +56,7 @@ export default function CalculateCommission(props) {
       progress: undefined,
     });
   };
+  
   const errorMessageBox = (errorMsg) => {
     toast.error(errorMsg, {
       position: "top-center",

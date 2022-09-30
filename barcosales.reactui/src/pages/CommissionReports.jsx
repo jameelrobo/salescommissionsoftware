@@ -247,6 +247,7 @@ export default function CommissionReports(props) {
   const [endDatevalue, setEndDatevalue] = useState(Date);
 
   const [data, setData] = useState();
+  
   // const numberToCurrency = (num) => {
   //   const formatter = new Intl.NumberFormat("en-US", {
   //     style: "currency",

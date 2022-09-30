@@ -117,16 +117,23 @@ const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function Analytics(props) {
   const classes = useStyles();
 
-  
+   const [coldef, setColdef] = useState([]);
   const [selectedFactoryValue, setSelectedFactoryValue] = useState([]);
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false); 
+  const [isShowDeletecheckChanged,setIsShowDeletecheckChanged] = useState(false); 
+
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
   const DateWisecheckChanged = (state) => {
     debugger;
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
+    //setIsDisable(!allCustchecked);
+  };
+  const IsShowDeletecheckChanged = (state) => {
+    debugger;
+    setIsShowDeletecheckChanged(!isShowDeletecheckChanged);
     //setIsDisable(!allCustchecked);
   };
   const FactoryOnchange = (value) => {
@@ -188,9 +195,21 @@ export default function Analytics(props) {
       .then((res) => {
         debugger;
         console.log(res);
+        let results ="";
         if(res.data.length>0)
         {
-          let results = res.data.filter(item => item.IsActive === true);
+          if(isShowDeletecheckChanged)
+          {
+            results = res.data.filter(item => item.IsActive === false);
+
+ 
+          }
+          else{
+            results = res.data.filter(item => item.IsActive === true);
+          }
+          
+
+
           const transformedArray = [];
            
           let TotalAmt=0;
@@ -200,9 +219,12 @@ export default function Analytics(props) {
            TotalAmt= TotalAmt+ results[i]["TotalSalesAmt"];
            TotalCommAmt=TotalCommAmt+ results[i]["GrossCommAmt"];
            TotalSalesCommAmt=TotalSalesCommAmt+ results[i]["SalesmanCommAmt"];
-           let date = new Date(results[i]["CreatedDate"]);
+           let cdate = new Date(results[i]["CreatedDate"]);
+           let cdateMDY = `${cdate.getDate()}-${cdate.getMonth() + 1}-${cdate.getFullYear()}`;
+           let udate = new Date(results[i]["UpdatedDate"]);
+           let udateMDY = `${udate.getDate()}-${udate.getMonth() + 1}-${udate.getFullYear()}`;
            /* Date format you have */
-           let dateMDY = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+          
            /* Date converted to MM-DD-YYYY format */
           const objdatagrid = {
             TrasactionId:   results[i]["TrasactionId"],
@@ -216,7 +238,8 @@ export default function Analytics(props) {
             FactoryId:   results[i]["FactoryId"],
             FactoryName:   results[i]["FactoryName"],
             CheckNo:   results[i]["CheckNo"],
-            CreatedDate:dateMDY,
+            CreatedDate:cdateMDY,
+            UpdatedDate:udateMDY,
             MonthName:   results[i]["MonthName"],
             InvoiceNo:  results[i]["SInvoiceNo"],
             TotalSalesAmt:  results[i]["TotalSalesAmt"],
@@ -231,31 +254,31 @@ export default function Analytics(props) {
           
           transformedArray.push(objdatagrid);
         }
-        const objdatagrid = {
-          TrasactionId:   '',
-          SalesmId:   '',
-          SalesmanCode:  'Total Amount',
-          CustId:   '',
-          CommissionRulesId:  '',
-          SoldToName: '',
-          SoldToCity:  '',
-          SoldToState:  '',
-          FactoryId:  '',
-          FactoryName:   '',
-          CheckNo:   '',
-          CreatedDate:'',
-          MonthName:   '',
-          InvoiceNo:  '',
-          TotalSalesAmt:  TotalAmt,
-          GrossCommRate: '',
-          GrossCommAmt: TotalCommAmt,
-          SalesmanCommRate: '',
-          SalesmanCommAmt: TotalSalesCommAmt,
-          CreatedBy: 1,
-          IsActive: 1,
-        };
-        debugger;
-        transformedArray.push(objdatagrid);
+        // const objdatagrid = {
+        //   TrasactionId:   '',
+        //   SalesmId:   '',
+        //   SalesmanCode:  'Total Amount',
+        //   CustId:   '',
+        //   CommissionRulesId:  '',
+        //   SoldToName: '',
+        //   SoldToCity:  '',
+        //   SoldToState:  '',
+        //   FactoryId:  '',
+        //   FactoryName:   '',
+        //   CheckNo:   '',
+        //   CreatedDate:'',
+        //   MonthName:   '',
+        //   InvoiceNo:  '',
+        //   TotalSalesAmt:  TotalAmt,
+        //   GrossCommRate: '',
+        //   GrossCommAmt: TotalCommAmt,
+        //   SalesmanCommRate: '',
+        //   SalesmanCommAmt: TotalSalesCommAmt,
+        //   CreatedBy: 1,
+        //   IsActive: 1,
+        // };
+        // debugger;
+        // transformedArray.push(objdatagrid);
         setData(transformedArray);
       }
        
@@ -272,9 +295,9 @@ export default function Analytics(props) {
   
     if (result) {
       debugger;
-      rowData.IsActive=false;
+     // rowData.IsActive=false;
       axios
-      .put("SalesTrasaction/EditTrasaction", rowData)
+      .post("SalesTrasaction/DeActiveTransaction?TId="+rowData.TrasactionId)
       .then((res) => {
         if (res.status === 200) {
           debugger;
@@ -303,7 +326,8 @@ export default function Analytics(props) {
       },
     },
   ];
- 
+//             if(IsShowDeletecheckChanged)
+// {
   const columns = [
     { title: "TrnsId", field: "TrasactionId" },
     
@@ -321,13 +345,17 @@ export default function Analytics(props) {
 
     { title: "CommAmt", field: "SalesmanCommAmt" },
     { title: "Created Date", field: "CreatedDate" }, 
+    { title: "Updated Date", field: "UpdatedDate" }, 
     // { title: "SoldToAddress", field: "ShipToAddress" },
     // { title: "SoldToState", field: "ShipToCity" },
     // { title: "ShipToName", field: "ShipToName" },
     // { title: "ShipToAddress", field: "ShipToAddress" },
     // { title: "ShipToCity", field: "ShipToCity" },
     // { title: "ShipToState", field: "ShipToState" },
+    
   ];
+   
+    
  
 
   const TransctionSearch = () => {
@@ -449,6 +477,7 @@ export default function Analytics(props) {
         />
       
         <h3> Sales Commission Reports</h3>
+        
 
         <form className={classes.form}>
           <Grid container spacing={2}>
@@ -532,8 +561,18 @@ export default function Analytics(props) {
           >
             Search
           </Button> */}
+          <Grid item xs={12} sm={3}>
+              <label>IsShowDeleteRecords</label>
 
-            <Grid item xs={12} sm={12}>
+              <Checkbox
+                {...label}
+                checked={isShowDeletecheckChanged}
+                onChange={IsShowDeletecheckChanged}
+                color="primary"
+                size="medium"
+              />
+            </Grid>
+            <Grid item xs={12} sm={9}>
               <Button
                 variant="contained"
                 color="primary"
@@ -543,9 +582,12 @@ export default function Analytics(props) {
                 Search
               </Button>
             </Grid>
+
+        
           </Grid>
         </form>
-        <MaterialTable
+        
+          <MaterialTable
           title=""
           columns={columns}
           data={data}
@@ -584,6 +626,8 @@ export default function Analytics(props) {
             headerStyle: { background: "#f44336", color: "#fff" },
           }}
         />
+      
+       
       </div>
     </>
   );
