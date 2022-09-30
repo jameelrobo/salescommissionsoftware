@@ -126,6 +126,7 @@ export default function Transaction() {
   const [data, setData] = useState([]);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
+const [isEnableDisable, setIsEnableDisable] = useState(true);
 
   const [checkValue, setCheckValue] = useState("");
   const [selectedFactoryValue, setSelectedFactoryValue] = useState("");

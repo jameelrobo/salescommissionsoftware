@@ -214,10 +214,13 @@ export default function CommissionReports(props) {
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false);
-  
+  const [isEnableDisable, setIsEnableDisable] = useState(true);
+
   const DateWisecheckChanged = (state) => {
-    debugger;
+   
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
+    debugger;
+    setIsEnableDisable(isDateWisecheckChanged);
     //setIsDisable(!allCustchecked);
   };
   const FactoryOnchange = (value) => {
@@ -401,6 +404,7 @@ export default function CommissionReports(props) {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
+                  disabled={isEnableDisable}
                   value={startDatevalue}
                   onChange={(newValue) => {
                     setStartDatevalue(newValue);
@@ -416,6 +420,7 @@ export default function CommissionReports(props) {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"
+                  disabled={isEnableDisable}
                   value={endDatevalue}
                   onChange={(newValue) => {
                     setEndDatevalue(newValue);
