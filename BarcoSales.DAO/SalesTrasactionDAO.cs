@@ -314,15 +314,26 @@ namespace BarcoSales.DAO
         {
             try
             {
-
-
-                if (salesTrasaction != null)
+                var IsExistsalesTrasaction = dbContext.Salestrasaction.FirstOrDefault(x => x.FinYear == salesTrasaction.FinYear && x.MonthName == salesTrasaction.MonthName && x.SoldToName == salesTrasaction.SoldToName
+                && x.SoldToCity == salesTrasaction.SoldToCity && x.SoldToState == salesTrasaction.SoldToState);
+              
+                if (IsExistsalesTrasaction != null)
                 {
-                    salesTrasaction.CreatedDate=DateTime.Now;
-                    dbContext.Salestrasaction.Add(salesTrasaction);
-                    dbContext.SaveChanges();
+                    IsExistsalesTrasaction.UpdatedDate = DateTime.Now;
+                    dbContext.Entry(IsExistsalesTrasaction).State = EntityState.Modified;
                     return salesTrasaction;
                 }
+                else {
+                    if (salesTrasaction != null)
+                    {
+                        salesTrasaction.CreatedDate = DateTime.Now;
+                        dbContext.Salestrasaction.Add(salesTrasaction);
+                        dbContext.SaveChanges();
+                        return salesTrasaction;
+                    }
+                }
+
+               
                 return null;
             }
 
