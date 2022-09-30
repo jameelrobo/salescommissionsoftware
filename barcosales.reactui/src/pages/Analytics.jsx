@@ -124,11 +124,14 @@ export default function Analytics(props) {
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false); 
   const [isShowDeletecheckChanged,setIsShowDeletecheckChanged] = useState(false); 
+  const [isEnableDisable, setIsEnableDisable] = useState(true);
 
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
   const DateWisecheckChanged = (state) => {
-    debugger;
+   
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
+    debugger;
+    setIsEnableDisable(isDateWisecheckChanged);
     //setIsDisable(!allCustchecked);
   };
   const IsShowDeletecheckChanged = (state) => {
@@ -161,6 +164,8 @@ export default function Analytics(props) {
   };
   const [startDatevalue, setStartDatevalue] = useState(Date);
   const [endDatevalue, setEndDatevalue] = useState(Date);
+
+ 
 
   const [data, setData] = useState();
   const numberToCurrency = (num) => {
@@ -499,6 +504,7 @@ export default function Analytics(props) {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
+                  disabled={isEnableDisable}
                   value={startDatevalue}
                   onChange={(newValue) => {
                     setStartDatevalue(newValue);
@@ -514,6 +520,7 @@ export default function Analytics(props) {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"
+                  disabled={isEnableDisable}
                   value={endDatevalue}
                   onChange={(newValue) => {
                     setEndDatevalue(newValue);
