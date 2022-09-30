@@ -36,7 +36,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { wait } from "@testing-library/user-event/dist/utils";
 
-import FactoriesDropdownlistTr from "./FactoriesDropdownlistTr";
+import CommRulesFactoriesDropdownlistTr from "./CommRulesFactoriesDropdownlistTr";
 import FactoryCategoryddlTr from "./FactoryCategoryddlTr";
 import PriorYearDropdownlist from "./PriorYearDropdownlist";
 import SalesMonthsDropdownlist from "./SalesMonthsDropdownlist";
@@ -957,7 +957,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
             </Grid> */}
 
             <Grid item xs={12} sm={4}>
-              <FactoriesDropdownlistTr
+              <CommRulesFactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} />
             </Grid>
 

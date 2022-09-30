@@ -150,7 +150,7 @@ export default function CommissonRules(props) {
   const columns = [
     { title: "CommissionRulesId", field: "CommissionRulesId" },
     { title: "CustomerName", field: "CustomerName" },
-    // { title: "SalesmanName", field: "SalesmanName" },
+    { title: "PrincCode", field: "PrincCode" },
     { title: "FactoryName", field: "FactoryName" },
     { title: "CommisionRate", field: "CommisionRate" },
     // { title: "FinYearId", field: "FinYearId" },
