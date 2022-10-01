@@ -314,24 +314,25 @@ namespace BarcoSales.DAO
         {
             try
             {
-                //var IsExistsalesTrasaction = dbContext.Salestrasaction.FirstOrDefault(x => x.FinYear == salesTrasaction.FinYear 
-                //&& x.MonthName == salesTrasaction.MonthName && x.FactoryId == salesTrasaction.FactoryId  
-                //&& x.SoldToName == salesTrasaction.SoldToName
-                //&& x.SoldToCity == salesTrasaction.SoldToCity && x.SoldToState == salesTrasaction.SoldToState );
-              
-                //if (IsExistsalesTrasaction != null)
-                //{
-                //    IsExistsalesTrasaction.UpdatedDate = DateTime.Now;
-                //    IsExistsalesTrasaction.TotalSalesAmt = salesTrasaction.TotalSalesAmt;
+                var IsExistsalesTrasaction = dbContext.Salestrasaction.FirstOrDefault(x => x.FinYear == salesTrasaction.FinYear
+                && x.MonthName == salesTrasaction.MonthName && x.FactoryId == salesTrasaction.FactoryId
+                && x.SoldToName == salesTrasaction.SoldToName
+                && x.SoldToCity == salesTrasaction.SoldToCity && x.SoldToState == salesTrasaction.SoldToState);
 
-                //    IsExistsalesTrasaction.GrossCommAmt = salesTrasaction.GrossCommAmt;
-                //    IsExistsalesTrasaction.SalesmanCommAmt = salesTrasaction.SalesmanCommAmt;
+                if (IsExistsalesTrasaction != null)
+                {
+                    IsExistsalesTrasaction.UpdatedDate = DateTime.Now;
+                    IsExistsalesTrasaction.TotalSalesAmt = salesTrasaction.TotalSalesAmt;
 
-                //    dbContext.Entry(IsExistsalesTrasaction).State = EntityState.Modified;
-                //    dbContext.SaveChanges();
-                //    return salesTrasaction;
-                //}
-                //else {
+                    IsExistsalesTrasaction.GrossCommAmt = salesTrasaction.GrossCommAmt;
+                    IsExistsalesTrasaction.SalesmanCommAmt = salesTrasaction.SalesmanCommAmt;
+
+                    dbContext.Entry(IsExistsalesTrasaction).State = EntityState.Modified;
+                    dbContext.SaveChanges();
+                    return salesTrasaction;
+                }
+                else
+                {
                     if (salesTrasaction != null)
                     {
                         salesTrasaction.CreatedDate = DateTime.Now;
@@ -339,9 +340,9 @@ namespace BarcoSales.DAO
                         dbContext.SaveChanges();
                         return salesTrasaction;
                     }
-                //}
+                }
 
-               
+
                 return null;
             }
 

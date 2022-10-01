@@ -680,6 +680,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
           let TotalCommAmt=0;
           let TotalSalesCommAmt=0;
     for (let i = 0; i < data.length; i++) {
+
           let Isvalid = "OK";
       let Cid = 0;
       let Sid = 0;
@@ -739,7 +740,8 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
         const InvoiceNo = i + 1; // Will come from API
-        const TotalSalesAmt = data[0]["TotalSalesAmt"];
+        let TotalSalesAmt = 0;
+         TotalSalesAmt = data[i]["TotalSalesAmt"];
        // const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
         // const grossComm = (
@@ -817,7 +819,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
           CheckNo: checkValue,
           MonthName: selectedSalesMonthsValue,
           InvoiceNo,
-          TotalSalesAmt: TotalSalesAmt,
+          TotalSalesAmt, 
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
           SalesmanCommRate: salesmanCommRate,
