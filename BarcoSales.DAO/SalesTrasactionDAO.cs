@@ -320,7 +320,13 @@ namespace BarcoSales.DAO
                 if (IsExistsalesTrasaction != null)
                 {
                     IsExistsalesTrasaction.UpdatedDate = DateTime.Now;
+                    IsExistsalesTrasaction.TotalSalesAmt = salesTrasaction.TotalSalesAmt;
+
+                    IsExistsalesTrasaction.GrossCommAmt = salesTrasaction.GrossCommAmt;
+                    IsExistsalesTrasaction.SalesmanCommAmt = salesTrasaction.SalesmanCommAmt;
+
                     dbContext.Entry(IsExistsalesTrasaction).State = EntityState.Modified;
+                    dbContext.SaveChanges();
                     return salesTrasaction;
                 }
                 else {
