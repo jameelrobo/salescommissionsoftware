@@ -129,7 +129,7 @@ namespace BarcoSales.DAO
             {
                 try
                 {
-                    string cmdText = "INSERT INTO localYears(Years) VALUES (@Years)";
+                    string cmdText = "INSERT INTO localyears(Years) VALUES (@Years)";
                     MySqlCommand cmd = new MySqlCommand(cmdText, connection);
                     cmd.Parameters.AddWithValue("@Years", Years);
 
@@ -154,7 +154,7 @@ namespace BarcoSales.DAO
             {
                 try
                 {
-                    string cmdText = "INSERT INTO localMonths(Months) VALUES (@Months)";
+                    string cmdText = "INSERT INTO localmonths(Months) VALUES (@Months)";
                     MySqlCommand cmd = new MySqlCommand(cmdText, connection);
                     cmd.Parameters.AddWithValue("@Months", Months);
 
