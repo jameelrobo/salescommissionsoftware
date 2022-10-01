@@ -137,6 +137,7 @@ export default function CommissionReports(props) {
         const doc = new jsPDF();
         exportDataGridToPdf({
             jsPDFDocument: doc,
+            columnWidths: [50, 15, 20, 25, 27,20, 20, ],
             component: e.component
         }).then(() => {
             doc.save('SalesCommission.pdf');
@@ -523,7 +524,7 @@ export default function CommissionReports(props) {
                 {/* <Column dataField="CreatedDate" alignment="center"   caption="Date" /> */}
                 <Column
                   dataField="SoldToName"
-                  alignment="center"
+                  alignment="left"
                   caption="Customer"
                 />
                 {/* <Column
@@ -575,7 +576,7 @@ export default function CommissionReports(props) {
                   <GroupItem
                     column="FactoryName"
                     summaryType="count"
-                    displayFormat="{0} FactoryName"
+                    displayFormat="{0}"
                   />
                   <TotalItem
                     column="FactoryName"
@@ -583,12 +584,22 @@ export default function CommissionReports(props) {
                     displayFormat="Total Records : {0} "
                     showInGroupFooter={true}
                   />
-                   <TotalItem
-                    column="SalesmanCode"
+                    <GroupItem
+                    column="SoldToName"
                     
                     showInGroupFooter={true}
                  
-                    alignByColumn={true}
+                    //alignByColumn={true}
+                    alignment="right"
+                    displayFormat="Total for principal : "
+                  />
+                   <TotalItem
+                    column="SoldToName"
+                    
+                    showInGroupFooter={true}
+                 
+                    // alignByColumn={true}
+                    alignment="right"
                     displayFormat="Total for Salesman : "
                   />
                   <GroupItem
