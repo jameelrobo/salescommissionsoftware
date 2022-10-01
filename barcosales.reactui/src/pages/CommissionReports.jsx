@@ -221,6 +221,18 @@ export default function CommissionReports(props) {
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
     setIsEnableDisable(isDateWisecheckChanged);
+    if(isDateWisecheckChanged)
+    {
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+ 
+    }
+    else
+    {
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+    }
+  
     //setIsDisable(!allCustchecked);
   };
   const FactoryOnchange = (value) => {
@@ -246,8 +258,8 @@ export default function CommissionReports(props) {
     debugger;
     console.log(selectedSalesmanValue);
   };
-  const [startDatevalue, setStartDatevalue] = useState(Date);
-  const [endDatevalue, setEndDatevalue] = useState(Date);
+  const [startDatevalue, setStartDatevalue] = useState(null);
+  const [endDatevalue, setEndDatevalue] = useState(null);
 
   const [data, setData] = useState();
   

@@ -314,8 +314,10 @@ namespace BarcoSales.DAO
         {
             try
             {
-                var IsExistsalesTrasaction = dbContext.Salestrasaction.FirstOrDefault(x => x.FinYear == salesTrasaction.FinYear && x.MonthName == salesTrasaction.MonthName && x.SoldToName == salesTrasaction.SoldToName
-                && x.SoldToCity == salesTrasaction.SoldToCity && x.SoldToState == salesTrasaction.SoldToState);
+                var IsExistsalesTrasaction = dbContext.Salestrasaction.FirstOrDefault(x => x.FinYear == salesTrasaction.FinYear 
+                && x.MonthName == salesTrasaction.MonthName && x.FactoryId == salesTrasaction.FactoryId  
+                && x.SoldToName == salesTrasaction.SoldToName
+                && x.SoldToCity == salesTrasaction.SoldToCity && x.SoldToState == salesTrasaction.SoldToState );
               
                 if (IsExistsalesTrasaction != null)
                 {

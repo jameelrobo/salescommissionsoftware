@@ -132,6 +132,21 @@ export default function Analytics(props) {
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
     setIsEnableDisable(isDateWisecheckChanged);
+   if(isDateWisecheckChanged)
+   {
+    setStartDatevalue(null);
+    setEndDatevalue(null);
+
+   }
+   else
+   {
+    setStartDatevalue(null);
+    setEndDatevalue(null);
+   }
+ 
+  
+   
+
     //setIsDisable(!allCustchecked);
   };
   const IsShowDeletecheckChanged = (state) => {
@@ -162,8 +177,8 @@ export default function Analytics(props) {
     debugger;
     console.log(selectedSalesmanValue);
   };
-  const [startDatevalue, setStartDatevalue] = useState(Date);
-  const [endDatevalue, setEndDatevalue] = useState(Date);
+  const [startDatevalue, setStartDatevalue] = useState(null);
+  const [endDatevalue, setEndDatevalue] = useState(null);
 
  
 
