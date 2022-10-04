@@ -312,6 +312,44 @@ export default function CommissionReports(props) {
     var ed = ed.toLocaleDateString();
     debugger;
 
+    if (isDateWisecheckChanged){
+      debugger;
+    if (
+      startDatevalue === undefined ||
+      startDatevalue === null ||
+      startDatevalue === "" ||
+      startDatevalue.length === 0
+    ) {
+      errorMessageBox(
+        "Start Date should not be blank, Please select Start Date"
+      );
+
+      return;
+    }
+
+    if (
+      endDatevalue === undefined ||
+      endDatevalue === null ||
+      endDatevalue === "" ||
+      endDatevalue.length === 0
+    ) {
+      errorMessageBox(
+        "End Date should not be blank, Please select End Date"
+      );
+
+      return;
+    }
+
+    if(startDatevalue.getTime() > endDatevalue.getTime()){
+      errorMessageBox(
+        "Start Date should be equal or less than from End Date"
+      );
+  }
+  }
+
+
+  if (!isDateWisecheckChanged){
+
     if (
       selectedPriorYearValue === undefined ||
       selectedPriorYearValue === null ||
@@ -361,6 +399,8 @@ export default function CommissionReports(props) {
 
       return;
     }
+  }
+
     var filters = {
       startDate: sd,
       endDate: ed,
