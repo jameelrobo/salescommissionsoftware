@@ -124,7 +124,8 @@ export default function Analytics(props) {
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false); 
   const [isShowDeletecheckChanged,setIsShowDeletecheckChanged] = useState(false); 
-  const [isEnableDisable, setIsEnableDisable] = useState(true);
+  const [isEnableDisable, setIsEnableDisable] = useState(true); 
+  const [hideDatewise, setHideDatewise] = useState("none");
 
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
   const DateWisecheckChanged = (state) => {
@@ -132,6 +133,7 @@ export default function Analytics(props) {
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
     setIsEnableDisable(isDateWisecheckChanged);
+    setHideDatewise("display");
    if(isDateWisecheckChanged)
    {
     setStartDatevalue(null);
@@ -576,7 +578,7 @@ export default function Analytics(props) {
             <Grid item xs={12} sm={12}></Grid>
 
             <Grid item xs={12} sm={2}>
-              <label>IsDateWise</label>
+              <label>Filter with Date</label>
 
               <Checkbox
                 {...label}
@@ -588,7 +590,7 @@ export default function Analytics(props) {
             </Grid>
 
            
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={5} style={{ display: {hideDatewise} }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
@@ -604,7 +606,7 @@ export default function Analytics(props) {
               </LocalizationProvider>
             </Grid>
 
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={5} style={{ display: {hideDatewise} }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"

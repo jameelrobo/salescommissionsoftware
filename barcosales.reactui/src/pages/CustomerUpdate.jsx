@@ -310,7 +310,7 @@ export default function CustomerUpdate() {
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 // required
                 autoComplete="custAliasName"
@@ -470,7 +470,7 @@ export default function CustomerUpdate() {
                 onChange={(e) => setCustomSalescommissionRate(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={6}>
               <label>IsActive</label>
               <Checkbox
                 checked={checked}

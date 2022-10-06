@@ -40,6 +40,7 @@ import CommRulesFactoriesDropdownlistTr from "./CommRulesFactoriesDropdownlistTr
 import FactoryCategoryddlTr from "./FactoryCategoryddlTr";
 import PriorYearDropdownlist from "./PriorYearDropdownlist";
 import SalesMonthsDropdownlist from "./SalesMonthsDropdownlist";
+import { lowerCase } from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
 const EXTENSIONS = ["xlsx", "xls"];
 
 export default function Transaction() {
-
   const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
     Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -122,20 +122,21 @@ export default function Transaction() {
     { title: "IsVerified", field: "IsVerified" },
   ];
 
- // const [colDefs, setColDefs] = useState([]);
+  // const [colDefs, setColDefs] = useState([]);
   const [data, setData] = useState([]);
 
   const [isEnableCalculatebttn, setIsEnableCalculatebttn] = useState(true);
-const [isEnableDisable, setIsEnableDisable] = useState(true);
+  const [isEnableDisable, setIsEnableDisable] = useState(true);
 
   const [checkValue, setCheckValue] = useState("");
   const [selectedFactoryValue, setSelectedFactoryValue] = useState("");
- const [selectedFactCategoryValue, setSelectedFactCategoryValue] =  useState("");
+  const [selectedFactCategoryValue, setSelectedFactCategoryValue] =
+    useState("");
   // const [newdata, setNewData] = useState([]);
   // const [selectedPriorYearItem, setSelectedPriorYearItem] = useState("22");
-   const [selectedFactoryId, setSelectedFactoryId] = useState(0);
+  const [selectedFactoryId, setSelectedFactoryId] = useState(0);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState("");
- const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
+  const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState("");
   // const [selectedSalesmanValue, setSelectedSalesmanValue] = useState("");
 
   const FactoryCategoryOnchange = (value) => {
@@ -163,7 +164,6 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
     console.log(value);
     setSelectedSalesMonthsValue(value);
     debugger;
-
   };
   // const SalesmanOnchange = (value) => {
   //   setSelectedSalesmanValue(value);
@@ -506,7 +506,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
   const Refresh = () => {
     setIsEnableCalculatebttn(true);
     setData([]);
-   // setColDefs(coldef);
+    // setColDefs(coldef);
     localStorage.clear();
     clearCacheData();
 
@@ -515,11 +515,67 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
   const handleClick = () => {
     window.location = "/transaction/calculate";
   };
+  // Find alias name
+  const findCustAlias=(custAlaisInfo,getCustomers)=>{
+    {
+      debugger;
+      // var custListWithState = getCustomers.filter(
+      //   (item) =>
+      //     item.SoldToCity.trim() === custAlaisInfo["Sold-To City"] &&
+      //     item.SoldToState.trim() === custAlaisInfo["Sold-To State"]
+      // );
+  //  let   custListWithState = getCustomers.filter(item => item.SoldToState === custAlaisInfo["Sold-To State"]);
+  //     if (
+  //       custListWithState === undefined ||
+  //       custListWithState === null ||
+  //       custListWithState === "" ||
+  //       custListWithState === 0 ||
+  //       custListWithState.length === 0
+  //     ) {
+  //       return custListWithState;
+       
+  //     }
+      
+      for (let j = 0; j < getCustomers.length; j++) {
+
+        var custAliasNames = getCustomers[j]["CustAliasName"];
+
+
+        if (
+          custAliasNames != undefined ||
+          custAliasNames != "" ||
+          custAliasNames != null ||
+          custAliasNames.length != 0
+        ) 
+        {
+
+          const custAliasNamesArray = custAliasNames.split(",");
+          if (
+            custAliasNamesArray != undefined ||
+            custAliasNamesArray != "" ||
+            custAliasNamesArray != null ||
+            custAliasNamesArray.length  != 0
+          ) {
+            for (let k = 0; k < custAliasNamesArray.length; k++) {
+debugger;
+                if(lowerCase (custAliasNamesArray[k].trim()) ===lowerCase( custAlaisInfo["Sold-To Name"].trim()))
+                {
+                return   getCustomers[j];
+               // break;
+                }
+              }
+             // return null;
+
+          }
+        }
+      }
+return null;
+    }
+  }
 
   //===========================Verify=======================================
 
   const verifyUploadedFile = () => {
-  
     var IsOk = 1;
     debugger;
     var getCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
@@ -534,9 +590,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       getAllFactories === 0 ||
       getAllFactories.length === 0
     ) {
-      errorMessageBox(
-        "Please check Factories API, Factories does not exist "
-      );
+      errorMessageBox("Please check Factories API, Factories does not exist ");
       return;
     }
 
@@ -547,9 +601,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       getCustomers === 0 ||
       getCustomers.length === 0
     ) {
-      errorMessageBox(
-        "Please check custmer API, customers does not exist   "
-      );
+      errorMessageBox("Please check custmer API, customers does not exist   ");
       return;
     }
 
@@ -566,7 +618,6 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       );
       return;
     }
-   
 
     if (
       getAllSalesman === undefined ||
@@ -575,9 +626,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       getAllSalesman === 0 ||
       getAllSalesman.length === 0
     ) {
-      errorMessageBox(
-        "Please check Salesman API, Salesman does not exist  "
-      );
+      errorMessageBox("Please check Salesman API, Salesman does not exist  ");
       return;
     }
     var monthinfo = getCommRules.find(
@@ -599,17 +648,17 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       return;
     }
     debugger;
-      if (
-        selectedSalesMonthsValue === undefined ||
-        selectedSalesMonthsValue === null ||
-        selectedSalesMonthsValue === "" ||
-        selectedSalesMonthsValue === 0
-      ) {
-        errorMessageBox(
-          "Month  should not be blank, Please select at least one Month"
-        );
-        return;
-      }
+    if (
+      selectedSalesMonthsValue === undefined ||
+      selectedSalesMonthsValue === null ||
+      selectedSalesMonthsValue === "" ||
+      selectedSalesMonthsValue === 0
+    ) {
+      errorMessageBox(
+        "Month  should not be blank, Please select at least one Month"
+      );
+      return;
+    }
     //   var monthinfo = monthslist.find(
     //     (item) =>
     //       item.number === parseInt(selectedSalesMonthsValue)
@@ -642,7 +691,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
 
     var CommRules = getCommRules.find(
       (item) =>
-        item.FactoryId === selectedFactoryValue &&  item.IsActive === true
+        item.FactoryId === selectedFactoryValue && item.IsActive === true
     );
 
     if (
@@ -676,20 +725,21 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
     const SavetransformedArray = [];
 
     //Foreach Conditio==============Start to calculation==================================================
-    let TotalAmt=0;
-          let TotalCommAmt=0;
-          let TotalSalesCommAmt=0;
+    let TotalAmt = 0;
+    let TotalCommAmt = 0;
+    let TotalSalesCommAmt = 0;
     for (let i = 0; i < data.length; i++) {
-
-          let Isvalid = "OK";
+      let Isvalid = "OK";
       let Cid = 0;
       let Sid = 0;
 
       debugger;
+      // Find Customer in DB=====================================
       var custInfo = getCustomers.find(
-        (item) => item.CustomerName.trim() === data[i]["Sold-To Name"].trim()
-        // ||
-        // item.CustAliasName.trim() === d["Sold-To Name"].trim()
+        (item) =>
+          item.CustomerName.trim() === data[i]["Sold-To Name"].trim() &&
+          item.SoldToCity.trim() === data[i]["Sold-To City"] &&
+          item.SoldToState.trim() === data[i]["Sold-To State"]
       );
 
       if (
@@ -699,13 +749,30 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
         custInfo === 0 ||
         custInfo.length === 0
       ) {
-        data[i]["IsVerified"] = "Customer doesn't exist in db";
-        debugger;
-        IsOk = 0;
-        continue;
+
+     custInfo   = findCustAlias( data[i],getCustomers);
+    if (
+      custInfo === undefined ||
+      custInfo === null ||
+      custInfo === "" ||
+      custInfo === 0 ||
+      custInfo.length === 0
+    ) {
+      data[i]["IsVerified"] = "Customer doesn't exist in db";
+      debugger;
+      IsOk = 0;
+      continue;
+
+    }
+    else {
+      Cid = custInfo.CustId;
+    }
+     
       } else {
         Cid = custInfo.CustId;
       }
+
+      //==========================Find saleman===================================
       var salesmanInfo = getAllSalesman.find(
         (item) => item.SalesmId === custInfo.SalesmanId
       );
@@ -741,17 +808,14 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
         debugger;
         const InvoiceNo = i + 1; // Will come from API
         let TotalSalesAmt = 0;
-         TotalSalesAmt = data[i]["TotalSalesAmt"];
-       // const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
+        TotalSalesAmt = data[i]["TotalSalesAmt"];
+        // const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
         // const grossComm = (
         //   (Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")) * commRate) /
         //   100
         // ).toFixed(2);
-        const grossComm = (
-          (Number(TotalSalesAmt) * commRate) /
-          100
-        ).toFixed(2);
+        const grossComm = ((Number(TotalSalesAmt) * commRate) / 100).toFixed(2);
         var salesmanCommRate = 0;
         if (
           custInfo.CustomSalesCommRate === undefined ||
@@ -802,7 +866,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
           SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
           CreatedBy: 1,
           IsActive: 1,
-          FinYear:selectedPriorYearValue
+          FinYear: selectedPriorYearValue,
         };
         const objsave = {
           TrasactionId: 0,
@@ -813,59 +877,56 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
           SoldToName: data[i]["Sold-To Name"].trim(),
           SoldToCity: data[i]["Sold-To City"].trim(),
           SoldToState: data[i]["Sold-To State"].trim(),
-          
+
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,
           MonthName: selectedSalesMonthsValue,
           InvoiceNo,
-          TotalSalesAmt, 
+          TotalSalesAmt,
           GrossCommRate: commRate,
           GrossCommAmt: grossComm,
           SalesmanCommRate: salesmanCommRate,
           SalesmanCommAmt: salesmanCommAmt,
           CreatedBy: 1,
           IsActive: 1,
-          FinYear:selectedPriorYearValue
+          FinYear: selectedPriorYearValue,
         };
         data[i]["IsVerified"] = "OK";
         debugger;
-        TotalAmt=  parseFloat(TotalAmt)+  parseInt(TotalSalesAmt);
-        TotalCommAmt=parseFloat(TotalCommAmt)+parseFloat(grossComm);
-        TotalSalesCommAmt=parseFloat(TotalSalesCommAmt)+ parseFloat(salesmanCommAmt);
+        TotalAmt = parseFloat(TotalAmt) + parseInt(TotalSalesAmt);
+        TotalCommAmt = parseFloat(TotalCommAmt) + parseFloat(grossComm);
+        TotalSalesCommAmt =
+          parseFloat(TotalSalesCommAmt) + parseFloat(salesmanCommAmt);
 
         transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
       }
-     
-      
-      
-
     }
-    console.log(TotalAmt,TotalCommAmt, TotalSalesCommAmt);
+    console.log(TotalAmt, TotalCommAmt, TotalSalesCommAmt);
     const objdatagrid = {
-      TrasactionId:   '',
-      SalesmId:   '',
-      SalesmanCode:  'Total Amount',
-      CustId:   '',
-      CommissionRulesId:  '',
-      SoldToName: '',
-      SoldToState:  '',
-      SoldToCity:  '',
-      FactoryId:  '',
-      FactoryName:   '',
-      CheckNo:   '',
-      CreatedDate:'',
-      MonthName:   '',
-      InvoiceNo:  '',
+      TrasactionId: "",
+      SalesmId: "",
+      SalesmanCode: "Total Amount",
+      CustId: "",
+      CommissionRulesId: "",
+      SoldToName: "",
+      SoldToState: "",
+      SoldToCity: "",
+      FactoryId: "",
+      FactoryName: "",
+      CheckNo: "",
+      CreatedDate: "",
+      MonthName: "",
+      InvoiceNo: "",
       TotalSalesAmt: numberToCurrency(TotalAmt),
-      GrossCommRate: '',
+      GrossCommRate: "",
       GrossCommAmt: numberToCurrency(TotalCommAmt),
-      SalesmanCommRate: '',
+      SalesmanCommRate: "",
       SalesmanCommAmt: numberToCurrency(TotalSalesCommAmt),
       CreatedBy: 1,
       IsActive: 1,
-      FinYear:selectedPriorYearValue
+      FinYear: selectedPriorYearValue,
     };
     debugger;
     transformedArray.push(objdatagrid);
@@ -895,7 +956,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
       );
       return;
     } else if (
-      transformedArray.length-1 === data.length &&
+      transformedArray.length - 1 === data.length &&
       SavetransformedArray.length === data.length
     ) {
       setIsEnableCalculatebttn(false);
@@ -911,15 +972,13 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
     }
   };
 
- 
-
   return (
     <>
       <div>
         <ToastContainer
           position="top-center"
           autoClose={5000}
-          style={{width: "40%"}} 
+          style={{ width: "40%" }}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -928,7 +987,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
           draggable
           pauseOnHover
         />
-         <h3> Upload / Add New Sales Files</h3>
+        <h3> Upload / Add New Sales Files</h3>
         <form className={classes.form}>
           <Grid container spacing={2}>
             {/* <Grid item xs={12} sm={12}>
@@ -950,7 +1009,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
               <SalesMonthsDropdownlist
                 salesMonthsddlOnchang={SalesMonthsOnchange}
               />
-            </Grid> 
+            </Grid>
             {/* <Grid item xs={12} sm={3}>
             <FactoryCategoryddlTr
                 ddlOnchang={FactoryCategoryOnchange}
@@ -960,7 +1019,8 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
 
             <Grid item xs={12} sm={4}>
               <CommRulesFactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} />
+                factoryddlOnchang={FactoryOnchange}
+              />
             </Grid>
 
             <Grid item xs={12} sm={12}></Grid>
@@ -1016,12 +1076,12 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
         </form>
         <Grid container spacing={1}>
           <Grid item xs={12}>
-          {/* ============================Used Material Table============================= */}
+            {/* ============================Used Material Table============================= */}
             <MaterialTable
               title="Customer Sales Details"
               columns={coldef}
               data={data}
-       icons={tableIcons}
+              icons={tableIcons}
               editable={{
                 onRowAdd: (newData) =>
                   new Promise((resolve, reject) => {
@@ -1089,7 +1149,7 @@ const [isEnableDisable, setIsEnableDisable] = useState(true);
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <Button
-               disabled={isEnableCalculatebttn}
+                disabled={isEnableCalculatebttn}
                 variant="contained"
                 color="primary"
                 fullWidth

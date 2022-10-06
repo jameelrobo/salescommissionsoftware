@@ -442,7 +442,7 @@ export default function CommissionReports(props) {
             <Grid item xs={12} sm={12}></Grid>
 
             <Grid item xs={12} sm={2}>
-              <label>IsDateWise</label>
+            <label>Filter with Date</label>
 
               <Checkbox
                 {...label}

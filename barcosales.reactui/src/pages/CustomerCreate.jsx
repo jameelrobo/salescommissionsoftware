@@ -321,7 +321,7 @@ debugger;
             </Grid> */}
             <Grid item xs={12} sm={12}></Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 autoComplete="customer"
                 name="customer"
@@ -335,7 +335,7 @@ debugger;
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 // required
                 autoComplete="custAliasName"
@@ -344,6 +344,7 @@ debugger;
                 fullWidth
                 id="custAliasName"
                 label="Customer Alias Name"
+                
                 value={custAliasName}
                 onChange={(e) => setCustAliasName(e.target.value)}
                 //autoFocus
