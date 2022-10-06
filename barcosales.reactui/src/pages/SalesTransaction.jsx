@@ -519,26 +519,30 @@ export default function Transaction() {
   const findCustAlias=(custAlaisInfo,getCustomers)=>{
     {
       debugger;
-      // var custListWithState = getCustomers.filter(
-      //   (item) =>
-      //     item.SoldToCity.trim() === custAlaisInfo["Sold-To City"] &&
-      //     item.SoldToState.trim() === custAlaisInfo["Sold-To State"]
-      // );
-  //  let   custListWithState = getCustomers.filter(item => item.SoldToState === custAlaisInfo["Sold-To State"]);
-  //     if (
-  //       custListWithState === undefined ||
-  //       custListWithState === null ||
-  //       custListWithState === "" ||
-  //       custListWithState === 0 ||
-  //       custListWithState.length === 0
-  //     ) {
-  //       return custListWithState;
-       
-  //     }
+      var allgetCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
       
-      for (let j = 0; j < getCustomers.length; j++) {
+      let custListWithState = allgetCustomers.filter(
+        (item) =>
+          item.City === custAlaisInfo["Sold-To City"] &&
+          item.State === custAlaisInfo["Sold-To State"]
+      );
+      debugger;
+      console.log(custListWithState);
+   
+      if (
+        custListWithState === undefined ||
+        custListWithState === null ||
+        custListWithState === "" ||
+        custListWithState === 0 ||
+        custListWithState.length === 0
+      ) {
+        return null;
+       
+      }
+      
+      for (let j = 0; j < custListWithState.length; j++) {
 
-        var custAliasNames = getCustomers[j]["CustAliasName"];
+        var custAliasNames = custListWithState[j]["CustAliasName"];
 
 
         if (
@@ -558,9 +562,9 @@ export default function Transaction() {
           ) {
             for (let k = 0; k < custAliasNamesArray.length; k++) {
 debugger;
-                if(lowerCase (custAliasNamesArray[k].trim()) ===lowerCase( custAlaisInfo["Sold-To Name"].trim()))
+                if( custAliasNamesArray[k].toLowerCase().trim() === custAlaisInfo["Sold-To Name"].toLowerCase().trim())
                 {
-                return   getCustomers[j];
+                return   custListWithState[j];
                // break;
                 }
               }
@@ -737,9 +741,10 @@ return null;
       // Find Customer in DB=====================================
       var custInfo = getCustomers.find(
         (item) =>
-          item.CustomerName.trim() === data[i]["Sold-To Name"].trim() &&
-          item.SoldToCity.trim() === data[i]["Sold-To City"] &&
-          item.SoldToState.trim() === data[i]["Sold-To State"]
+         
+          item.CustomerName === data[i]["Sold-To Name"] &&
+          item.City === data[i]["Sold-To City"] &&
+          item.State === data[i]["Sold-To State"]
       );
 
       if (
