@@ -523,8 +523,8 @@ export default function Transaction() {
       
       let custListWithState = allgetCustomers.filter(
         (item) =>
-          item.City === custAlaisInfo["Sold-To City"] &&
-          item.State === custAlaisInfo["Sold-To State"]
+          item.City?.toLowerCase() === custAlaisInfo["Sold-To City"]?.toLowerCase() &&
+          item.State?.toLowerCase() === custAlaisInfo["Sold-To State"]?.toLowerCase()
       );
       debugger;
       console.log(custListWithState);
@@ -562,7 +562,7 @@ export default function Transaction() {
           ) {
             for (let k = 0; k < custAliasNamesArray.length; k++) {
 debugger;
-                if( custAliasNamesArray[k].toLowerCase().trim() === custAlaisInfo["Sold-To Name"].toLowerCase().trim())
+                if( custAliasNamesArray[k]?.toLowerCase().trim() === custAlaisInfo["Sold-To Name"]?.toLowerCase().trim())
                 {
                 return   custListWithState[j];
                // break;
@@ -742,9 +742,9 @@ return null;
       var custInfo = getCustomers.find(
         (item) =>
          
-          item.CustomerName === data[i]["Sold-To Name"] &&
-          item.City === data[i]["Sold-To City"] &&
-          item.State === data[i]["Sold-To State"]
+          item.CustomerName?.toLowerCase() === data[i]["Sold-To Name"]?.toLowerCase() &&
+          item.City?.toLowerCase() === data[i]["Sold-To City"]?.toLowerCase() &&
+          item.State?.toLowerCase() === data[i]["Sold-To State"]?.toLowerCase()
       );
 
       if (
