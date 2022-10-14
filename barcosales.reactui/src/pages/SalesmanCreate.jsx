@@ -163,28 +163,38 @@ export default function SalesmanCreate() {
     axios
       .post("/SalesPerson/AddSalesPerson", salesmaninfo)
       .then((res) => {
+        if (res.status === 200) {
+          successMessageBox("Record has been added successfully!");
+  
+          console.log(res);
+          }
+          else
+          {
+            errorMessageBox("Invalid  Information!");
+          }
         console.log(res);
-        toast.success("Record has been added successfully!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        // toast.success("Record has been added successfully!", {
+        //   position: "top-center",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Invalid Salesman Information!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        errorMessageBox("Invalid Salesman Information!");
+        // toast.error("Invalid Salesman Information!", {
+        //   position: "top-center",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
       });
   };
 

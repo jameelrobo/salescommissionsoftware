@@ -224,9 +224,15 @@ debugger;
     axios
       .post("Customer/AddCustomer", custInfo)
       .then((res) => {
+        if (res.status === 200) {
         successMessageBox("Record has been added successfully!");
 
         console.log(res);
+        }
+        else
+        {
+          errorMessageBox("Invalid  Information!");
+        }
       })
       .catch((err) => {
         console.log(err);

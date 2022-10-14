@@ -43,6 +43,9 @@ import {
   Edit as EditIcon,
   Add as AddIcon,
   Delete as DeleIcon,
+  Undo,
+  Restore,
+  Delete,
 } from "@material-ui/icons";
 import { confirm } from "react-confirm-box";
 const tableRef = React.createRef();
@@ -276,31 +279,31 @@ export default function Analytics(props) {
           
           transformedArray.push(objdatagrid);
         }
-        // const objdatagrid = {
-        //   TrasactionId:   '',
-        //   SalesmId:   '',
-        //   SalesmanCode:  'Total Amount',
-        //   CustId:   '',
-        //   CommissionRulesId:  '',
-        //   SoldToName: '',
-        //   SoldToCity:  '',
-        //   SoldToState:  '',
-        //   FactoryId:  '',
-        //   FactoryName:   '',
-        //   CheckNo:   '',
-        //   CreatedDate:'',
-        //   MonthName:   '',
-        //   InvoiceNo:  '',
-        //   TotalSalesAmt:  TotalAmt,
-        //   GrossCommRate: '',
-        //   GrossCommAmt: TotalCommAmt,
-        //   SalesmanCommRate: '',
-        //   SalesmanCommAmt: TotalSalesCommAmt,
-        //   CreatedBy: 1,
-        //   IsActive: 1,
-        // };
-        // debugger;
-        // transformedArray.push(objdatagrid);
+        const objdatagrid = {
+          TrasactionId:   '',
+          SalesmId:   '',
+          SalesmanCode:  'Total Amount',
+          CustId:   '',
+          CommissionRulesId:  '',
+          SoldToName: '',
+          SoldToCity:  '',
+          SoldToState:  '',
+          FactoryId:  '',
+          FactoryName:   '',
+          CheckNo:   '',
+          CreatedDate:'',
+          MonthName:   '',
+          InvoiceNo:  '',
+          TotalSalesAmt:  TotalAmt,
+          GrossCommRate: '',
+          GrossCommAmt: TotalCommAmt,
+          SalesmanCommRate: '',
+          SalesmanCommAmt: TotalSalesCommAmt,
+          CreatedBy: 1,
+          IsActive: 1,
+        };
+        debugger;
+        transformedArray.push(objdatagrid);
         setData(transformedArray);
       }
        

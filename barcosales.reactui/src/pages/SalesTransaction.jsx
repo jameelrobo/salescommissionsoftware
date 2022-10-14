@@ -508,7 +508,7 @@ export default function Transaction() {
     setData([]);
     // setColDefs(coldef);
     localStorage.clear();
-    clearCacheData();
+   // clearCacheData();
 
     window.location = "/transaction";
   };
