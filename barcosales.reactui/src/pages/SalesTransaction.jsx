@@ -224,38 +224,38 @@ export default function Transaction() {
         e.target.value = null;
         return;
       }
-      if (heads[0]["field"] !== coldef[0]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header, Name should be in colum A : " +
-            coldef[0]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[1]["field"] !== coldef[1]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header, Name should be in colum B : " +
-            coldef[1]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[2]["field"] !== coldef[2]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header , Name should be in colum C :   " +
-            coldef[2]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
-      if (heads[3]["field"] !== coldef[3]["field"]) {
-        errorMessageBox(
-          "Invalid file Column name, Please update file header , Name should be in colum D : " +
-            coldef[3]["field"]
-        );
-        e.target.value = null;
-        return;
-      }
+      // if (heads[0]["field"] !== coldef[0]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header, Name should be in colum A : " +
+      //       coldef[0]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // if (heads[1]["field"] !== coldef[1]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header, Name should be in colum B : " +
+      //       coldef[1]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // if (heads[2]["field"] !== coldef[2]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header , Name should be in colum C :   " +
+      //       coldef[2]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
+      // if (heads[3]["field"] !== coldef[3]["field"]) {
+      //   errorMessageBox(
+      //     "Invalid file Column name, Please update file header , Name should be in colum D : " +
+      //       coldef[3]["field"]
+      //   );
+      //   e.target.value = null;
+      //   return;
+      // }
       // if (heads[4]["field"] !== coldef[4]["field"]) {
       //   errorMessageBox(
       //     "Invalid file Column name, Please update file header , Name should be in colum E : " +
@@ -594,7 +594,7 @@ return null;
       getAllFactories === 0 ||
       getAllFactories.length === 0
     ) {
-      errorMessageBox("Please check Factories API, Factories does not exist ");
+      errorMessageBox("Please check factories API, Factories API is not running");
       return;
     }
 
@@ -605,7 +605,7 @@ return null;
       getCustomers === 0 ||
       getCustomers.length === 0
     ) {
-      errorMessageBox("Please check custmer API, customers does not exist   ");
+      errorMessageBox("Please check custmer API DB, Custmer API is not running");
       return;
     }
 
@@ -618,7 +618,7 @@ return null;
     ) {
       debugger;
       errorMessageBox(
-        "Please check Commission Rules API, Commission Rules does not exist  "
+        "Please check Commission Rules API DB, Commission Rules API is not running "
       );
       return;
     }
@@ -630,7 +630,7 @@ return null;
       getAllSalesman === 0 ||
       getAllSalesman.length === 0
     ) {
-      errorMessageBox("Please check Salesman API, Salesman does not exist  ");
+      errorMessageBox("Please check Salesman API, Salesman API is not running");
       return;
     }
     var monthinfo = getCommRules.find(
