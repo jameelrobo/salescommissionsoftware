@@ -520,11 +520,11 @@ export default function Transaction() {
     {
       debugger;
       var allgetCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
-      
+      let ff=null.trim();
       let custListWithState = allgetCustomers.filter(
         (item) =>
-          item.City?.toLowerCase() === custAlaisInfo["Sold-To City"]?.toLowerCase() &&
-          item.State?.toLowerCase() === custAlaisInfo["Sold-To State"]?.toLowerCase()
+          item.City.trim()?.toLowerCase() === custAlaisInfo["Sold-To City"].trim()?.toLowerCase() &&
+          item.State.trim()?.toLowerCase() === custAlaisInfo["Sold-To State"].trim()?.toLowerCase()
       );
       debugger;
       console.log(custListWithState);
@@ -742,9 +742,9 @@ return null;
       var custInfo = getCustomers.find(
         (item) =>
          
-          item.CustomerName?.toLowerCase() === data[i]["Sold-To Name"]?.toLowerCase() &&
-          item.City?.toLowerCase() === data[i]["Sold-To City"]?.toLowerCase() &&
-          item.State?.toLowerCase() === data[i]["Sold-To State"]?.toLowerCase()
+          item.CustomerName.trim()?.toLowerCase() === data[i]["Sold-To Name"].trim()?.toLowerCase() &&
+          item.City.trim()?.toLowerCase() === data[i]["Sold-To City"].trim()?.toLowerCase() &&
+          item.State.trim()?.toLowerCase() === data[i]["Sold-To State"].trim()?.toLowerCase()
       );
 
       if (
@@ -809,6 +809,24 @@ return null;
         IsOk = 0;
         continue;
       }
+
+      // let custListWithState = SavetransformedArray.filter(
+      //   (item) =>
+      //   item.SoldToName?.toLowerCase() === data[i]["Sold-To Name"].trim()?.toLowerCase() &&
+      //     item.SoldToCity?.toLowerCase() ===  data[i]["Sold-To City"].trim()?.toLowerCase() &&
+      //     item.SoldToState?.toLowerCase() === data[i]["Sold-To State"].trim()?.toLowerCase() 
+          
+         
+      // );
+      // if (
+      //   custListWithState !== undefined ||
+      //   custListWithState !== null ||
+      //   custListWithState !== "" ||
+      //   custListWithState !== 0
+      // ) {
+      //   objsave
+         
+      // }
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
         const InvoiceNo = i + 1; // Will come from API
@@ -873,6 +891,7 @@ return null;
           IsActive: 1,
           FinYear: selectedPriorYearValue,
         };
+
         const objsave = {
           TrasactionId: 0,
           SalesmId: Sid,
@@ -903,6 +922,10 @@ return null;
         TotalCommAmt = parseFloat(TotalCommAmt) + parseFloat(grossComm);
         TotalSalesCommAmt =
           parseFloat(TotalSalesCommAmt) + parseFloat(salesmanCommAmt);
+
+        
+     
+      
 
         transformedArray.push(objdatagrid);
         SavetransformedArray.push(objsave);
