@@ -508,7 +508,7 @@ export default function Transaction() {
     setData([]);
     // setColDefs(coldef);
     localStorage.clear();
-   // clearCacheData();
+    // clearCacheData();
 
     window.location = "/transaction";
   };
@@ -516,19 +516,21 @@ export default function Transaction() {
     window.location = "/transaction/calculate";
   };
   // Find alias name
-  const findCustAlias=(custAlaisInfo,getCustomers)=>{
+  const findCustAlias = (custAlaisInfo) => {
     {
       debugger;
       var allgetCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
-      let ff=null.trim();
+
       let custListWithState = allgetCustomers.filter(
         (item) =>
-          item.City.trim()?.toLowerCase() === custAlaisInfo["Sold-To City"].trim()?.toLowerCase() &&
-          item.State.trim()?.toLowerCase() === custAlaisInfo["Sold-To State"].trim()?.toLowerCase()
+          item.City?.trim().toLowerCase() ===
+            custAlaisInfo["Sold-To City"]?.trim().toLowerCase() &&
+          item.State?.trim().toLowerCase() ===
+            custAlaisInfo["Sold-To State"]?.trim().toLowerCase()
       );
       debugger;
       console.log(custListWithState);
-   
+
       if (
         custListWithState === undefined ||
         custListWithState === null ||
@@ -537,50 +539,117 @@ export default function Transaction() {
         custListWithState.length === 0
       ) {
         return null;
-       
       }
-      
+
       for (let j = 0; j < custListWithState.length; j++) {
-
         var custAliasNames = custListWithState[j]["CustAliasName"];
-
 
         if (
           custAliasNames != undefined ||
           custAliasNames != "" ||
           custAliasNames != null ||
           custAliasNames.length != 0
-        ) 
-        {
-
+        ) {
           const custAliasNamesArray = custAliasNames.split(",");
           if (
             custAliasNamesArray != undefined ||
             custAliasNamesArray != "" ||
             custAliasNamesArray != null ||
-            custAliasNamesArray.length  != 0
+            custAliasNamesArray.length != 0
           ) {
             for (let k = 0; k < custAliasNamesArray.length; k++) {
-debugger;
-                if( custAliasNamesArray[k]?.toLowerCase().trim() === custAlaisInfo["Sold-To Name"]?.toLowerCase().trim())
-                {
-                return   custListWithState[j];
-               // break;
-                }
+              debugger;
+              if (
+                custAliasNamesArray[k]?.toLowerCase().trim() ===
+                custAlaisInfo["Sold-To Name"]?.toLowerCase().trim()
+              ) {
+                return custListWithState[j];
+                // break;
               }
-             // return null;
-
+            }
+            // return null;
           }
         }
       }
-return null;
+      return null;
     }
-  }
+  };
+  // Find name
+  const findCustName = (custAlaisInfo) => {
+    debugger;
+    var allgetCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
 
+    let custListWithState = allgetCustomers.filter(
+      (item) =>
+        item.City?.trim().toLowerCase() ===
+          custAlaisInfo["Sold-To City"]?.trim().toLowerCase() &&
+        item.State?.trim().toLowerCase() ===
+          custAlaisInfo["Sold-To State"]?.trim().toLowerCase()
+    );
+
+    if (
+      custListWithState != undefined ||
+      custListWithState != null ||
+      custListWithState != "" ||
+      custListWithState != 0 ||
+      custListWithState.length === 0
+    ) {
+      let custName = custListWithState.find(
+        (item) =>
+          item.SoldToName?.trim().toLowerCase() ===
+          custAlaisInfo["Sold-To Name"]?.trim().toLowerCase()
+      );
+      if (
+        custName != undefined ||
+        custName != null ||
+        custName != "" ||
+        custName != 0 ||
+        custName.length != 0
+      ) {
+        return custAlaisInfo;
+      } else {
+        for (let j = 0; j < custListWithState.length; j++) {
+          var custAliasNames = allgetCustomers[j]["CustAliasName"];
+
+          if (
+            custAliasNames != undefined ||
+            custAliasNames != "" ||
+            custAliasNames != null ||
+            custAliasNames.length != 0
+          ) {
+            const custAliasNamesArray = custAliasNames.split(",");
+            if (
+              custAliasNamesArray != undefined ||
+              custAliasNamesArray != "" ||
+              custAliasNamesArray != null ||
+              custAliasNamesArray.length != 0
+            ) {
+              for (let k = 0; k < custAliasNamesArray.length; k++) {
+                debugger;
+                if (
+                  custAliasNamesArray[k]?.toLowerCase().trim() ===
+                  custAlaisInfo["Sold-To Name"]?.toLowerCase().trim()
+                ) {
+                  return custListWithState;
+                  // break;
+                }
+              }
+              // return null;
+            }
+          }
+        }
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
   //===========================Verify=======================================
 
   const verifyUploadedFile = () => {
+    //successMessageBox("TThe uploaded file is Verifying!");
     var IsOk = 1;
+    let errorlog = 0;
     debugger;
     var getCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
     var getCommRules = JSON.parse(localStorage.getItem("AllCommissionRules"));
@@ -594,7 +663,9 @@ return null;
       getAllFactories === 0 ||
       getAllFactories.length === 0
     ) {
-      errorMessageBox("Please check factories API, Factories API is not running");
+      errorMessageBox(
+        "Please check factories API, Factories API is not running"
+      );
       return;
     }
 
@@ -605,7 +676,9 @@ return null;
       getCustomers === 0 ||
       getCustomers.length === 0
     ) {
-      errorMessageBox("Please check custmer API DB, Custmer API is not running");
+      errorMessageBox(
+        "Please check custmer API DB, Custmer API is not running"
+      );
       return;
     }
 
@@ -690,6 +763,7 @@ return null;
         "Factory  should not be blank, Please select at least one Factory"
       );
       IsOk = 0;
+      errorlog = 1;
       return;
     }
 
@@ -722,6 +796,7 @@ return null;
         "Data  should not be blank, Please upload  at least one Factory Sales file"
       );
       IsOk = 0;
+      errorlog = 1;
       return;
     }
 
@@ -737,14 +812,16 @@ return null;
       let Cid = 0;
       let Sid = 0;
 
-      debugger;
-      // Find Customer in DB=====================================
+     // debugger;
+     
       var custInfo = getCustomers.find(
         (item) =>
-         
-          item.CustomerName.trim()?.toLowerCase() === data[i]["Sold-To Name"].trim()?.toLowerCase() &&
-          item.City.trim()?.toLowerCase() === data[i]["Sold-To City"].trim()?.toLowerCase() &&
-          item.State.trim()?.toLowerCase() === data[i]["Sold-To State"].trim()?.toLowerCase()
+          item.CustomerName?.trim().toLowerCase() ===
+            data[i]["Sold-To Name"]?.trim().toLowerCase() &&
+          item.City?.trim().toLowerCase() ===
+            data[i]["Sold-To City"]?.trim().toLowerCase() &&
+          item.State?.trim().toLowerCase() ===
+            data[i]["Sold-To State"]?.trim().toLowerCase()
       );
 
       if (
@@ -754,25 +831,45 @@ return null;
         custInfo === 0 ||
         custInfo.length === 0
       ) {
+        custInfo = findCustAlias(data[i]);
+        if (
+          custInfo === undefined ||
+          custInfo === null ||
+          custInfo === "" ||
+          custInfo === 0 ||
+          custInfo.length === 0
+        ) {
 
-     custInfo   = findCustAlias( data[i],getCustomers);
-    if (
-      custInfo === undefined ||
-      custInfo === null ||
-      custInfo === "" ||
-      custInfo === 0 ||
-      custInfo.length === 0
-    ) {
-      data[i]["IsVerified"] = "Customer doesn't exist in db";
-      debugger;
-      IsOk = 0;
-      continue;
-
-    }
-    else {
-      Cid = custInfo.CustId;
-    }
-     
+          data[i]["IsVerified"] = "Customer doesn't exist in db";
+            debugger;
+            IsOk = 0;
+            errorlog = 1;
+            continue;
+            
+          // let custInfo = findCustName(data[i]);
+          // if (
+          //   custInfo === undefined ||
+          //   custInfo === null ||
+          //   custInfo === "" ||
+          //   custInfo === 0 ||
+          //   custInfo.length === 0
+          // ) {
+          //   data[i]["IsVerified"] = "Customer doesn't exist in db";
+          //   debugger;
+          //   IsOk = 0;
+          //   errorlog = 1;
+          //   continue;
+          // } else {
+          //   data[i]["IsVerified"] =
+          //     "City & State doesn't match with the Customer";
+          //   debugger;
+          //   IsOk = 0;
+          //   errorlog = 1;
+          //   continue;
+          // }
+        } else {
+          Cid = custInfo.CustId;
+        }
       } else {
         Cid = custInfo.CustId;
       }
@@ -793,6 +890,7 @@ return null;
 
         data[i]["IsVerified"] = "Invalid";
         IsOk = 0;
+        errorlog = 1;
         continue;
       } else {
         Sid = salesmanInfo.SalesmId;
@@ -807,31 +905,16 @@ return null;
       ) {
         data[i]["IsVerified"] = "Invalid";
         IsOk = 0;
+        errorlog = 1;
         continue;
       }
 
-      // let custListWithState = SavetransformedArray.filter(
-      //   (item) =>
-      //   item.SoldToName?.toLowerCase() === data[i]["Sold-To Name"].trim()?.toLowerCase() &&
-      //     item.SoldToCity?.toLowerCase() ===  data[i]["Sold-To City"].trim()?.toLowerCase() &&
-      //     item.SoldToState?.toLowerCase() === data[i]["Sold-To State"].trim()?.toLowerCase() 
-          
-         
-      // );
-      // if (
-      //   custListWithState !== undefined ||
-      //   custListWithState !== null ||
-      //   custListWithState !== "" ||
-      //   custListWithState !== 0
-      // ) {
-      //   objsave
-         
-      // }
+     
       if (CommRuleInfo.CommisionRate > 0) {
         debugger;
         const InvoiceNo = i + 1; // Will come from API
         let TotalSalesAmt = 0;
-        TotalSalesAmt = data[i]["TotalSalesAmt"];
+        TotalSalesAmt = (data[i]["TotalSalesAmt"]).toFixed(2);
         // const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
         // const grossComm = (
@@ -858,15 +941,14 @@ return null;
         ) {
           data[i]["IsVerified"] = "Invalid";
           IsOk = 0;
+          errorlog = 1;
           continue;
         }
         var factoryInfo = getAllFactories.find(
           (item) => item.FactoryId === selectedFactoryValue
         );
         debugger;
-        const salesmanCommAmt = ((grossComm * salesmanCommRate) / 100).toFixed(
-          2
-        );
+        const salesmanCommAmt = ((grossComm * salesmanCommRate) / 100).toFixed(2);
 
         const objdatagrid = {
           TrasactionId: 0,
@@ -884,9 +966,9 @@ return null;
           InvoiceNo,
           TotalSalesAmt,
           GrossCommRate: `${commRate}%`,
-          GrossCommAmt: numberToCurrency(grossComm),
+          GrossCommAmt: grossComm,
           SalesmanCommRate: `${salesmanCommRate}%`,
-          SalesmanCommAmt: numberToCurrency(salesmanCommAmt),
+          SalesmanCommAmt: salesmanCommAmt,
           CreatedBy: 1,
           IsActive: 1,
           FinYear: selectedPriorYearValue,
@@ -918,17 +1000,46 @@ return null;
         };
         data[i]["IsVerified"] = "OK";
         debugger;
-        TotalAmt = parseFloat(TotalAmt) + parseInt(TotalSalesAmt);
+        TotalAmt = parseFloat(TotalAmt) + parseFloat(TotalSalesAmt);
         TotalCommAmt = parseFloat(TotalCommAmt) + parseFloat(grossComm);
         TotalSalesCommAmt =
           parseFloat(TotalSalesCommAmt) + parseFloat(salesmanCommAmt);
 
-        
-     
-      
+debugger;
+          var foundIndex = transformedArray.findIndex(item => 
+            item.SoldToName?.trim().toLowerCase() ===  data[i]["Sold-To Name"]?.trim().toLowerCase() &&
+            item.SoldToCity?.trim().toLowerCase() ===  data[i]["Sold-To City"]?.trim().toLowerCase() &&
+            item.SoldToState?.trim().toLowerCase() === data[i]["Sold-To State"]?.trim().toLowerCase()
+          );
 
-        transformedArray.push(objdatagrid);
-        SavetransformedArray.push(objsave);
+          if(foundIndex>=0)
+          {
+            transformedArray[foundIndex].TotalSalesAmt= (parseFloat(transformedArray[foundIndex].TotalSalesAmt) + parseFloat(TotalSalesAmt)).toFixed(2);
+            transformedArray[foundIndex].GrossCommAmt= (parseFloat(   transformedArray[foundIndex].GrossCommAmt) + parseFloat(grossComm)).toFixed(2);
+            transformedArray[foundIndex].SalesmanCommAmt= (parseFloat( transformedArray[foundIndex].SalesmanCommAmt) + parseFloat(salesmanCommAmt)).toFixed(2);
+          }
+          else{
+            transformedArray.push(objdatagrid);
+          }
+
+          var foundIndex = SavetransformedArray.findIndex(item => 
+            item.SoldToName?.trim().toLowerCase() ===  data[i]["Sold-To Name"]?.trim().toLowerCase() &&
+            item.SoldToCity?.trim().toLowerCase() ===  data[i]["Sold-To City"]?.trim().toLowerCase() &&
+            item.SoldToState?.trim().toLowerCase() === data[i]["Sold-To State"]?.trim().toLowerCase()
+          );
+
+          if(foundIndex>=0)
+          {
+            SavetransformedArray[foundIndex].TotalSalesAmt= (parseFloat(  SavetransformedArray[foundIndex].TotalSalesAmt) + parseFloat(TotalSalesAmt)).toFixed(2);
+            SavetransformedArray[foundIndex].GrossCommAmt= (parseFloat(   SavetransformedArray[foundIndex].GrossCommAmt) + parseFloat(grossComm)).toFixed(2);
+            SavetransformedArray[foundIndex].SalesmanCommAmt= (parseFloat( SavetransformedArray[foundIndex].SalesmanCommAmt) + parseFloat(salesmanCommAmt)).toFixed(2);
+          }
+          else{
+            SavetransformedArray.push(objsave);
+          }
+
+       // transformedArray.push(objdatagrid);
+       // SavetransformedArray.push(objsave);
       }
     }
     console.log(TotalAmt, TotalCommAmt, TotalSalesCommAmt);
@@ -947,11 +1058,11 @@ return null;
       CreatedDate: "",
       MonthName: "",
       InvoiceNo: "",
-      TotalSalesAmt: numberToCurrency(TotalAmt),
+      TotalSalesAmt: TotalAmt.toFixed(2),
       GrossCommRate: "",
-      GrossCommAmt: numberToCurrency(TotalCommAmt),
+      GrossCommAmt: TotalCommAmt.toFixed(2),
       SalesmanCommRate: "",
-      SalesmanCommAmt: numberToCurrency(TotalSalesCommAmt),
+      SalesmanCommAmt: TotalSalesCommAmt.toFixed(2),
       CreatedBy: 1,
       IsActive: 1,
       FinYear: selectedPriorYearValue,
@@ -959,34 +1070,22 @@ return null;
     debugger;
     transformedArray.push(objdatagrid);
     //setData(transformedArray);
-    if (IsOk === 0) {
-      debugger;
-      errorMessageBox(
-        "The uploaded records have errors and look at the grid against each line item to fix it."
-      );
-      return;
-    }
+    // if (IsOk === 0) {
+    //   debugger;
+    //   errorMessageBox(
+    //     "The uploaded records have errors and look at the grid against each line item to fix it."
+    //   );
+    //   return;
+    // }
 
     debugger;
 
-    if (
-      (transformedArray === undefined ||
-        transformedArray === null ||
-        transformedArray === "" ||
-        transformedArray === 0) &&
-      (SavetransformedArray === undefined ||
-        SavetransformedArray === null ||
-        SavetransformedArray === "" ||
-        SavetransformedArray === 0)
-    ) {
+    if (errorlog == 1) {
       errorMessageBox(
         "The uploaded records have errors and look at the grid against each line item to fix it."
       );
       return;
-    } else if (
-      transformedArray.length - 1 === data.length &&
-      SavetransformedArray.length === data.length
-    ) {
+    } else if (errorlog == 0) {
       setIsEnableCalculatebttn(false);
       localStorage.setItem(
         "salesComissionData",
