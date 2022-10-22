@@ -983,7 +983,6 @@ export default function Transaction() {
           SoldToName: data[i]["Sold-To Name"].trim(),
           SoldToCity: data[i]["Sold-To City"].trim(),
           SoldToState: data[i]["Sold-To State"].trim(),
-
           FactoryId: selectedFactoryValue,
           FactoryName: factoryInfo.FactoryName,
           CheckNo: checkValue,

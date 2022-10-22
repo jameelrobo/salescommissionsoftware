@@ -585,8 +585,9 @@ export default function CommissionReports(props) {
                 <Column
                   dataField="TotalSalesAmt"
                   alignment="right"
-                format="currency"
-                  displayFormat="{0}"
+                  format="$ #,##0.##"
+                // displayFormat= "0.0" 
+                // precision="2"
                   caption="TotalAmt"
                 />
                 <Column
@@ -597,17 +598,18 @@ export default function CommissionReports(props) {
                 />
                 <Column
                   dataField="GrossCommAmt"
-                  displayFormat="{0}"
+                  // displayFormat= "0.0" 
+                  // precision="2"
                   alignment="right"
-                 format="currency"
+                 format="$ #,##0.##"
                   caption="GCommAmt"
                 />
                 {/* <Column dataField="SalesmanCommRate" alignment="center" caption="SCommRate"/> */}
                 <Column
                   dataField="SalesmanCommAmt"
-                  displayFormat="{0}"
+                  // displayFormat="{0}"
                   alignment="right"
-                format="currency"
+                format="$ #,##0.##"
                   caption="SCommAmt"
                 />
                 <Column dataField="FactoryName" groupIndex={0} />
@@ -645,53 +647,58 @@ export default function CommissionReports(props) {
                   <GroupItem
                     column="TotalSalesAmt"
                     summaryType="sum"
+                    format="$ #,##0.##"
                     showInGroupFooter={true}
-                 valueFormat="currency"
+                //  valueFormat="currency"
                     alignByColumn={true}
-                    displayFormat="{0}"
+                    // displayFormat="{0}"
                   />
                   <TotalItem
                     column="TotalSalesAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-                 valueFormat="currency"
+                //  valueFormat="currency"
+                format="$ #,##0.##"
                     alignByColumn={true}
-                    displayFormat="{0}"
+                    // displayFormat="{0}"
                   />
                   <GroupItem
                     column="GrossCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-           valueFormat="currency"
+          //  valueFormat="currency"
+          format="$ #,##0.##"
                     alignByColumn={true}
-                    displayFormat="{0}"
+                    // displayFormat="{0}"
                   />
                    <TotalItem
                     column="GrossCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-           valueFormat="currency"
+          //  valueFormat="currency"
+                    format="$ #,##0.##"
                     alignByColumn={true}
-                    displayFormat=" {0}"
+                    // displayFormat=" {0}"
                   />
                   <GroupItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-           valueFormat="currency"
+                    valueFormat="##0.00"
                     
-                    alignByColumn={true}
-                    displayFormat="{0}"
+                   
                   />
                    <TotalItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-           valueFormat="currency"
+                  
                     
                     alignByColumn={true}
-                    displayFormat="{0}"
+                    valueFormat="##0.00"
+                   
                   />
+                  
                 {/* <TotalItem
               column="SaleAmount"
               
