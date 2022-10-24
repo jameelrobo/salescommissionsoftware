@@ -523,11 +523,11 @@ export default function Transaction() {
 
       let custListWithState = allgetCustomers.filter(
         (item) =>
-          item.City?.trim().toLowerCase() ===
-            custAlaisInfo["Sold-To City"]?.trim().toLowerCase() &&
-          item.State?.trim().toLowerCase() ===
-            custAlaisInfo["Sold-To State"]?.trim().toLowerCase()
+          item.City?.trim().toLowerCase().includes(custAlaisInfo["Sold-To City"]?.trim().toLowerCase()) &&
+          item.State?.trim().toLowerCase().includes(custAlaisInfo["Sold-To State"]?.trim().toLowerCase())
       );
+
+      
       debugger;
       console.log(custListWithState);
 
@@ -560,8 +560,7 @@ export default function Transaction() {
             for (let k = 0; k < custAliasNamesArray.length; k++) {
               debugger;
               if (
-                custAliasNamesArray[k]?.toLowerCase().trim() ===
-                custAlaisInfo["Sold-To Name"]?.toLowerCase().trim()
+                custAliasNamesArray[k]?.toLowerCase().trim().includes(custAlaisInfo["Sold-To Name"]?.toLowerCase().trim())
               ) {
                 return custListWithState[j];
                 // break;
@@ -574,6 +573,8 @@ export default function Transaction() {
       return null;
     }
   };
+
+  
   // Find name
   const findCustName = (custAlaisInfo) => {
     debugger;
@@ -816,8 +817,8 @@ export default function Transaction() {
      //============================filter city waise==========
      let custListWithcityState = getCustomers.filter(
       (item) =>
-      item.City?.trim().toLowerCase() ===  data[i]["Sold-To City"]?.trim().toLowerCase() &&
-      item.State?.trim().toLowerCase() ===  data[i]["Sold-To State"]?.trim().toLowerCase()
+      item.City?.trim().toLowerCase().includes( data[i]["Sold-To City"]?.trim().toLowerCase()) &&
+      item.State?.trim().toLowerCase().includes( data[i]["Sold-To State"]?.trim().toLowerCase())
     );
     if (
       custListWithcityState === undefined ||
