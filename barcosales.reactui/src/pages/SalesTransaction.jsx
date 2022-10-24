@@ -650,7 +650,7 @@ export default function Transaction() {
     //successMessageBox("TThe uploaded file is Verifying!");
     var IsOk = 1;
     let errorlog = 0;
-    debugger;
+    //debugger;
     var getCustomers = JSON.parse(localStorage.getItem("AllCustomers"));
     var getCommRules = JSON.parse(localStorage.getItem("AllCommissionRules"));
     var getAllSalesman = JSON.parse(localStorage.getItem("AllSalesman"));
@@ -689,7 +689,7 @@ export default function Transaction() {
       getCommRules === 0 ||
       getCommRules.length === 0
     ) {
-      debugger;
+     // debugger;
       errorMessageBox(
         "Please check Commission Rules API DB, Commission Rules API is not running "
       );
@@ -724,7 +724,7 @@ export default function Transaction() {
       );
       return;
     }
-    debugger;
+   // debugger;
     if (
       selectedSalesMonthsValue === undefined ||
       selectedSalesMonthsValue === null ||
@@ -779,7 +779,7 @@ export default function Transaction() {
       CommRules === 0 ||
       CommRules.length === 0
     ) {
-      debugger;
+    //  debugger;
       errorMessageBox(
         "Commission Rule is not found for selected factory , Please create a rule for the selected factory "
       );
@@ -813,16 +813,45 @@ export default function Transaction() {
       let Sid = 0;
 
      // debugger;
+     //============================filter city waise==========
+     let custListWithcityState = getCustomers.filter(
+      (item) =>
+      item.City?.trim().toLowerCase() ===  data[i]["Sold-To City"]?.trim().toLowerCase() &&
+      item.State?.trim().toLowerCase() ===  data[i]["Sold-To State"]?.trim().toLowerCase()
+    );
+    if (
+      custListWithcityState === undefined ||
+      custListWithcityState === null ||
+      custListWithcityState === "" ||
+      custListWithcityState === 0 ||
+      custListWithcityState.length === 0
+    ) {
+
+      data[i]["IsVerified"] = "City & State doesn't match with the Customer";
+      //  debugger;
+        IsOk = 0;
+        errorlog = 1;
+        continue;
+    }
      
-      var custInfo = getCustomers.find(
-        (item) =>
-          item.CustomerName?.trim().toLowerCase() ===
-            data[i]["Sold-To Name"]?.trim().toLowerCase() &&
-          item.City?.trim().toLowerCase() ===
-            data[i]["Sold-To City"]?.trim().toLowerCase() &&
-          item.State?.trim().toLowerCase() ===
-            data[i]["Sold-To State"]?.trim().toLowerCase()
-      );
+
+ 
+     debugger;
+    // var custInfo=null;
+    var custInfo=custListWithcityState.find((x) => x.CustomerName?.trim().toLowerCase().includes((data[i]["Sold-To Name"]?.trim().toLowerCase())))
+  
+    // for (let k = 0; k < custListWithcityState.length; k++) {
+
+    //   let cname = custListWithcityState[k]["CustomerName"];
+    //   let uploadCname="/"+data[i]["Sold-To Name"]?.trim().toLowerCase()+"/gi";
+    //   let result = cname.match(uploadCname);
+    // }
+
+      // var custInfo = custListWithcityState.find(
+      //   (item) =>
+      //     item.CustomerName?.trim().toLowerCase() ===     data[i]["Sold-To Name"]?.trim().toLowerCase()
+           
+      // );
 
       if (
         custInfo === undefined ||
@@ -868,12 +897,14 @@ export default function Transaction() {
           //   continue;
           // }
         } else {
+        
           Cid = custInfo.CustId;
         }
       } else {
+       // custInfo=resultCust[0];
         Cid = custInfo.CustId;
       }
-
+    
       //==========================Find saleman===================================
       var salesmanInfo = getAllSalesman.find(
         (item) => item.SalesmId === custInfo.SalesmanId
@@ -914,7 +945,7 @@ export default function Transaction() {
         debugger;
         const InvoiceNo = i + 1; // Will come from API
         let TotalSalesAmt = 0;
-        TotalSalesAmt = (data[i]["TotalSalesAmt"]).toFixed(2);
+        TotalSalesAmt = (Number(data[i]["TotalSalesAmt"])).toFixed(2);
         // const SAmt = Number(TotalSalesAmt.replace(/[^0-9.-]+/g, "")).toFixed(2);
         const commRate = CommRuleInfo.CommisionRate; //i % 2 ? 5 : 7; // Will come from API
         // const grossComm = (
