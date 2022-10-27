@@ -293,7 +293,7 @@ export default function Factories(props) {
       columns: columns.map((col) => ({ ...col, dataKey: col.field })),
       body: data,
     });
-    doc.save("SalesCommission.pdf");
+    doc.save("FactoryReport.pdf");
   };
   const UpdateFactory = (id) => {
     // window.location = "customers/update/" + id;
@@ -507,7 +507,7 @@ export default function Factories(props) {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "Factories",
+            exportFileName: "FactoriesReport",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,

@@ -284,7 +284,7 @@ export default function Salesman() {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "SalesCommission",
+            exportFileName: "SalesmanReport",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,

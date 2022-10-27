@@ -128,7 +128,7 @@ export default function CommissionReports(props) {
             autoFilterEnabled: true,
         }).then(() => {
             workbook.xlsx.writeBuffer().then((buffer) => {
-            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'SalesCommission.xlsx');
+            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'commissionReport.xlsx');
             });
         });
         e.cancel = true;
@@ -140,7 +140,7 @@ export default function CommissionReports(props) {
             columnWidths: [50, 15, 20, 25, 27,20, 20, ],
             component: e.component
         }).then(() => {
-            doc.save('SalesCommission.pdf');
+            doc.save('CommissionReport.pdf');
         })
     };
 });

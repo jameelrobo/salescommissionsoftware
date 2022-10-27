@@ -479,7 +479,7 @@ export default function Customers() {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "SalesCommission",
+            exportFileName: "CustomerReport",
             addRowPosition: "first",
             actionsColumnIndex: 0,
             // selection: true,

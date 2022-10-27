@@ -523,8 +523,8 @@ export default function Transaction() {
 
       let custListWithState = allgetCustomers.filter(
         (item) =>
-          item.City?.trim().toLowerCase().includes(custAlaisInfo["Sold-To City"]?.trim().toLowerCase()) &&
-          item.State?.trim().toLowerCase().includes(custAlaisInfo["Sold-To State"]?.trim().toLowerCase())
+          item.City?.trim().toLowerCase()===(custAlaisInfo["Sold-To City"]?.trim().toLowerCase()) &&
+          item.State?.trim().toLowerCase()===(custAlaisInfo["Sold-To State"]?.trim().toLowerCase())
       );
 
       
@@ -582,10 +582,8 @@ export default function Transaction() {
 
     let custListWithState = allgetCustomers.filter(
       (item) =>
-        item.City?.trim().toLowerCase() ===
-          custAlaisInfo["Sold-To City"]?.trim().toLowerCase() &&
-        item.State?.trim().toLowerCase() ===
-          custAlaisInfo["Sold-To State"]?.trim().toLowerCase()
+        item.City?.trim().toLowerCase() === custAlaisInfo["Sold-To City"]?.trim().toLowerCase() &&
+        item.State?.trim().toLowerCase() === custAlaisInfo["Sold-To State"]?.trim().toLowerCase()
     );
 
     if (
@@ -817,8 +815,8 @@ export default function Transaction() {
      //============================filter city waise==========
      let custListWithcityState = getCustomers.filter(
       (item) =>
-      item.City?.trim().toLowerCase().includes( data[i]["Sold-To City"]?.trim().toLowerCase()) &&
-      item.State?.trim().toLowerCase().includes( data[i]["Sold-To State"]?.trim().toLowerCase())
+      item.City?.trim().toLowerCase()===( data[i]["Sold-To City"]?.trim().toLowerCase()) &&
+      item.State?.trim().toLowerCase()===( data[i]["Sold-To State"]?.trim().toLowerCase())
     );
     if (
       custListWithcityState === undefined ||
