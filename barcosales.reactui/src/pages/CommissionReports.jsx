@@ -667,7 +667,7 @@ export default function CommissionReports(props) {
                     summaryType="sum"
                     showInGroupFooter={true}
           //  valueFormat="currency"
-          format="$ #,##0.##"
+          valueFormat="##0.00"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
@@ -676,7 +676,7 @@ export default function CommissionReports(props) {
                     summaryType="sum"
                     showInGroupFooter={true}
           //  valueFormat="currency"
-                    format="$ #,##0.##"
+          valueFormat="##0.00"
                     alignByColumn={true}
                     // displayFormat=" {0}"
                   />
