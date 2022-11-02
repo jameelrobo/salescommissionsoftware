@@ -507,7 +507,7 @@ export default function Factories(props) {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "FactoriesReport",
+            exportFileName: "FactoriesDetails",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,

@@ -710,7 +710,7 @@ export default function Analytics(props) {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "ManageTransactionReport",
+            exportFileName: "SalesCommAdminReport",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,

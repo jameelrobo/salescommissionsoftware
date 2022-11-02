@@ -215,7 +215,7 @@ export default function CalculateCommission(props) {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "SalesCommission",
+            exportFileName: "CalculatedSalesCommissionSummery",
             addRowPosition: "first",
             actionsColumnIndex: -1,
             // selection: true,

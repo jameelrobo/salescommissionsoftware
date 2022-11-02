@@ -672,7 +672,7 @@ debugger;
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "CommissionRulesReport",
+            exportFileName: "CommissionRulesDetails",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,
