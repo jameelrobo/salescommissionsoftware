@@ -647,7 +647,7 @@ export default function CommissionReports(props) {
                   <GroupItem
                     column="TotalSalesAmt"
                     summaryType="sum"
-                    format="$ #,##0.##"
+                    valueFormat="##0.00"
                     showInGroupFooter={true}
                 //  valueFormat="currency"
                     alignByColumn={true}
@@ -658,7 +658,7 @@ export default function CommissionReports(props) {
                     summaryType="sum"
                     showInGroupFooter={true}
                 //  valueFormat="currency"
-                format="$ #,##0.##"
+                valueFormat="##0.00"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
