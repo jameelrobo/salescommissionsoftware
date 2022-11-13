@@ -48,6 +48,7 @@ import {
   Delete,
 } from "@material-ui/icons";
 import { confirm } from "react-confirm-box";
+import { Radio } from "@material-ui/core";
 const tableRef = React.createRef();
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -126,8 +127,11 @@ export default function Analytics(props) {
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false); 
-  const [isShowDeletecheckChanged,setIsShowDeletecheckChanged] = useState(false); 
-  const [isEnableDisable, setIsEnableDisable] = useState(true); 
+  const [isShowDeletecheckChangedYes,setIsShowDeletecheckChangedYes] = useState(false); 
+  const [isShowDeletecheckChangedNo,setIsShowDeletecheckChangedNo] = useState(true); 
+  const [isYearandMonthChanged,setIsYearandMonthChanged] = useState(true);
+  const [isDateRangeEnableDisable, setIsDateRangeEnableDisable] = useState(true);
+  const [isYearMonthsEnableDisable, setIsYearMonthsEnableDisable] = useState(true);
   const [hideDatewise, setHideDatewise] = useState("none");
 
   const [selectedSalesmanItem, setSelectedSalesmanItem] = useState("");
@@ -135,30 +139,99 @@ export default function Analytics(props) {
    
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
-    setIsEnableDisable(isDateWisecheckChanged);
-    setHideDatewise("display");
-   if(isDateWisecheckChanged)
-   {
-    setStartDatevalue(null);
-    setEndDatevalue(null);
-
-   }
-   else
-   {
-    setStartDatevalue(null);
-    setEndDatevalue(null);
-   }
+  //  setIsEnableDisable(isDateWisecheckChanged);
+    if(isDateWisecheckChanged)
+    {
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+     setIsYearandMonthChanged(true)
+     setIsDateRangeEnableDisable(true)
+     setIsYearMonthsEnableDisable(false)
  
-  
+    }
+    else
+    {
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+     setIsDateRangeEnableDisable(false)
+     setIsYearMonthsEnableDisable(true)
+     setIsYearandMonthChanged(false)
    
+ 
+    }
+  
+    //setIsDisable(!allCustchecked);
+  };
+
+  const YearWisecheckChanged = (state) => {
+   
+    setIsYearandMonthChanged(!isYearandMonthChanged);
+    debugger;
+   // setIsEnableDisable(isYearandMonthChanged);
+    if(isYearandMonthChanged)
+    {
+      setIsDateWisecheckChanged(true)
+      setIsDateRangeEnableDisable(false)
+     setIsYearMonthsEnableDisable(true)
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+ 
+    }
+    else
+    {
+      setIsDateWisecheckChanged(false)
+      setIsDateRangeEnableDisable(true)
+      setIsYearMonthsEnableDisable(true)
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+    }
+  
+    //setIsDisable(!allCustchecked);
+  };
+
+
+
+  const IsShowDeletecheckYes = (state) => {
+    debugger;
+    setIsShowDeletecheckChangedYes(!isShowDeletecheckChangedYes);
+    if(isShowDeletecheckChangedYes)
+    {
+      setIsShowDeletecheckChangedYes(false)
+      setIsShowDeletecheckChangedNo(true)
+     
+ 
+    }
+    else
+    {
+      setIsShowDeletecheckChangedYes(true)
+      setIsShowDeletecheckChangedNo(false)
+      
+    }
 
     //setIsDisable(!allCustchecked);
   };
-  const IsShowDeletecheckChanged = (state) => {
+
+  
+  const IsShowDeletecheckNo = (state) => {
     debugger;
-    setIsShowDeletecheckChanged(!isShowDeletecheckChanged);
+    setIsShowDeletecheckChangedNo(!isShowDeletecheckChangedNo);
+    if(isShowDeletecheckChangedNo)
+    {
+     
+      setIsShowDeletecheckChangedNo(false)
+      setIsShowDeletecheckChangedYes(true)
+ 
+    }
+    else
+    {
+      setIsShowDeletecheckChangedNo(true)
+      setIsShowDeletecheckChangedYes(false)
+      
+    }
+
     //setIsDisable(!allCustchecked);
   };
+
   const FactoryOnchange = (value) => {
     debugger;
     setSelectedFactoryValue(value);
@@ -223,7 +296,7 @@ export default function Analytics(props) {
         let results ="";
         if(res.data.length>0)
         {
-          if(isShowDeletecheckChanged)
+          if(isShowDeletecheckChangedYes)
           {
             results = res.data.filter(item => item.IsActive === false);
 
@@ -321,7 +394,7 @@ export default function Analytics(props) {
     
       debugger;
      // rowData.IsActive=false;
-     if(isShowDeletecheckChanged)
+     if(isShowDeletecheckChangedYes)
      {
       const result = await confirm(
         "Do you really want to revoke this trasaction Id = " + rowData.TrasactionId + "?"
@@ -529,33 +602,7 @@ export default function Analytics(props) {
 
 
   const tableRef = React.createRef();
-  // const tableIcons = {
-  //   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  //   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  //   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  //   Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-  //   DetailPanel: forwardRef((props, ref) => (
-  //     <ChevronRight {...props} ref={ref} />
-  //   )),
-  //   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-  //   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-  //   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  //   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  //   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  //   NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  //   PreviousPage: forwardRef((props, ref) => (
-  //     <ChevronLeft {...props} ref={ref} />
-  //   )),
-  //   ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  //   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-  //   SortArrow: forwardRef((props, ref) => (
-  //     <ArrowDownward {...props} ref={ref} />
-  //   )),
-  //   ThirdStateCheck: forwardRef((props, ref) => (
-  //     <Remove {...props} ref={ref} />
-  //   )),
-  //   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
-  // };
+  
 
   return (
     <>
@@ -573,17 +620,22 @@ export default function Analytics(props) {
           pauseOnHover
         />
       
-        <h3> Sales Commission Reports</h3>
+        <h3> Manage Commission Reports</h3>
         
+{/* **********************form Start ***************************************** */}
+{/* **********************form Start ***************************************** */}
 
         <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}></Grid>
 
-            <Grid item xs={12} sm={2}>
-              <label>Filter with Date</label>
+            {/* *****************************start Date Range Section ******************************** */}
+            
+            <Grid item xs={12} sm={2} sx={{ m: 10 }} >
+              <label >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Date Range</label>
 
-              <Checkbox
+              <Radio
                 {...label}
                 checked={isDateWisecheckChanged}
                 onChange={DateWisecheckChanged}
@@ -593,11 +645,11 @@ export default function Analytics(props) {
             </Grid>
 
            
-            <Grid item xs={12} sm={5} style={{ display: {hideDatewise} }}>
+            <Grid item xs={12} sm={4}  >
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
-                  disabled={isEnableDisable}
+                 disabled={isDateRangeEnableDisable}
                   value={startDatevalue}
                   onChange={(newValue) => {
                     setStartDatevalue(newValue);
@@ -609,11 +661,11 @@ export default function Analytics(props) {
               </LocalizationProvider>
             </Grid>
 
-            <Grid item xs={12} sm={5} style={{ display: {hideDatewise} }}>
+            <Grid item xs={12} sm={4}  >
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"
-                  disabled={isEnableDisable}
+                 disabled={isDateRangeEnableDisable}
                   value={endDatevalue}
                   onChange={(newValue) => {
                     setEndDatevalue(newValue);
@@ -624,56 +676,96 @@ export default function Analytics(props) {
                 />
               </LocalizationProvider>
             </Grid>
-            
 
+            <Grid item xs={12} sm={2}>
+           
+           </Grid>
+
+           {/* *****************************End Date Range Section ******************************** */}
            
 
-            <Grid item xs={12} sm={3}>
-              <MultiselectYearddl
-                selectedYears={PriorYearOnchange}
-                // selectedSalesmanItem={selectedSalesmanItem}
-              />
-            </Grid>
+            {/* *****************************Start Years and month Section ******************************** */}
+            
+            <Grid item xs={12} sm={2}  >
+            <label>Years & Months</label>
 
-            <Grid item xs={12} sm={3}>
-              {/* <FactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange} />
-            </Grid>
-
-            <Grid item xs={12} sm={3}>
-              <SalesmanmMultiselectddl
-                ddlSalesmanSelectedItems={SalesmanOnchange}
-                // selectedSalesmanItem={selectedSalesmanItem}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={3}>
-              {/* <FactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} />
-            </Grid>
-            {/* <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Search
-          </Button> */}
-          <Grid item xs={12} sm={3}>
-              <label>IsShowDeleteRecords</label>
-
-              <Checkbox
+              <Radio
                 {...label}
-                checked={isShowDeletecheckChanged}
-                onChange={IsShowDeletecheckChanged}
+                checked={isYearandMonthChanged}
+                onChange={YearWisecheckChanged}
+
+                
                 color="primary"
                 size="medium"
               />
             </Grid>
-            <Grid item xs={12} sm={9}>
+
+            <Grid item xs={12} sm={4}>
+              <MultiselectYearddl
+                selectedYears={PriorYearOnchange}
+                     disabled={isYearMonthsEnableDisable}
+                // selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              {/* <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} /> */}
+              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange}
+                 disabled={isYearMonthsEnableDisable}/>
+            </Grid>
+
+            <Grid item xs={12} sm={2}>
+           
+           </Grid>
+            <Grid item xs={12} sm={2}>
+          
+            </Grid>
+
+
+
+            <Grid item xs={12} sm={4}>
+              <SalesmanmMultiselectddl
+                ddlSalesmanSelectedItems={SalesmanOnchange}
+                 disabled={isYearMonthsEnableDisable}
+                // selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              {/* <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} /> */}
+              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange}
+                   disabled={isYearMonthsEnableDisable} />
+            </Grid>
+            
+            <Grid item xs={12} sm={2}>
+          
+            </Grid>
+            {/* *****************************End Years and month Section ******************************** */}
+
+
+          <Grid item xs={12} sm={4}>
+              <label>Show Delete Records ?</label>
+    
+              <Radio
+                {...label}
+                checked={isShowDeletecheckChangedYes}
+                onChange={IsShowDeletecheckYes}
+                color="primary"
+                size="medium"
+              />
+              <label>Yes</label>
+              <Radio
+                {...label}
+                checked={isShowDeletecheckChangedNo}
+                onChange={IsShowDeletecheckNo}
+                color="primary"
+                size="medium"
+              />
+              <label>No</label>
+            </Grid>
+            <Grid item xs={12} sm={6}>
               <Button
                 variant="contained"
                 color="primary"
@@ -683,6 +775,11 @@ export default function Analytics(props) {
                 Search
               </Button>
             </Grid>
+            <Grid item xs={12} sm={2}>
+          
+            </Grid>
+            
+             
 
         
           </Grid>

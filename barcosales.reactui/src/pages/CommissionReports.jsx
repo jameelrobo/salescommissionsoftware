@@ -39,6 +39,8 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 import { ToastContainer, toast } from "react-toastify";
 
 //import "devextreme/dist/css/dx.light.css";
@@ -215,21 +217,56 @@ export default function CommissionReports(props) {
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false);
-  const [isEnableDisable, setIsEnableDisable] = useState(true);
+  const [isYearandMonthChanged,setIsYearandMonthChanged] = useState(false);
+  const [isDateRangeEnableDisable, setIsDateRangeEnableDisable] = useState(true);
+  const [isYearMonthsEnableDisable, setIsYearMonthsEnableDisable] = useState(true);
 
   const DateWisecheckChanged = (state) => {
    
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
-    setIsEnableDisable(isDateWisecheckChanged);
+  //  setIsEnableDisable(isDateWisecheckChanged);
     if(isDateWisecheckChanged)
     {
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+     setIsYearandMonthChanged(true)
+     setIsDateRangeEnableDisable(true)
+     setIsYearMonthsEnableDisable(false)
+ 
+    }
+    else
+    {
+     setStartDatevalue(null);
+     setEndDatevalue(null);
+     setIsDateRangeEnableDisable(false)
+     setIsYearMonthsEnableDisable(true)
+     setIsYearandMonthChanged(false)
+   
+ 
+    }
+  
+    //setIsDisable(!allCustchecked);
+  };
+  const YearWisecheckChanged = (state) => {
+   
+    setIsYearandMonthChanged(!isYearandMonthChanged);
+    debugger;
+   // setIsEnableDisable(isYearandMonthChanged);
+    if(isYearandMonthChanged)
+    {
+      setIsDateWisecheckChanged(true)
+      setIsDateRangeEnableDisable(false)
+     setIsYearMonthsEnableDisable(true)
      setStartDatevalue(null);
      setEndDatevalue(null);
  
     }
     else
     {
+      setIsDateWisecheckChanged(false)
+      setIsDateRangeEnableDisable(true)
+      setIsYearMonthsEnableDisable(true)
      setStartDatevalue(null);
      setEndDatevalue(null);
     }
@@ -441,11 +478,16 @@ export default function CommissionReports(props) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12}></Grid>
 
-            <Grid item xs={12} sm={2}>
-            <label>Filter with Date</label>
+            {/* *****************************start Date Range Section ******************************** */}
+           
+            <Grid item xs={12} sm={2}
+             >
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Date Range</label>
 
-              <Checkbox
+              <Radio
                 {...label}
+                 
                 checked={isDateWisecheckChanged}
                 onChange={DateWisecheckChanged}
                 color="primary"
@@ -453,11 +495,12 @@ export default function CommissionReports(props) {
               />
             </Grid>
 
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={4}>
+            
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
-                  disabled={isEnableDisable}
+                  disabled={isDateRangeEnableDisable}
                   value={startDatevalue}
                   onChange={(newValue) => {
                     setStartDatevalue(newValue);
@@ -469,11 +512,11 @@ export default function CommissionReports(props) {
               </LocalizationProvider>
             </Grid>
 
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={4}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="End Date"
-                  disabled={isEnableDisable}
+                  disabled={isDateRangeEnableDisable}
                   value={endDatevalue}
                   onChange={(newValue) => {
                     setEndDatevalue(newValue);
@@ -484,43 +527,72 @@ export default function CommissionReports(props) {
                 />
               </LocalizationProvider>
             </Grid>
-
+            <Grid item xs={12} sm={2}>
            
+            </Grid>
 
-            <Grid item xs={12} sm={3}>
+            {/* *****************************End Date Range Section ******************************** */}
+          
+
+
+           {/* *****************************Start Years and month Section ******************************** */}
+           
+           
+            <Grid item xs={12} sm={2}  >
+            <label>Years & Months</label>
+
+              <Radio
+                {...label}
+                checked={isYearandMonthChanged}
+                onChange={YearWisecheckChanged}
+
+                
+                color="primary"
+                size="medium"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
               <MultiselectYearddl
+                 disabled={isYearMonthsEnableDisable}
                 selectedYears={PriorYearOnchange}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange} />
+              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange}
+                 disabled={isYearMonthsEnableDisable}
+               />
             </Grid>
-
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
+           
+           </Grid>
+            <Grid item xs={12} sm={2}>
+          
+            </Grid>
+            <Grid item xs={12} sm={4}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
+                disabled={isYearMonthsEnableDisable}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} />
+              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} 
+                    disabled={isYearMonthsEnableDisable}
+              />
             </Grid>
-            {/* <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Search
-          </Button> */}
+            <Grid item xs={12} sm={2}>
+           
+           </Grid>
+                         {/* *****************************End Years and month Section ******************************** */}
+
 
             <Grid item xs={12} sm={12}>
               <Button
