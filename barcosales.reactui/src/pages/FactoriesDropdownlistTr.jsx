@@ -60,7 +60,7 @@ export default function FactoriesDropdownlistTr({
   // console.log(factory);
   return (
     <Box sx={{ minWidth: 20 }}>
-      <FormControl fullWidth>
+      <FormControl fullWidth >
         <InputLabel id="demo-simple-select-label">
           Select Factory / Princ Code
         </InputLabel>

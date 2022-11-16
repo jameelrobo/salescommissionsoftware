@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 const label = { inputProps: { "aria-label": "Checkbox demo" } }; 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
-export default function Analytics(props) {
+export default function ShowDeletedSalesRecords(props) {
   const classes = useStyles();
 
    const [coldef, setColdef] = useState([]);
@@ -127,7 +127,7 @@ export default function Analytics(props) {
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
   const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false); 
-  const [isShowDeletecheckChangedYes,setIsShowDeletecheckChangedYes] = useState(false); 
+  const [isShowDeletecheckChangedYes,setIsShowDeletecheckChangedYes] = useState(true); 
   const [isShowDeletecheckChangedNo,setIsShowDeletecheckChangedNo] = useState(true); 
   const [isYearandMonthChanged,setIsYearandMonthChanged] = useState(true);
   const [isDateRangeEnableDisable, setIsDateRangeEnableDisable] = useState(true);
@@ -192,29 +192,10 @@ export default function Analytics(props) {
 
 
   const IsShowDeletecheckYes = (state) => {
-    
     debugger;
     setIsShowDeletecheckChangedYes(!isShowDeletecheckChangedYes);
     if(isShowDeletecheckChangedYes)
     {
-       
-    // actions.push(   {
-    //   icon: () => <DeleIcon />,
-    //   tooltip: "Delete Transaction",
-    //   onClick: (event, rowData) => {
-    //     onClick1(rowData);
-    //   },
-    // }
-   // )
-     
-    // actions.push(   {
-    //   icon: () => <Restore />,
-    //   tooltip: "Delete Transaction",
-    //   onClick: (event, rowData) => {
-    //     onClick1(rowData);
-    //   },
-    // }
-   // )
       setIsShowDeletecheckChangedYes(false)
       setIsShowDeletecheckChangedNo(true)
      
@@ -288,9 +269,8 @@ export default function Analytics(props) {
     return formatter.format(num);
   };
 
-   
+
   useEffect(() => {
- 
    
     debugger;
     var filters = {
@@ -308,18 +288,15 @@ export default function Analytics(props) {
   var   actions = [
     
     {
-      icon: () => <DeleIcon />,
-      tooltip: "Delete Transaction",
+      icon: () => <Restore />,
+      tooltip: "Restore Transaction",
       onClick: (event, rowData) => {
         onClick1(rowData);
       },
     },
   ];
   const GetSalesTransaction = (filters) => {
-    debugger;
-    
    
-
     axios
      
       .post("SalesTrasaction/SearchTransaction",filters)
@@ -333,13 +310,12 @@ export default function Analytics(props) {
           if(isShowDeletecheckChangedYes)
           {
             results = res.data.filter(item => item.IsActive === false);
-        
+
  
           }
-          else{
-            results = res.data.filter(item => item.IsActive === true);
-          
-          }
+          // else{
+          //   results = res.data.filter(item => item.IsActive === true);
+          // }
           
 
 
@@ -429,10 +405,9 @@ export default function Analytics(props) {
     
       debugger;
      // rowData.IsActive=false;
-     if(isShowDeletecheckChangedYes)
-     {
+    
       const result = await confirm(
-        "Do you really want to revoke this trasaction Id = " + rowData.TrasactionId + "?"
+        "Do you really want to restore this trasaction Id = " + rowData.TrasactionId + "?"
       );
     
       if (result) {
@@ -441,7 +416,7 @@ export default function Analytics(props) {
       .then((res) => {
         if (res.status === 200) {
           debugger;
-          successMessageBox("Record has been revoke successfully!");
+          successMessageBox("record has been restore successfully!");
          // setCommissionRulesId(0);
          // refresh();
          TransctionSearch();
@@ -454,32 +429,7 @@ export default function Analytics(props) {
         console.log(err);
       });
     }
-     }
-     else{
-      const result = await confirm(
-        "Do you really want to delete this trasaction Id = " + rowData.TrasactionId + "?"
-      );
-    
-      if (result) {
-      axios
-      .post("SalesTrasaction/DeActiveTransaction?TId="+rowData.TrasactionId)
-      .then((res) => {
-        if (res.status === 200) {
-          debugger;
-          successMessageBox("Record has been deleted successfully!");
-         // setCommissionRulesId(0);
-         // refresh();
-         TransctionSearch();
-          console.log(res);
-        } else {
-          errorMessageBox("Invalid  Information!");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
-    }
+      
   
   };
 
@@ -646,7 +596,7 @@ export default function Analytics(props) {
           pauseOnHover
         />
       
-        <h3> Manage Commission Reports</h3>
+        <h3> Show Deleted Transaction</h3>
         
 {/* **********************form Start ***************************************** */}
 {/* **********************form Start ***************************************** */}
@@ -728,15 +678,14 @@ export default function Analytics(props) {
             </Grid>
 
             <Grid item xs={12} sm={4}>
-              <MultiselectYearddl selectedYears={PriorYearOnchange}  
-               booldisabled={isYearMonthsEnableDisable}   />
+              <MultiselectYearddl selectedYears={PriorYearOnchange}   booldisabled={isYearMonthsEnableDisable}   />
             </Grid>
 
             <Grid item xs={12} sm={4}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange}
-                 booldisabled={isYearMonthsEnableDisable} />
+                   booldisabled={isYearMonthsEnableDisable}/>
             </Grid>
 
             <Grid item xs={12} sm={2}>
@@ -751,7 +700,7 @@ export default function Analytics(props) {
             <Grid item xs={12} sm={4}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
-                booldisabled={isYearMonthsEnableDisable}
+                   booldisabled={isYearMonthsEnableDisable}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
@@ -760,7 +709,7 @@ export default function Analytics(props) {
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange}
-                 booldisabled={isYearMonthsEnableDisable} />
+                     booldisabled={isYearMonthsEnableDisable} />
             </Grid>
             
             <Grid item xs={12} sm={2}>
@@ -789,10 +738,7 @@ export default function Analytics(props) {
               />
               <label>No</label>
             </Grid> */}
-            <Grid item xs={12} sm={2}>
-          
-            </Grid>
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={12}>
               <Button
                 variant="contained"
                 color="primary"
@@ -834,7 +780,7 @@ export default function Analytics(props) {
             paginationPosition: "both",
             exportButton: true,
             exportAllData: true,
-            exportFileName: "SalesCommAdminReport",
+            exportFileName: "DeletedTransactionReport",
             addRowPosition: "first",
             // actionsColumnIndex: -1,
             // selection: true,

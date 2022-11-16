@@ -13,7 +13,7 @@ import axios from "axios";
  import { MenuProps, useStyles} from "./UtilMultiSelectOption";
 
 
-export default function MultiselectYearddl({ selectedYears}){
+export default function MultiselectYearddl({ selectedYears,booldisabled}){
 
   const options = [
     "2018",
@@ -30,6 +30,7 @@ export default function MultiselectYearddl({ selectedYears}){
     "2029",
     "2030"
   ];
+
     // useEffect(() => {
     //     debugger
     //     GetFactory();
@@ -55,6 +56,7 @@ export default function MultiselectYearddl({ selectedYears}){
 
     const classes = useStyles();
     const [selected, setSelected] = useState([]); 
+    const [disabledddl, setDisabledddl] = useState(false); 
     // const[filterfactory,setFilterfactory] = useState([]);
    
     const isAllSelected =  options.length > 0 && selected.length === options.length;
@@ -75,7 +77,7 @@ export default function MultiselectYearddl({ selectedYears}){
       selectedYears(value);
     };
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl disabled={ booldisabled} className={classes.formControl}>
           <InputLabel id="mutiple-select-label">Select Years</InputLabel>
           <Select
             labelId="mutiple-select-label"

@@ -266,7 +266,7 @@ export default function CommissionReports(props) {
     {
       setIsDateWisecheckChanged(false)
       setIsDateRangeEnableDisable(true)
-      setIsYearMonthsEnableDisable(true)
+      setIsYearMonthsEnableDisable(false)
      setStartDatevalue(null);
      setEndDatevalue(null);
     }
@@ -554,7 +554,7 @@ export default function CommissionReports(props) {
 
             <Grid item xs={12} sm={4}>
               <MultiselectYearddl
-                 disabled={isYearMonthsEnableDisable}
+                  booldisabled={isYearMonthsEnableDisable} 
                 selectedYears={PriorYearOnchange}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
@@ -564,7 +564,7 @@ export default function CommissionReports(props) {
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange}
-                 disabled={isYearMonthsEnableDisable}
+                  booldisabled={isYearMonthsEnableDisable} 
                />
             </Grid>
             <Grid item xs={12} sm={2}>
@@ -576,7 +576,7 @@ export default function CommissionReports(props) {
             <Grid item xs={12} sm={4}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
-                disabled={isYearMonthsEnableDisable}
+                 booldisabled={isYearMonthsEnableDisable} 
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
             </Grid>
@@ -585,7 +585,7 @@ export default function CommissionReports(props) {
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} 
-                    disabled={isYearMonthsEnableDisable}
+                     booldisabled={isYearMonthsEnableDisable} 
               />
             </Grid>
             <Grid item xs={12} sm={2}>

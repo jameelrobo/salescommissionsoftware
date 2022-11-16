@@ -54,6 +54,12 @@ const routes = [
     name: "Manage Transaction ",
     icon: <BiAnalyse />,
   },
+   {
+    path: "/showdeletedsalesrecords",
+    name: "Show Deleted Transaction",
+    icon: <BiAnalyse />,
+  },
+  
   {
     path: "/reports",
     name: "Commisson Reports ",
@@ -130,7 +136,7 @@ const SideBar = ({ children }) => {
       },
     },
     show: {
-      width: "150px",
+      width: "170px",
       padding: "5px 15px",
       transition: {
         duration: 0.2,
@@ -160,7 +166,7 @@ const SideBar = ({ children }) => {
       <div className="main-container">
         <motion.div
           animate={{
-            width: isOpen ? "200px" : "45px",
+            width: isOpen ? "230px" : "45px",
 
             transition: {
               duration: 0.5,

@@ -12,7 +12,7 @@ import axios from "axios";
  // import { MenuProps, useStyles, options } from "./utils";
  import { MenuProps, useStyles} from "./UtilMultiSelectOption";
 
-export default function MultiselectMonthddl({ SelectedMonths}){
+export default function MultiselectMonthddl({ SelectedMonths,booldisabled}){
   
  const options = [
   "Jan",
@@ -54,6 +54,7 @@ export default function MultiselectMonthddl({ SelectedMonths}){
 
     const classes = useStyles();
     const [selected, setSelected] = useState([]); 
+    const [disabledddl, setDisabledddl] = useState(false); 
     // const[filterfactory,setFilterfactory] = useState([]);
    
     const isAllSelected =  options.length > 0 && selected.length === options.length;
@@ -74,7 +75,7 @@ export default function MultiselectMonthddl({ SelectedMonths}){
       SelectedMonths(value);
     };
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl disabled={ booldisabled} className={classes.formControl}>
           <InputLabel id="mutiple-select-label">Select Months</InputLabel>
           <Select
             labelId="mutiple-select-label"

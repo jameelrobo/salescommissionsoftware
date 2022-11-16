@@ -24,7 +24,7 @@ import axios from "axios";
 //     "Virginia Andrews",
 //     "Kelly Snyder"
 //   ];
-export default function MultiselectFcotoryddl({ Selectedfactorylist}){
+export default function MultiselectFcotoryddl({ Selectedfactorylist,booldisabled}){
     useEffect(() => {
         debugger
         GetFactory();
@@ -50,6 +50,7 @@ export default function MultiselectFcotoryddl({ Selectedfactorylist}){
 
     const classes = useStyles();
     const [selected, setSelected] = useState([]); 
+    const [disabledddl, setDisabledddl] = useState(false); 
     // const[filterfactory,setFilterfactory] = useState([]);
    const [options, setOptions] = useState([]);
     const isAllSelected =  options.length > 0 && selected.length === options.length;
@@ -70,7 +71,7 @@ export default function MultiselectFcotoryddl({ Selectedfactorylist}){
       Selectedfactorylist(value);
     };
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl  disabled={ booldisabled} className={classes.formControl}>
           <InputLabel id="mutiple-select-label">Select Factory</InputLabel>
           <Select
             labelId="mutiple-select-label"

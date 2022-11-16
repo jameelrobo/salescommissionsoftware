@@ -13,7 +13,7 @@ import axios from "axios";
  import { MenuProps, useStyles} from "./UtilMultiSelectOption";
 
  
-export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems}){
+export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems,booldisabled}){
     useEffect(() => {
         debugger
         GetSalesmans();
@@ -37,6 +37,7 @@ export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems}){
     const classes = useStyles();
     const [selected, setSelected] = useState([]); 
    const [options, setOptions] = useState([]);
+   const [disabledddl, setDisabledddl] = useState(false); 
     const isAllSelected =  options.length > 0 && selected.length === options.length;
 
 
@@ -55,7 +56,7 @@ export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems}){
       ddlSalesmanSelectedItems(value)
     };
     return (
-        <FormControl className={classes.formControl}>
+        <FormControl  disabled={ booldisabled} className={classes.formControl}>
           <InputLabel id="mutiple-select-label">Select Salesman</InputLabel>
           <Select
             labelId="mutiple-select-label"
