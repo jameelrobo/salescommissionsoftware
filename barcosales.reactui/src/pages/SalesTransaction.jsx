@@ -550,7 +550,7 @@ export default function Transaction() {
           custAliasNames != null ||
           custAliasNames.length != 0
         ) {
-          const custAliasNamesArray = custAliasNames.split(",");
+          const custAliasNamesArray = custAliasNames.split("|");
           if (
             custAliasNamesArray != undefined ||
             custAliasNamesArray != "" ||

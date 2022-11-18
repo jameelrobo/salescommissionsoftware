@@ -135,11 +135,17 @@ export default function CommissionReports(props) {
         });
         e.cancel = true;
     } 
+  
     else if (e.format === 'pdf') {
-        const doc = new jsPDF();
+      debugger;
+        const doc = new jsPDF('l', );
+         
+        
         exportDataGridToPdf({
             jsPDFDocument: doc,
-            columnWidths: [50, 15, 20, 25, 27,20, 20, ],
+             
+            columnWidths: [70, 30, 40, 35, 30,30, 30, ],
+            
             component: e.component
         }).then(() => {
             doc.save('SalesCommissionReport.pdf');
@@ -637,7 +643,7 @@ export default function CommissionReports(props) {
                 <Column
                   dataField="SoldToName"
                   alignment="left"
-                  caption="Customer"
+                  caption="Customer Name"
                 />
                 {/* <Column
                   dataField="FactoryName"
@@ -665,6 +671,8 @@ export default function CommissionReports(props) {
                 <Column
                   dataField="GrossCommRate"
                   // format="percent"
+                   
+                   
                   alignment="center"
                   caption="GCommRate"
                 />
@@ -705,6 +713,7 @@ export default function CommissionReports(props) {
                  
                     //alignByColumn={true}
                     alignment="right"
+                    
                     displayFormat="Total for principal : "
                   />
                    <TotalItem
@@ -720,6 +729,7 @@ export default function CommissionReports(props) {
                     column="TotalSalesAmt"
                     summaryType="sum"
                     valueFormat="##0.00"
+                    displayFormat= " {0}"
                     showInGroupFooter={true}
                 //  valueFormat="currency"
                     alignByColumn={true}
@@ -731,6 +741,7 @@ export default function CommissionReports(props) {
                     showInGroupFooter={true}
                 //  valueFormat="currency"
                 valueFormat="##0.00"
+                displayFormat= " {0}"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
@@ -740,6 +751,7 @@ export default function CommissionReports(props) {
                     showInGroupFooter={true}
           //  valueFormat="currency"
           valueFormat="##0.00"
+          displayFormat= " {0}"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
@@ -749,12 +761,14 @@ export default function CommissionReports(props) {
                     showInGroupFooter={true}
           //  valueFormat="currency"
           valueFormat="##0.00"
+          displayFormat= " {0}"
                     alignByColumn={true}
                     // displayFormat=" {0}"
                   />
                   <GroupItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
+                    displayFormat= " {0}"
                     showInGroupFooter={true}
                     valueFormat="##0.00"
                     
@@ -763,6 +777,7 @@ export default function CommissionReports(props) {
                    <TotalItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
+                    displayFormat= " {0}" 
                     showInGroupFooter={true}
                   
                     
