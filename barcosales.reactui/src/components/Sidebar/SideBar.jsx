@@ -7,6 +7,7 @@ import {
   FaUser,
   FaCalculator,
   FaFile,
+  FaUserAlt,
 } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
@@ -16,12 +17,19 @@ import { BsCartCheck } from "react-icons/bs";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
+import { People } from "@material-ui/icons";
 const routes = [
   {
     path: "/",
+    name: "LogIn",
+    icon: <FaLock />,
+  },
+  {
+    path: "/Dashboard",
     name: "Home",
     icon: <FaHome />,
   },
+ 
   {
     path: "/transaction",
     name: "Transaction",
@@ -30,7 +38,7 @@ const routes = [
   {
     path: "/Customers",
     name: "Customers",
-    icon: <FaUser />,
+    icon: <People />,
   },
   {
     path: "/salesman",

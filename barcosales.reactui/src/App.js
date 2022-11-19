@@ -10,7 +10,7 @@ import {
 
 import Dashboard from "./pages/Dashboard";
 import UserLogin from "./pages/UserLogin";
-
+import Login from "./pages/Login";
 import Transaction from "./pages/SalesTransaction";
 import CalculateCommission from "./pages/CalculateCommission";
 import AddSales from "./pages/AddSales";
@@ -32,18 +32,35 @@ import Factories from "./pages/Factories";
 import CommissonRules from "./pages/CommissonRules";
 import CommissionReports from "./pages/CommissionReports";
 import ShowDeletedSalesRecords from "./pages/ShowDeletedSalesRecords";
+import ProtectedRoute from "./pages/ProtectedRoute";
 // import { StyledEngineProvider } from '@mui/material/styles';
 
 function App() {
   return (
     <Router>
+    
+
+    {/* <Login>
+       <div className="App">
+          <div className="auth-wrapper">
+            <div className="auth-inner">
+            <Routes>
+            <Route exact path="/" element={<Login />} />
+            </Routes>
+
+          </div>
+        </div>
+      </div>
+    </Login> */}
+
       <SideBar>
         <div className="App">
           <div className="auth-wrapper">
             <div className="auth-inner">
               <Routes>
-                <Route exact path="/" element={<Dashboard />} />
-                {/* <Route exact path="/" element={<UserLogin />} /> */}
+              <Route exact path="/" element={<Login />} />
+                <Route exact path="/dashboard" element={<Dashboard />} />
+                 
                 <Route exact path="/transaction" element={<Transaction />} />
                 <Route
                   exact
@@ -100,7 +117,9 @@ function App() {
           </div>
         </div>
       </SideBar>
+      
     </Router>
+    
   );
 }
 
