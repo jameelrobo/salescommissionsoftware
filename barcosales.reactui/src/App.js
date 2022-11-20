@@ -58,8 +58,8 @@ function App() {
           <div className="auth-wrapper">
             <div className="auth-inner">
               <Routes>
-              <Route exact path="/" element={<Login />} />
-                <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/login" element={<Login />} />
+                <Route exact path="/" element={<Dashboard />} />
                  
                 <Route exact path="/transaction" element={<Transaction />} />
                 <Route

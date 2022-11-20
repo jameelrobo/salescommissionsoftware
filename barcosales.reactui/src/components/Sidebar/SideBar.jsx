@@ -20,12 +20,12 @@ import SidebarMenu from "./SidebarMenu";
 import { People } from "@material-ui/icons";
 const routes = [
   {
-    path: "/",
+    path: "/login",
     name: "LogIn",
     icon: <FaLock />,
   },
   {
-    path: "/Dashboard",
+    path: "/",
     name: "Home",
     icon: <FaHome />,
   },
