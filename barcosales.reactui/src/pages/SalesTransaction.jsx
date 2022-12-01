@@ -560,7 +560,7 @@ export default function Transaction() {
             for (let k = 0; k < custAliasNamesArray.length; k++) {
               debugger;
               if (
-                custAliasNamesArray[k]?.toLowerCase().trim().includes(custAlaisInfo["Sold-To Name"]?.toLowerCase().trim())
+                custAliasNamesArray[k]?.toLowerCase().trim()===custAlaisInfo["Sold-To Name"]?.toLowerCase().trim()
               ) {
                 return custListWithState[j];
                 // break;
@@ -839,19 +839,6 @@ export default function Transaction() {
     // var custInfo=null;
     var custInfo=custListWithcityState.find((x) => x.CustomerName?.trim().toLowerCase().includes((data[i]["Sold-To Name"]?.trim().toLowerCase())))
   
-    // for (let k = 0; k < custListWithcityState.length; k++) {
-
-    //   let cname = custListWithcityState[k]["CustomerName"];
-    //   let uploadCname="/"+data[i]["Sold-To Name"]?.trim().toLowerCase()+"/gi";
-    //   let result = cname.match(uploadCname);
-    // }
-
-      // var custInfo = custListWithcityState.find(
-      //   (item) =>
-      //     item.CustomerName?.trim().toLowerCase() ===     data[i]["Sold-To Name"]?.trim().toLowerCase()
-           
-      // );
-
       if (
         custInfo === undefined ||
         custInfo === null ||
@@ -859,46 +846,38 @@ export default function Transaction() {
         custInfo === 0 ||
         custInfo.length === 0
       ) {
-        custInfo = findCustAlias(data[i]);
-        if (
-          custInfo === undefined ||
-          custInfo === null ||
-          custInfo === "" ||
-          custInfo === 0 ||
-          custInfo.length === 0
-        ) {
+          custInfo=custListWithcityState.find((x) => x.CustomerName?.trim().toLowerCase()===(data[i]["Sold-To Name"]?.trim().toLowerCase()))
+          if (
+            custInfo === undefined ||
+            custInfo === null ||
+            custInfo === "" ||
+            custInfo === 0 ||
+            custInfo.length === 0
+          ) {
 
-          data[i]["IsVerified"] = "Customer doesn't exist in db";
-            debugger;
-            IsOk = 0;
-            errorlog = 1;
-            continue;
+            custInfo = findCustAlias(data[i]);
+            if (
+              custInfo === undefined ||
+              custInfo === null ||
+              custInfo === "" ||
+              custInfo === 0 ||
+              custInfo.length === 0
+            ) {
+    
+              data[i]["IsVerified"] = "Customer doesn't exist in db";
+                debugger;
+                IsOk = 0;
+                errorlog = 1;
+                continue;
+              
+            } else {
             
-          // let custInfo = findCustName(data[i]);
-          // if (
-          //   custInfo === undefined ||
-          //   custInfo === null ||
-          //   custInfo === "" ||
-          //   custInfo === 0 ||
-          //   custInfo.length === 0
-          // ) {
-          //   data[i]["IsVerified"] = "Customer doesn't exist in db";
-          //   debugger;
-          //   IsOk = 0;
-          //   errorlog = 1;
-          //   continue;
-          // } else {
-          //   data[i]["IsVerified"] =
-          //     "City & State doesn't match with the Customer";
-          //   debugger;
-          //   IsOk = 0;
-          //   errorlog = 1;
-          //   continue;
-          // }
-        } else {
-        
-          Cid = custInfo.CustId;
-        }
+              Cid = custInfo.CustId;
+            }
+          }
+
+   
+    
       } else {
        // custInfo=resultCust[0];
         Cid = custInfo.CustId;
