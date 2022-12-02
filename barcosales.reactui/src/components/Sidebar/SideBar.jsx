@@ -25,7 +25,7 @@ const routes = [
     icon: <FaLock />,
   },
   {
-    path: "/",
+    path: "/home",
     name: "Home",
     icon: <FaHome />,
   },
@@ -69,7 +69,7 @@ const routes = [
   },
   
   {
-    path: "/reports",
+    path: "/",
     name: "Commisson Reports ",
     icon: <BiAnalyse />,
   },
