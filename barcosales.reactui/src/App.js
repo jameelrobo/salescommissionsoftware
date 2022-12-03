@@ -1,12 +1,15 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import SideBar from "./components/Sidebar/SideBar";
+import LogIn from "./components/Sidebar/LogIn";
+ 
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Switch,
 } from "react-router-dom";
+
 
 import Dashboard from "./pages/Dashboard";
 import UserLogin from "./pages/UserLogin";
@@ -40,18 +43,29 @@ function App() {
     <Router>
     
 
-    {/* <Login>
+    
+     
+    {/* <LogIn>
        <div className="App">
           <div className="auth-wrapper">
             <div className="auth-inner">
             <Routes>
-            <Route exact path="/" element={<Login />} />
+            <Route exact path="/login" element={<Login />} />
             </Routes>
 
           </div>
         </div>
       </div>
-    </Login> */}
+    </LogIn> */}
+    
+    
+   
+    
+    {/* <Route exact path="/login" element={<Login />} /> */}
+     
+       
+    
+       
 
       <SideBar>
         <div className="App">
@@ -59,7 +73,8 @@ function App() {
             <div className="auth-inner">
               <Routes>
               <Route exact path="/login" element={<Login />} />
-                <Route exact path="/" element={<Dashboard />} />
+              <Route exact path="/login" element={<Login />} />
+                <Route exact path="/" element={<CommissionReports />} />
                  
                 <Route exact path="/transaction" element={<Transaction />} />
                 <Route
@@ -99,7 +114,7 @@ function App() {
                 <Route exact path="/messages" element={<Messages />} />
                 <Route exact path="/analytics" element={<Analytics />} /> 
                 <Route exact path="/showdeletedsalesrecords" element={<ShowDeletedSalesRecords />} /> 
-                 <Route exact path="/reports" element={<CommissionReports />} />
+                 <Route exact path="/commissionReports" element={<CommissionReports />} />
                 <Route exact path="/file-manager" element={<FileManager />} />
                 <Route exact path="/order" element={<Order />} />
                 <Route exact path="/saved" element={<Saved />} />
@@ -118,6 +133,15 @@ function App() {
         </div>
       </SideBar>
       
+
+       
+
+       
+      
+
+       
+    
+    
     </Router>
     
   );
