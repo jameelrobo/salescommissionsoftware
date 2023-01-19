@@ -1,10 +1,11 @@
 import "./App.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import SideBar from "./components/Sidebar/SideBar";
-import LogIn from "./components/Sidebar/LogIn";
+import SideBar from "./barco";
+ 
  
 import {
   BrowserRouter as Router,
+  Navigate,
   Route,
   Routes,
   Switch,
@@ -12,8 +13,8 @@ import {
 
 
 import Dashboard from "./pages/Dashboard";
-import UserLogin from "./pages/UserLogin";
-import Login from "./pages/Login";
+ 
+ 
 import Transaction from "./pages/SalesTransaction";
 import CalculateCommission from "./pages/CalculateCommission";
 import AddSales from "./pages/AddSales";
@@ -36,45 +37,25 @@ import CommissonRules from "./pages/CommissonRules";
 import CommissionReports from "./pages/CommissionReports";
 import ShowDeletedSalesRecords from "./pages/ShowDeletedSalesRecords";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import LoginPage from "./userLogin/LoginPage";
+import  './userLogin/login.css';
 // import { StyledEngineProvider } from '@mui/material/styles';
 
 function App() {
   return (
     <Router>
     
-
-    
-     
-    {/* <LogIn>
-       <div className="App">
-          <div className="auth-wrapper">
-            <div className="auth-inner">
-            <Routes>
-            <Route exact path="/login" element={<Login />} />
-            </Routes>
-
-          </div>
-        </div>
-      </div>
-    </LogIn> */}
-    
-    
-   
-    
-    {/* <Route exact path="/login" element={<Login />} /> */}
-     
-       
-    
-       
-
+    <Routes>
+        <Route path="/" element={<LoginPage />} />
+        </Routes>
+      
       <SideBar>
         <div className="App">
           <div className="auth-wrapper">
             <div className="auth-inner">
               <Routes>
-              <Route exact path="/login" element={<Login />} />
-              <Route exact path="/login" element={<Login />} />
-                <Route exact path="/" element={<CommissionReports />} />
+               
+                {/* <Route exact path="/" element={<CommissionReports />} /> */}
                  
                 <Route exact path="/transaction" element={<Transaction />} />
                 <Route
@@ -120,19 +101,20 @@ function App() {
                 <Route exact path="/saved" element={<Saved />} />
                 <Route exact path="/settings" element={<Settings />} />
                 <Route exact path="/factories" element={<Factories />} />
+                <Route path="/logout" element={<Navigate to="/" />} />
                 <Route
                   exact
                   path="/commissonRules"
                   element={<CommissonRules />}
                 />
-
-                <Route path="*" element={<> not found</>} />
+ 
+                {/* <Route path="*" element={<> not found</>} /> */}
               </Routes>
             </div>
           </div>
         </div>
       </SideBar>
-      
+     
 
        
 
@@ -141,7 +123,7 @@ function App() {
 
        
     
-    
+     
     </Router>
     
   );

@@ -8,6 +8,7 @@ import {
   FaCalculator,
   FaFile,
   FaUserAlt,
+  FaUnlock,
 } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
@@ -16,19 +17,11 @@ import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
 import { BsCartCheck } from "react-icons/bs";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import SidebarMenu from "./SidebarMenu";
+import SidebarMenu from "./components/Sidebar/SidebarMenu";
 import { People } from "@material-ui/icons";
 const routes = [
-  {
-    path: "/login",
-    name: "LogIn",
-    icon: <FaLock />,
-  },
-  {
-    path: "/",
-    name: "Dashboard",
-    icon: <FaHome />,
-  },
+  
+ 
  
   {
     path: "/transaction",
@@ -72,6 +65,12 @@ const routes = [
     path: "/commissionReports",
     name: "Commisson Reports ",
     icon: <BiAnalyse />,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    icon: <FaUnlock />,
+     
   },
   // {
   //   path: "/users",
