@@ -43,7 +43,7 @@ function LoginPage() {
     // Perform login logic here (e.g. check against hardcoded credentials)
    
     localStorage.setItem("userid", "0");
-    if (username === "simplecoding" && password === "password@123") {
+    if (username === "barcosales" && password === "barcosales@123@") {
       setIsLoggedIn(true);
       localStorage.setItem("userid", "1");
     }
