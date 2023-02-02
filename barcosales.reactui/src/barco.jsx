@@ -45,7 +45,7 @@ const routes = [
   },
   {
     path: "/commissonRules",
-    name: "CommissonRules",
+    name: "CommissionRules",
     icon: <BiAnalyse />,
   },
 
@@ -57,13 +57,13 @@ const routes = [
   },
    {
     path: "/showdeletedsalesrecords",
-    name: "Show Deleted Transaction",
+    name: "Deleted Transaction",
     icon: <BiAnalyse />,
   },
   
   {
     path: "/commissionReports",
-    name: "Commisson Reports ",
+    name: "Commission Reports",
     icon: <BiAnalyse />,
   },
   {
