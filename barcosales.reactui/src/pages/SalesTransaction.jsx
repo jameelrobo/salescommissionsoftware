@@ -183,12 +183,14 @@ export default function Transaction() {
       debugger;
       let rowData = {};
       row.forEach((element, index) => {
-        // console.log(element);
+        console.log(element);
 
         rowData[headers[index]] = element;
       });
       if (rowData["Sold-To Name"]) {
         debugger;
+        rowData["TotalSalesAmt"]=(Number(rowData["TotalSalesAmt"])).toFixed(2)
+        
         rows.push(rowData);
       }
     });
@@ -542,15 +544,17 @@ export default function Transaction() {
       }
 
       for (let j = 0; j < custListWithState.length; j++) {
-        var custAliasNames = custListWithState[j]["CustAliasName"];
-
+        const custAliasNames = custListWithState[j]["CustAliasName"];
+ 
         if (
           custAliasNames != undefined ||
           custAliasNames != "" ||
           custAliasNames != null ||
           custAliasNames.length != 0
         ) {
-          const custAliasNamesArray = custAliasNames.split("|");
+          
+          var custAliasNamesArray = custAliasNames.split("|");
+     
           if (
             custAliasNamesArray != undefined ||
             custAliasNamesArray != "" ||
