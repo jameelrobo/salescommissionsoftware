@@ -645,11 +645,12 @@ export default function CommissionReports(props) {
                   alignment="left"
                   caption="Customer Name"
                 />
-                {/* <Column
+              {/* <Column
                   dataField="FactoryName"
                   alignment="center"
                   caption="Factory"
-                /> */}
+                />   */}
+                
                 <Column
                   dataField="MonthName"
                   alignment="center"
