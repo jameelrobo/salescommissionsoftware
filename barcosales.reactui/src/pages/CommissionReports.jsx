@@ -3,6 +3,7 @@ import React, { useState, useEffect, forwardRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -15,7 +16,6 @@ import MultiselectFcotoryddl from "./MultiselectFcotoryddl";
 
 import MultiselectMonthddl from "./MultiselectMonthddl";
 import MultiselectYearddl from "./MultiselectYearddl";
-
 
 import axios from "axios";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -39,9 +39,10 @@ import ViewColumn from "@material-ui/icons/ViewColumn";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Remove from "@material-ui/icons/Remove";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
 import { ToastContainer, toast } from "react-toastify";
+import Fade from "@material-ui/core/Fade";
 
 //import "devextreme/dist/css/dx.light.css";
 // import { exportDataGrid } from 'devextreme/excel_exporter';
@@ -62,17 +63,17 @@ import DataGrid, {
 
 // const exportFormats = ["pdf"];
 
-import 'devextreme/dist/css/dx.light.css';
+import "devextreme/dist/css/dx.light.css";
 //import DataGrid, { Export } from 'devextreme-react/data-grid';
-import { jsPDF } from 'jspdf';
-import { exportDataGrid as exportDataGridToPdf} from 'devextreme/pdf_exporter';
-import { Workbook } from 'exceljs';
-import { saveAs } from 'file-saver-es';
-import { exportDataGrid } from 'devextreme/excel_exporter';
+import { jsPDF } from "jspdf";
+import { exportDataGrid as exportDataGridToPdf } from "devextreme/pdf_exporter";
+import { Workbook } from "exceljs";
+import { saveAs } from "file-saver-es";
+import { exportDataGrid } from "devextreme/excel_exporter";
+import { Typography } from "@material-ui/core";
 
-
-const label = { inputProps: { "aria-label": "Checkbox demo" } }; 
-const exportFormats = ['xlsx', 'pdf'];
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
+const exportFormats = ["xlsx", "pdf"];
 
 const successMessageBox = (successMsg) => {
   toast.success(successMsg, {
@@ -118,47 +119,44 @@ const useStyles = makeStyles((theme) => ({
 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function CommissionReports(props) {
-
   // ************************This is for  Excel Export ***************************
   const onExporting = React.useCallback((e) => {
-    if (e.format === 'xlsx') {
-        const workbook = new Workbook();
-        const worksheet = workbook.addWorksheet('Companies');
+    if (e.format === "xlsx") {
+      const workbook = new Workbook();
+      const worksheet = workbook.addWorksheet("Companies");
       exportDataGrid({
-            component: e.component,
-            worksheet,
-            autoFilterEnabled: true,
-        }).then(() => {
-            workbook.xlsx.writeBuffer().then((buffer) => {
-            saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'SalescommissionReport.xlsx');
-            });
+        component: e.component,
+        worksheet,
+        autoFilterEnabled: true,
+      }).then(() => {
+        workbook.xlsx.writeBuffer().then((buffer) => {
+          saveAs(
+            new Blob([buffer], { type: "application/octet-stream" }),
+            "SalescommissionReport.xlsx"
+          );
         });
-        e.cancel = true;
-    } 
-  
-    else if (e.format === 'pdf') {
+      });
+      e.cancel = true;
+    } else if (e.format === "pdf") {
       debugger;
-        const doc = new jsPDF('l', );
-         
-        
-        exportDataGridToPdf({
-            jsPDFDocument: doc,
-             
-            columnWidths: [70, 30, 40, 35, 30,30, 30, ],
-            
-            component: e.component
-        }).then(() => {
-            doc.save('SalesCommissionReport.pdf');
-        })
-    };
-});
-  
+      const doc = new jsPDF("l");
 
-// ************************This is for  Excel Export end ***************************
+      exportDataGridToPdf({
+        jsPDFDocument: doc,
+
+        columnWidths: [70, 30, 40, 35, 30, 30, 30],
+
+        component: e.component,
+      }).then(() => {
+        doc.save("SalesCommissionReport.pdf");
+      });
+    }
+  });
+
+  // ************************This is for  Excel Export end ***************************
 
   // ************************This is for  Pdf Export ***************************
 
-  
   // const onExporting = React.useCallback((e) => {
   //   const doc = new jsPDF();
 
@@ -210,11 +208,7 @@ export default function CommissionReports(props) {
   //   return `(${USNumber[1]}) ${USNumber[2]}-${USNumber[3]}`;
   // }, []);
 
-   // ************************This is for  Pdf Export ***************************
-
- 
-
- 
+  // ************************This is for  Pdf Export ***************************
 
   const classes = useStyles();
 
@@ -222,61 +216,51 @@ export default function CommissionReports(props) {
   const [selectedSalesmanValue, setSelectedSalesmanValue] = useState([]);
   const [selectedPriorYearValue, setSelectedPriorYearValue] = useState([]);
   const [selectedSalesMonthsValue, setSelectedSalesMonthsValue] = useState([]);
-  const [isDateWisecheckChanged,setIsDateWisecheckChanged] = useState(false);
-  const [isYearandMonthChanged,setIsYearandMonthChanged] = useState(false);
-  const [isDateRangeEnableDisable, setIsDateRangeEnableDisable] = useState(true);
-  const [isYearMonthsEnableDisable, setIsYearMonthsEnableDisable] = useState(true);
+  const [isDateWisecheckChanged, setIsDateWisecheckChanged] = useState(false);
+  const [isYearandMonthChanged, setIsYearandMonthChanged] = useState(true);
+  const [isDateRangeEnableDisable, setIsDateRangeEnableDisable] =
+    useState(true);
+  const [isYearMonthsEnableDisable, setIsYearMonthsEnableDisable] =
+    useState(false);
 
   const DateWisecheckChanged = (state) => {
-   
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
-  //  setIsEnableDisable(isDateWisecheckChanged);
-    if(isDateWisecheckChanged)
-    {
-     setStartDatevalue(null);
-     setEndDatevalue(null);
-     setIsYearandMonthChanged(true)
-     setIsDateRangeEnableDisable(true)
-     setIsYearMonthsEnableDisable(false)
- 
+    //  setIsEnableDisable(isDateWisecheckChanged);
+    if (isDateWisecheckChanged) {
+      setStartDatevalue(null);
+      setEndDatevalue(null);
+      setIsYearandMonthChanged(true);
+      setIsDateRangeEnableDisable(true);
+      setIsYearMonthsEnableDisable(false);
+    } else {
+      setStartDatevalue(null);
+      setEndDatevalue(null);
+      setIsDateRangeEnableDisable(false);
+      setIsYearMonthsEnableDisable(true);
+      setIsYearandMonthChanged(false);
     }
-    else
-    {
-     setStartDatevalue(null);
-     setEndDatevalue(null);
-     setIsDateRangeEnableDisable(false)
-     setIsYearMonthsEnableDisable(true)
-     setIsYearandMonthChanged(false)
-   
- 
-    }
-  
+
     //setIsDisable(!allCustchecked);
   };
   const YearWisecheckChanged = (state) => {
-   
     setIsYearandMonthChanged(!isYearandMonthChanged);
     debugger;
-   // setIsEnableDisable(isYearandMonthChanged);
-    if(isYearandMonthChanged)
-    {
-      setIsDateWisecheckChanged(true)
-      setIsDateRangeEnableDisable(false)
-     setIsYearMonthsEnableDisable(true)
-     setStartDatevalue(null);
-     setEndDatevalue(null);
- 
+    // setIsEnableDisable(isYearandMonthChanged);
+    if (isYearandMonthChanged) {
+      setIsDateWisecheckChanged(true);
+      setIsDateRangeEnableDisable(false);
+      setIsYearMonthsEnableDisable(true);
+      setStartDatevalue(null);
+      setEndDatevalue(null);
+    } else {
+      setIsDateWisecheckChanged(false);
+      setIsDateRangeEnableDisable(true);
+      setIsYearMonthsEnableDisable(false);
+      setStartDatevalue(null);
+      setEndDatevalue(null);
     }
-    else
-    {
-      setIsDateWisecheckChanged(false)
-      setIsDateRangeEnableDisable(true)
-      setIsYearMonthsEnableDisable(false)
-     setStartDatevalue(null);
-     setEndDatevalue(null);
-    }
-  
+
     //setIsDisable(!allCustchecked);
   };
   const FactoryOnchange = (value) => {
@@ -306,7 +290,7 @@ export default function CommissionReports(props) {
   const [endDatevalue, setEndDatevalue] = useState(null);
 
   const [data, setData] = useState();
-  
+
   // const numberToCurrency = (num) => {
   //   const formatter = new Intl.NumberFormat("en-US", {
   //     style: "currency",
@@ -323,8 +307,7 @@ export default function CommissionReports(props) {
       SelectedYears: 0,
       SelectedMonths: 0,
       FactoryId: 0,
-      SalesmId: 0
-     
+      SalesmId: 0,
     };
     GetSalesTransaction(filters);
   }, []);
@@ -355,94 +338,90 @@ export default function CommissionReports(props) {
     var ed = ed.toLocaleDateString();
     debugger;
 
-    if (isDateWisecheckChanged){
+    if (isDateWisecheckChanged) {
       debugger;
-    if (
-      startDatevalue === undefined ||
-      startDatevalue === null ||
-      startDatevalue === "" ||
-      startDatevalue.length === 0
-    ) {
-      errorMessageBox(
-        "Start Date should not be blank, Please select Start Date"
-      );
+      if (
+        startDatevalue === undefined ||
+        startDatevalue === null ||
+        startDatevalue === "" ||
+        startDatevalue.length === 0
+      ) {
+        errorMessageBox(
+          "Start Date should not be blank, Please select Start Date"
+        );
 
-      return;
+        return;
+      }
+
+      if (
+        endDatevalue === undefined ||
+        endDatevalue === null ||
+        endDatevalue === "" ||
+        endDatevalue.length === 0
+      ) {
+        errorMessageBox("End Date should not be blank, Please select End Date");
+
+        return;
+      }
+
+      if (startDatevalue.getTime() > endDatevalue.getTime()) {
+        errorMessageBox(
+          "Start Date should be equal or less than from End Date"
+        );
+      }
     }
 
-    if (
-      endDatevalue === undefined ||
-      endDatevalue === null ||
-      endDatevalue === "" ||
-      endDatevalue.length === 0
-    ) {
-      errorMessageBox(
-        "End Date should not be blank, Please select End Date"
-      );
+    if (!isDateWisecheckChanged) {
+      if (
+        selectedPriorYearValue === undefined ||
+        selectedPriorYearValue === null ||
+        selectedPriorYearValue === "" ||
+        selectedPriorYearValue.length === 0
+      ) {
+        errorMessageBox(
+          "Years  should not be blank, Please select at least one year"
+        );
 
-      return;
+        return;
+      }
+      if (
+        selectedSalesMonthsValue === undefined ||
+        selectedSalesMonthsValue === null ||
+        selectedSalesMonthsValue === "" ||
+        selectedSalesMonthsValue.length === 0
+      ) {
+        errorMessageBox(
+          "Month should not be blank, Please select at least one Month"
+        );
+
+        return;
+      }
+
+      if (
+        selectedFactoryValue === undefined ||
+        selectedFactoryValue === null ||
+        selectedFactoryValue === "" ||
+        selectedFactoryValue.length === 0
+      ) {
+        errorMessageBox(
+          "Factory  should not be blank, Please select at least one Factory"
+        );
+
+        return;
+      }
+      if (
+        selectedSalesmanValue === undefined ||
+        selectedSalesmanValue === null ||
+        selectedSalesmanValue === "" ||
+        selectedSalesmanValue.length === 0
+      ) {
+        errorMessageBox(
+          "Salesman should not be blank, Please select at least one Salesman "
+        );
+
+        return;
+      }
     }
-
-    if(startDatevalue.getTime() > endDatevalue.getTime()){
-      errorMessageBox(
-        "Start Date should be equal or less than from End Date"
-      );
-  }
-  }
-
-
-  if (!isDateWisecheckChanged){
-
-    if (
-      selectedPriorYearValue === undefined ||
-      selectedPriorYearValue === null ||
-      selectedPriorYearValue === "" ||
-      selectedPriorYearValue.length === 0
-    ) {
-      errorMessageBox(
-        "Years  should not be blank, Please select at least one year"
-      );
-
-      return;
-    }
-    if (
-      selectedSalesMonthsValue === undefined ||
-      selectedSalesMonthsValue === null ||
-      selectedSalesMonthsValue === "" ||
-      selectedSalesMonthsValue.length === 0
-    ) {
-      errorMessageBox(
-        "Month should not be blank, Please select at least one Month"
-      );
-
-      return;
-    }
-
-    if (
-      selectedFactoryValue === undefined ||
-      selectedFactoryValue === null ||
-      selectedFactoryValue === "" ||
-      selectedFactoryValue.length === 0
-    ) {
-      errorMessageBox(
-        "Factory  should not be blank, Please select at least one Factory"
-      );
-
-      return;
-    }
-    if (
-      selectedSalesmanValue === undefined ||
-      selectedSalesmanValue === null ||
-      selectedSalesmanValue === "" ||
-      selectedSalesmanValue.length === 0
-    ) {
-      errorMessageBox(
-        "Salesman should not be blank, Please select at least one Salesman "
-      );
-
-      return;
-    }
-  }
 
     var filters = {
       startDate: sd,
@@ -451,15 +430,12 @@ export default function CommissionReports(props) {
       SelectedMonths: selectedSalesMonthsValue,
       FactoryId: selectedFactoryValue,
       SalesmId: selectedSalesmanValue,
-      IsDatewise:isDateWisecheckChanged
-  
+      IsDatewise: isDateWisecheckChanged,
     };
-   debugger;
+    debugger;
     setData([]);
     GetSalesTransaction(filters);
   };
-
-  
 
   return (
     <>
@@ -485,22 +461,20 @@ export default function CommissionReports(props) {
             <Grid item xs={12} sm={12}></Grid>
 
             {/* *****************************start Date Range Section ******************************** */}
-           
-            <Grid item xs={12} sm={2}
-             >
-            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              Date Range</label>
+
+            <Grid item xs={12} sm={2}>
+              <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date Range</label>
 
               <Radio
                 {...label}
-                 
                 checked={isDateWisecheckChanged}
                 onChange={DateWisecheckChanged}
                 color="primary"
                 size="medium"
               />
             </Grid>
-
+           
+                
             <Grid item xs={12} sm={4}>
             
               <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -538,21 +512,37 @@ export default function CommissionReports(props) {
             </Grid>
 
             {/* *****************************End Date Range Section ******************************** */}
+
+            {/* *****************************Start Years and month Section ******************************** */}
+
           
 
+            <Grid item xs={12} sm={2}></Grid>
 
-           {/* *****************************Start Years and month Section ******************************** */}
-           
-           
-            <Grid item xs={12} sm={2}  >
-            <label>Years & Months</label>
+            <Grid item xs={12} sm={4}>
+              <SalesmanmMultiselectddl
+                ddlSalesmanSelectedItems={SalesmanOnchange}
+                //  booldisabled={isDateRangeEnableDisable}
+                // selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              {/* <FactoriesDropdownlistTr
+               factoryddlOnchang={FactoryOnchange} /> */}
+              <MultiselectFcotoryddl
+                Selectedfactorylist={FactoryOnchange}
+                //  booldisabled={isDateRangeEnableDisable}
+              />
+            </Grid>
+            <Grid item xs={12} sm={2}></Grid>
+            <Grid item xs={12} sm={2}>
+              <label>Years & Months</label>
 
               <Radio
                 {...label}
                 checked={isYearandMonthChanged}
                 onChange={YearWisecheckChanged}
-
-                
                 color="primary"
                 size="medium"
               />
@@ -560,7 +550,7 @@ export default function CommissionReports(props) {
 
             <Grid item xs={12} sm={4}>
               <MultiselectYearddl
-                  booldisabled={isYearMonthsEnableDisable} 
+                booldisabled={isYearMonthsEnableDisable}
                 selectedYears={PriorYearOnchange}
                 // selectedSalesmanItem={selectedSalesmanItem}
               />
@@ -569,36 +559,13 @@ export default function CommissionReports(props) {
             <Grid item xs={12} sm={4}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange}
-                  booldisabled={isYearMonthsEnableDisable} 
-               />
-            </Grid>
-            <Grid item xs={12} sm={2}>
-           
-           </Grid>
-            <Grid item xs={12} sm={2}>
-          
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <SalesmanmMultiselectddl
-                ddlSalesmanSelectedItems={SalesmanOnchange}
-                 booldisabled={isYearMonthsEnableDisable} 
-                // selectedSalesmanItem={selectedSalesmanItem}
+              <MultiselectMonthddl
+                SelectedMonths={SalesMonthsOnchange}
+                booldisabled={isYearMonthsEnableDisable}
               />
             </Grid>
-
-            <Grid item xs={12} sm={4}>
-              {/* <FactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange} 
-                     booldisabled={isYearMonthsEnableDisable} 
-              />
-            </Grid>
-            <Grid item xs={12} sm={2}>
-           
-           </Grid>
-                         {/* *****************************End Years and month Section ******************************** */}
-
+            <Grid item xs={12} sm={2}></Grid>
+            {/* *****************************End Years and month Section ******************************** */}
 
             <Grid item xs={12} sm={12}>
               <Button
@@ -621,8 +588,6 @@ export default function CommissionReports(props) {
     
             {/* width={100} */}
             <React.Fragment>
-            
-            
               <DataGrid
                 id="gridContainer"
                 dataSource={orders}
@@ -630,11 +595,10 @@ export default function CommissionReports(props) {
                 showBorders={true}
                 onExporting={onExporting}
               >
-              
-            {/* <rowType dataField="SoldToName" alignment="center" caption="Customer2"/> */}
-           
+                {/* <rowType dataField="SoldToName" alignment="center" caption="Customer2"/> */}
+
                 {/* <Export enabled={true} formats={exportFormats} /> */}
-                
+
                 <GroupPanel visible={true} />
                 <Grouping autoExpandAll={true} />
 
@@ -645,12 +609,12 @@ export default function CommissionReports(props) {
                   alignment="left"
                   caption="Customer Name"
                 />
-              {/* <Column
+                {/* <Column
                   dataField="FactoryName"
                   alignment="center"
                   caption="Factory"
                 />   */}
-                
+
                 <Column
                   dataField="MonthName"
                   alignment="center"
@@ -665,24 +629,23 @@ export default function CommissionReports(props) {
                   dataField="TotalSalesAmt"
                   alignment="right"
                   format="$ #,##0.##"
-                // displayFormat= "0.0" 
-                // precision="2"
+                  // displayFormat= "0.0"
+                  // precision="2"
                   caption="TotalAmt"
                 />
                 <Column
                   dataField="GrossCommRate"
                   // format="percent"
-                   
-                   
+
                   alignment="center"
                   caption="GCommRate"
                 />
                 <Column
                   dataField="GrossCommAmt"
-                  // displayFormat= "0.0" 
+                  // displayFormat= "0.0"
                   // precision="2"
                   alignment="right"
-                 format="$ #,##0.##"
+                  format="$ #,##0.##"
                   caption="GCommAmt"
                 />
                 {/* <Column dataField="SalesmanCommRate" alignment="center" caption="SCommRate"/> */}
@@ -690,7 +653,7 @@ export default function CommissionReports(props) {
                   dataField="SalesmanCommAmt"
                   // displayFormat="{0}"
                   alignment="right"
-                format="$ #,##0.##"
+                  format="$ #,##0.##"
                   caption="SCommAmt"
                 />
                 <Column dataField="FactoryName" groupIndex={0} />
@@ -707,21 +670,16 @@ export default function CommissionReports(props) {
                     displayFormat="Total Records : {0} "
                     showInGroupFooter={true}
                   />
-                    <GroupItem
+                  <GroupItem
                     column="SoldToName"
-                    
                     showInGroupFooter={true}
-                 
                     //alignByColumn={true}
                     alignment="right"
-                    
                     displayFormat="Total for principal : "
                   />
-                   <TotalItem
+                  <TotalItem
                     column="SoldToName"
-                    
                     showInGroupFooter={true}
-                 
                     // alignByColumn={true}
                     alignment="right"
                     displayFormat="Total for Salesman : "
@@ -730,9 +688,9 @@ export default function CommissionReports(props) {
                     column="TotalSalesAmt"
                     summaryType="sum"
                     valueFormat="##0.00"
-                    displayFormat= " {0}"
+                    displayFormat=" {0}"
                     showInGroupFooter={true}
-                //  valueFormat="currency"
+                    //  valueFormat="currency"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
@@ -740,9 +698,9 @@ export default function CommissionReports(props) {
                     column="TotalSalesAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-                //  valueFormat="currency"
-                valueFormat="##0.00"
-                displayFormat= " {0}"
+                    //  valueFormat="currency"
+                    valueFormat="##0.00"
+                    displayFormat=" {0}"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
@@ -750,53 +708,46 @@ export default function CommissionReports(props) {
                     column="GrossCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-          //  valueFormat="currency"
-          valueFormat="##0.00"
-          displayFormat= " {0}"
+                    //  valueFormat="currency"
+                    valueFormat="##0.00"
+                    displayFormat=" {0}"
                     alignByColumn={true}
                     // displayFormat="{0}"
                   />
-                   <TotalItem
+                  <TotalItem
                     column="GrossCommAmt"
                     summaryType="sum"
                     showInGroupFooter={true}
-          //  valueFormat="currency"
-          valueFormat="##0.00"
-          displayFormat= " {0}"
+                    //  valueFormat="currency"
+                    valueFormat="##0.00"
+                    displayFormat=" {0}"
                     alignByColumn={true}
                     // displayFormat=" {0}"
                   />
                   <GroupItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
-                    displayFormat= " {0}"
+                    displayFormat=" {0}"
                     showInGroupFooter={true}
                     valueFormat="##0.00"
-                    
-                   
                   />
-                   <TotalItem
+                  <TotalItem
                     column="SalesmanCommAmt"
                     summaryType="sum"
-                    displayFormat= " {0}" 
+                    displayFormat=" {0}"
                     showInGroupFooter={true}
-                  
-                    
                     alignByColumn={true}
                     valueFormat="##0.00"
-                   
                   />
-                  
-                {/* <TotalItem
+
+                  {/* <TotalItem
               column="SaleAmount"
               
               summaryType="count"
               displayFormat="Total count: {0} companies"
             /> */}
-            
- 
-          </Summary>
-          {/* <Summary>
+                </Summary>
+                {/* <Summary>
             <TotalItem
               column="SaleAmount"
               summaryType="count"
@@ -808,7 +759,7 @@ export default function CommissionReports(props) {
               summaryType="sum"
               valueFormat="currency" />  
           </Summary> */}
-                
+
                 <SortByGroupSummaryInfo summaryItem="count" />
                 <Export enabled={true} formats={exportFormats}></Export>
               </DataGrid>
