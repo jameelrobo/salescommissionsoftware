@@ -144,7 +144,7 @@ export default function CommissionReports(props) {
       exportDataGridToPdf({
         jsPDFDocument: doc,
 
-        columnWidths: [70, 30, 40, 35, 30, 30, 30],
+        columnWidths: [70, 15, 15, 40, 35, 30, 30, 30],
 
         component: e.component,
       }).then(() => {
@@ -233,6 +233,8 @@ export default function CommissionReports(props) {
       setIsYearandMonthChanged(true);
       setIsDateRangeEnableDisable(true);
       setIsYearMonthsEnableDisable(false);
+      setSelectedFactoryValue(null);
+      setSelectedSalesmanValue(null);
     } else {
       setStartDatevalue(null);
       setEndDatevalue(null);
@@ -253,6 +255,9 @@ export default function CommissionReports(props) {
       setIsYearMonthsEnableDisable(true);
       setStartDatevalue(null);
       setEndDatevalue(null);
+       setSelectedFactoryValue([]);
+      setSelectedSalesmanValue([]);
+
     } else {
       setIsDateWisecheckChanged(false);
       setIsDateRangeEnableDisable(true);
@@ -397,31 +402,33 @@ export default function CommissionReports(props) {
         return;
       }
 
-      if (
-        selectedFactoryValue === undefined ||
-        selectedFactoryValue === null ||
-        selectedFactoryValue === "" ||
-        selectedFactoryValue.length === 0
-      ) {
-        errorMessageBox(
-          "Factory  should not be blank, Please select at least one Factory"
-        );
-
-        return;
-      }
-      if (
-        selectedSalesmanValue === undefined ||
-        selectedSalesmanValue === null ||
-        selectedSalesmanValue === "" ||
-        selectedSalesmanValue.length === 0
-      ) {
-        errorMessageBox(
-          "Salesman should not be blank, Please select at least one Salesman "
-        );
-
-        return;
-      }
+   
     }
+    if (
+      selectedSalesmanValue === undefined ||
+      selectedSalesmanValue === null ||
+      selectedSalesmanValue === "" ||
+      selectedSalesmanValue.length === 0
+    ) {
+      errorMessageBox(
+        "Salesman should not be blank, Please select at least one Salesman "
+      );
+
+      return;
+    }
+    if (
+      selectedFactoryValue === undefined ||
+      selectedFactoryValue === null ||
+      selectedFactoryValue === "" ||
+      selectedFactoryValue.length === 0
+    ) {
+      errorMessageBox(
+        "Factory  should not be blank, Please select at least one Factory"
+      );
+
+      return;
+    }
+   
 
     var filters = {
       startDate: sd,
@@ -609,11 +616,11 @@ export default function CommissionReports(props) {
                   alignment="left"
                   caption="Customer Name"
                 />
-                {/* <Column
-                  dataField="FactoryName"
+                <Column
+                  dataField="FinYear"
                   alignment="center"
-                  caption="Factory"
-                />   */}
+                  caption="Years"
+                />  
 
                 <Column
                   dataField="MonthName"
