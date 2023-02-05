@@ -662,6 +662,32 @@ export default function ShowDeletedSalesRecords(props) {
 
             {/* *****************************Start Years and month Section ******************************** */}
             
+            <Grid item xs={12} sm={2}>
+          
+          </Grid>
+
+
+
+          <Grid item xs={12} sm={4}>
+            <SalesmanmMultiselectddl
+              ddlSalesmanSelectedItems={SalesmanOnchange}
+                //  booldisabled={isYearMonthsEnableDisable}
+              // selectedSalesmanItem={selectedSalesmanItem}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            {/* <FactoriesDropdownlistTr
+             factoryddlOnchang={FactoryOnchange} /> */}
+            <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange}
+                  //  booldisabled={isYearMonthsEnableDisable} 
+
+                   />
+          </Grid>
+          
+          <Grid item xs={12} sm={2}>
+        
+          </Grid>
             <Grid item xs={12} sm={2} 
              >
             <label>Years & Months</label>
@@ -691,30 +717,8 @@ export default function ShowDeletedSalesRecords(props) {
             <Grid item xs={12} sm={2}>
            
            </Grid>
-            <Grid item xs={12} sm={2}>
-          
-            </Grid>
 
-
-
-            <Grid item xs={12} sm={4}>
-              <SalesmanmMultiselectddl
-                ddlSalesmanSelectedItems={SalesmanOnchange}
-                   booldisabled={isYearMonthsEnableDisable}
-                // selectedSalesmanItem={selectedSalesmanItem}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              {/* <FactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange}
-                     booldisabled={isYearMonthsEnableDisable} />
-            </Grid>
-            
-            <Grid item xs={12} sm={2}>
-          
-            </Grid>
+           
             {/* *****************************End Years and month Section ******************************** */}
 
 {/* 
