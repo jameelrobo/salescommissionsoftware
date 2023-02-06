@@ -71,6 +71,8 @@ import { Workbook } from "exceljs";
 import { saveAs } from "file-saver-es";
 import { exportDataGrid } from "devextreme/excel_exporter";
 import { Typography } from "@material-ui/core";
+import { Autocomplete } from "@mui/material";
+import ComboBox from "./AutoCompleteddl";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 const exportFormats = ["xlsx", "pdf"];
@@ -119,6 +121,8 @@ const useStyles = makeStyles((theme) => ({
 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function CommissionReports(props) {
+  
+
   // ************************This is for  Excel Export ***************************
   const onExporting = React.useCallback((e) => {
     if (e.format === "xlsx") {
@@ -255,9 +259,8 @@ export default function CommissionReports(props) {
       setIsYearMonthsEnableDisable(true);
       setStartDatevalue(null);
       setEndDatevalue(null);
-       setSelectedFactoryValue([]);
+      setSelectedFactoryValue([]);
       setSelectedSalesmanValue([]);
-
     } else {
       setIsDateWisecheckChanged(false);
       setIsDateRangeEnableDisable(true);
@@ -268,12 +271,24 @@ export default function CommissionReports(props) {
 
     //setIsDisable(!allCustchecked);
   };
+
   const FactoryOnchange = (value) => {
     debugger;
     setSelectedFactoryValue(value);
     debugger;
     console.log(value);
   };
+
+  const [customeronchange, setCustomeronchange] = useState("");
+
+  const CustomerOnchange = (value) => {
+    debugger;
+    setCustomeronchange(value);
+    debugger;
+    console.log(value);
+  };
+
+
   const PriorYearOnchange = (value) => {
     setSelectedPriorYearValue(value);
     debugger;
@@ -401,8 +416,6 @@ export default function CommissionReports(props) {
 
         return;
       }
-
-   
     }
     if (
       selectedSalesmanValue === undefined ||
@@ -428,7 +441,6 @@ export default function CommissionReports(props) {
 
       return;
     }
-   
 
     var filters = {
       startDate: sd,
@@ -438,6 +450,7 @@ export default function CommissionReports(props) {
       FactoryId: selectedFactoryValue,
       SalesmId: selectedSalesmanValue,
       IsDatewise: isDateWisecheckChanged,
+    //  customerid:customeronchange
     };
     debugger;
     setData([]);
@@ -470,7 +483,7 @@ export default function CommissionReports(props) {
             {/* *****************************start Date Range Section ******************************** */}
 
             <Grid item xs={12} sm={2}>
-              <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date Range</label>
+              <label  style={{paddingLeft:45}}> Date Range</label>
 
               <Radio
                 {...label}
@@ -480,10 +493,8 @@ export default function CommissionReports(props) {
                 size="medium"
               />
             </Grid>
-           
-                
+
             <Grid item xs={12} sm={4}>
-            
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
                   label="Start Date"
@@ -514,19 +525,15 @@ export default function CommissionReports(props) {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={12} sm={2}>
-           
-            </Grid>
+            <Grid item xs={12} sm={2}></Grid>
 
             {/* *****************************End Date Range Section ******************************** */}
 
             {/* *****************************Start Years and month Section ******************************** */}
 
-          
-
             <Grid item xs={12} sm={2}></Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
                 //  booldisabled={isDateRangeEnableDisable}
@@ -534,7 +541,7 @@ export default function CommissionReports(props) {
               />
             </Grid>
 
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={3}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectFcotoryddl
@@ -542,12 +549,19 @@ export default function CommissionReports(props) {
                 //  booldisabled={isDateRangeEnableDisable}
               />
             </Grid>
-            <Grid item xs={12} sm={2}></Grid>
             <Grid item xs={12} sm={2}>
-              <label>Years & Months</label>
+               <ComboBox 
+               selectedCustomer={CustomerOnchange} />
+            </Grid>
+            <Grid item xs={12} sm={2}>
+                
+            </Grid>
+
+            <Grid item xs={12} sm={2}>
+              <label style={{paddingTop:30, paddingLeft:20}}>Years & Months</label>
 
               <Radio
-                {...label}
+                label="years & Month"
                 checked={isYearandMonthChanged}
                 onChange={YearWisecheckChanged}
                 color="primary"
@@ -620,7 +634,7 @@ export default function CommissionReports(props) {
                   dataField="FinYear"
                   alignment="center"
                   caption="Years"
-                />  
+                />
 
                 <Column
                   dataField="MonthName"
