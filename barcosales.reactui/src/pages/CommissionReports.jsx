@@ -279,13 +279,23 @@ export default function CommissionReports(props) {
     console.log(value);
   };
 
-  const [customeronchange, setCustomeronchange] = useState("");
+  const [customeronchange, setCustomeronchange] = useState([]);
 
   const CustomerOnchange = (value) => {
     debugger;
+    // if(value)
+    // {
+      
+    //   setCustomeronchange(value);
+    // }
+    // else
+    // {
+    //   setCustomeronchange(null);
+    // }
     setCustomeronchange(value);
+    
     debugger;
-    console.log(value);
+    console.log("all"+customeronchange);
   };
 
 
@@ -328,20 +338,23 @@ export default function CommissionReports(props) {
       SelectedMonths: 0,
       FactoryId: 0,
       SalesmId: 0,
+      CustIds:0
     };
     GetSalesTransaction(filters);
   }, []);
   const [orders, setOrders] = useState([]);
   const GetSalesTransaction = (filters) => {
     axios
-
       .post("SalesTrasaction/SearchTransaction", filters)
-
       .then((res) => {
         debugger;
         console.log(res);
         if (res.data.length > 0) {
           debugger;
+          setOrders(res.data);
+        }
+        else{
+
           setOrders(res.data);
         }
       })
@@ -441,6 +454,18 @@ export default function CommissionReports(props) {
 
       return;
     }
+    var custis=[];
+    if(customeronchange.length>0)
+    {
+      for (let i = 0; i < customeronchange.length; i++) {
+       // text += cars[i] + "<br>";
+        custis.push(customeronchange[i]["CustId"]);
+      }
+    }
+    else{
+      custis=[];
+    }
+
 
     var filters = {
       startDate: sd,
@@ -449,8 +474,10 @@ export default function CommissionReports(props) {
       SelectedMonths: selectedSalesMonthsValue,
       FactoryId: selectedFactoryValue,
       SalesmId: selectedSalesmanValue,
+     // CustIds:customeronchange,
+     CustIds:custis,
       IsDatewise: isDateWisecheckChanged,
-    //  customerid:customeronchange
+      
     };
     debugger;
     setData([]);

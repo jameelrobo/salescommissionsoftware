@@ -120,7 +120,33 @@ namespace BarcoSales.DAO
 
 
         }
+ private void insertMultCustsvalu(string cnn, string scode)
+        {
 
+
+            using (MySqlConnection connection = new MySqlConnection(cnn))
+            {
+                try
+                {
+ 
+                    string cmdText = "INSERT INTO localcust(CustId) VALUES (@CustId)";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, connection);
+                    cmd.Parameters.AddWithValue("@CustId", scode);
+
+                    connection.Open();
+                    int result = cmd.ExecuteNonQuery();
+                    //lblError.Text = "Data Saved";
+                }
+                catch (Exception ex)
+                {
+                    // MessageBox.Show("not entered");
+                    //lblError.Text = ex.Message;
+                }
+            }
+
+
+
+        }
         private void insertMultYearsvalu(string cnn, string Years)
         {
 
@@ -204,6 +230,8 @@ namespace BarcoSales.DAO
             {
                 string startDate = "";
                 string EndDate = "";
+                Boolean custids=false;
+
               
                   startDate = transactionSearchRequest.StartDate.ToString("yyyy-MM-dd");
                       EndDate = transactionSearchRequest.EndDate.ToString("yyyy-MM-dd");
@@ -250,7 +278,15 @@ namespace BarcoSales.DAO
                   
                     }
                 }
-
+  if (transactionSearchRequest.CustIds.Length > 0)
+                {
+                    custids = true;
+                    for (int i = 0; i < transactionSearchRequest.CustIds.Length; i++)
+                    {
+                        insertMultCustsvalu(conn, transactionSearchRequest.CustIds[i]);
+                  
+                    }
+                }
 
                 MySqlConnection sql_conn = new MySqlConnection(conn);
                 MySqlCommand cmd = new MySqlCommand();
@@ -258,14 +294,14 @@ namespace BarcoSales.DAO
                 //  cmd.CommandText = "CALL storedprocname (@para1, @para2)";
                 //  cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date,@factoryName,@salesman)";
                // cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise(@start_date,@end_date)";
-               cmd.CommandText = "CALL sp_SearchTransactionInfoDatewise21(@start_date,@end_date,@IsDatewise)";
+               cmd.CommandText = "CALL sp_SearchTransactionInfoDatewiseUpdated(@start_date,@end_date,@IsDatewise,@IsCustId)";
 
 
                 var sqlParameters = new List<MySqlParameter>();
-                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@start_date", Value = startDate });
-                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Int32, ParameterName = "@end_date", Value = EndDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@start_date", Value = startDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@end_date", Value = EndDate });
                  sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Bool, ParameterName = "@IsDatewise", Value = transactionSearchRequest.IsDatewise });
-                //sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@salesman", Value = salesman });
+                 sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Bool, ParameterName = "@IsCustId", Value = custids });
                 cmd.Parameters.AddRange(sqlParameters.ToArray());
                 sql_conn.Open();
                 MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -294,6 +330,33 @@ namespace BarcoSales.DAO
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = sql_conn;
                 cmd.CommandText = "CALL sp_GetTransactionInfo()";
+                sql_conn.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                DataTable dt = new DataTable();
+                dt.Load(rdr);
+
+                string Result = JsonConvert.SerializeObject(dt);
+                return Result;
+            }
+
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Some unknown error has occurred.");
+                return null;
+            }
+
+        }
+        public string IGetTransactionCustomers(string conn)
+        {
+            try
+            {
+
+                // string conn = "server=53.180.62.50.host.secureserver.net;port=3306;database=bsadmin_BarcoSalesCommission;uid=bsadmin_sa;password=2c-DbD4x$7^(;";
+                // string conn = "server=localhost;port=3306;database=barcosalescommission;uid=root;password=root";
+                MySqlConnection sql_conn = new MySqlConnection(conn);
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = sql_conn;
+                cmd.CommandText = "CALL sp_GetTransactionCustomers()";
                 sql_conn.Open();
                 MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 DataTable dt = new DataTable();

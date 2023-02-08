@@ -57,7 +57,7 @@ function LoginPage() {
   };
 
   if (isLoggedIn) {
-    return <Navigate to="/commissionReports"   />;
+    return <Navigate to="/factories"   />;
     
   }
 

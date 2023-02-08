@@ -28,7 +28,7 @@ export default function ComboBox({selectedCustomer}) {
     const getAllCustomers = async () => {
         debugger;
         const res = await axios
-          .get("Customer/GetCustomer")
+          .get("SalesTrasaction/GetTransactionCustomers")
           .then((res) => {
              
             console.log(res.data);
@@ -47,13 +47,7 @@ export default function ComboBox({selectedCustomer}) {
         //setGetCustomers(res.data);
         return res;
       };
-      const handleChange = (event) => {
-        debugger;
-      const value = event.target.value;
-        // alert(value);
-        console.log(top100Films1.CustomerName)
-        selectedCustomer(value);
-      };
+     
 
        
     // const handleChange1 = (event) => {
@@ -90,19 +84,19 @@ export default function ComboBox({selectedCustomer}) {
       limitTags={2}
       size="small"
       id="combo-box-demo"
-      getOptionLabel={(top100Films1) => `${top100Films1.CustomerName} ${top100Films1.CustId}`}
+      getOptionLabel={(top100Films1) => `${top100Films1.CustomerName}`}
       options={top100Films1}
       sx={{ margin:1 }}
       isOptionEqualToValue={(option,value) =>   option.CustomerName === value.CustomerName}
       onChange={(event, newValue) => {
           setValue(newValue);
-          selectedCustomer(value);
+          selectedCustomer(newValue);
           console.log(newValue);
         }}
       renderOption={(props, top100Films1) => (
         <Box component="li"  {...props} key={top100Films1.id}>
            
-          {top100Films1.CustomerName} 
+          {top100Films1.CustomerName}
         </Box>
       )}
       renderInput={(params) => <TextField {...params} label="Customer"  variant="standard" />}
