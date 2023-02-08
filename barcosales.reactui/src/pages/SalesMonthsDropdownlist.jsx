@@ -32,7 +32,7 @@ export default function SalesMonthsDropdownlist({ salesMonthsddlOnchang }) {
         >
           <MenuItem value="Jan">Jan</MenuItem>
           <MenuItem value="Feb">Feb</MenuItem>
-          <MenuItem value="March">March</MenuItem>
+          <MenuItem value="Mar">Mar</MenuItem>
           <MenuItem value="Apr">Apr</MenuItem>
           <MenuItem value="May">May</MenuItem>
           <MenuItem value="Jun">Jun</MenuItem>

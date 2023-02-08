@@ -533,7 +533,7 @@ export default function CommissionReports(props) {
 
             <Grid item xs={12} sm={2}></Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
               <SalesmanmMultiselectddl
                 ddlSalesmanSelectedItems={SalesmanOnchange}
                 //  booldisabled={isDateRangeEnableDisable}
@@ -541,7 +541,7 @@ export default function CommissionReports(props) {
               />
             </Grid>
 
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectFcotoryddl
@@ -549,10 +549,8 @@ export default function CommissionReports(props) {
                 //  booldisabled={isDateRangeEnableDisable}
               />
             </Grid>
-            <Grid item xs={12} sm={2}>
-               <ComboBox 
-               selectedCustomer={CustomerOnchange} />
-            </Grid>
+             
+           
             <Grid item xs={12} sm={2}>
                 
             </Grid>
@@ -586,6 +584,19 @@ export default function CommissionReports(props) {
               />
             </Grid>
             <Grid item xs={12} sm={2}></Grid>
+
+
+            {/* ************************start search via Customer */}
+            
+            <Grid item xs={12} sm={2}></Grid>
+            <Grid item xs={12} sm={8}>
+               <ComboBox 
+               selectedCustomer={CustomerOnchange} />
+            </Grid>
+            <Grid item xs={12} sm={2}></Grid>
+             {/* ************************End search via Customer */}
+
+
             {/* *****************************End Years and month Section ******************************** */}
 
             <Grid item xs={12} sm={12}>

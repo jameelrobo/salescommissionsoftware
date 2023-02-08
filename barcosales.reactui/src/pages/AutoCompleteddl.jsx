@@ -86,7 +86,9 @@ export default function ComboBox({selectedCustomer}) {
       renderInput={(params) => <TextField {...params} label="Customer"  variant="standard" />}
     /> */}
     <Autocomplete
-      disablePortal
+      multiple
+      limitTags={2}
+      size="small"
       id="combo-box-demo"
       getOptionLabel={(top100Films1) => `${top100Films1.CustomerName} ${top100Films1.CustId}`}
       options={top100Films1}
