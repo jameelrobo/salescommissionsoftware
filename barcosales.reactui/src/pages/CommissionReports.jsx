@@ -229,7 +229,7 @@ export default function CommissionReports(props) {
     setIsDateWisecheckChanged(!isDateWisecheckChanged);
     debugger;
     
-    refresh();
+    //refresh();
 
     //  setIsEnableDisable(isDateWisecheckChanged);
     if (isDateWisecheckChanged) {
@@ -253,7 +253,7 @@ export default function CommissionReports(props) {
   const YearWisecheckChanged = (state) => {
     setIsYearandMonthChanged(!isYearandMonthChanged);
     debugger;
-    refresh();
+   
     // setIsEnableDisable(isYearandMonthChanged);
     if (isYearandMonthChanged) {
       setIsDateWisecheckChanged(true);
@@ -484,15 +484,15 @@ export default function CommissionReports(props) {
     GetSalesTransaction(filters);
   };
 
-  const refresh = () => {
-    setStartDatevalue(null);
-    setEndDatevalue(null);
-    setSelectedPriorYearValue(null);
-    setSelectedSalesMonthsValue(null);
-    setCustomeronchange(null);
-    setSelectedFactoryValue(null);
-    setSelectedSalesmanValue(null);
-  };
+  // const refresh = () => {
+  //   setStartDatevalue(null);
+  //   setEndDatevalue(null);
+  //   setSelectedPriorYearValue(null);
+  //   setSelectedSalesMonthsValue(null);
+  //   setCustomeronchange(null);
+  //   setSelectedFactoryValue(null);
+  //   setSelectedSalesmanValue(null);
+  // };
 
   return (
     <>

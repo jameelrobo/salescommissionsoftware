@@ -11,7 +11,7 @@ import * as XLSX from "xlsx";
 
 import axios from "axios";
 import "jspdf-autotable";
-
+import { Navigate } from "react-router-dom";
 import MaterialTable, { Column } from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -515,7 +515,8 @@ export default function Transaction() {
     window.location = "/transaction";
   };
   const handleClick = () => {
-    window.location = "/transaction/calculate";
+  window.location = "/transaction/calculate";
+    // <Navigate to="/transaction/calculate"   />
   };
   // Find alias name
   const findCustAlias = (custAlaisInfo) => {
@@ -1199,7 +1200,21 @@ debugger;
               >
                 Calculate Sales Commission
               </Button>
+
             </Grid>
+            {/* <Grid item xs={12} sm={3}>
+              <Link to="/transaction/calculate">
+                <Button
+                 disabled={isEnableCalculatebttn}
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                >
+                   Calculate Sales Commission
+                </Button>
+              </Link>
+            </Grid> */}
             <Grid item xs={12} sm={3}>
               <Button
                 //disabled="true"

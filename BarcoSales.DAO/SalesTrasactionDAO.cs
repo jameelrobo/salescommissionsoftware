@@ -239,8 +239,9 @@ namespace BarcoSales.DAO
                 //string factories = "";
 
                 //string salesman = "";
-
-                if (transactionSearchRequest.SelectedYears.Length >= 0)
+                if(transactionSearchRequest.SelectedYears != null)
+                { 
+                if (transactionSearchRequest.SelectedYears.Length >0)
                 {
                     for (int i = 0; i < transactionSearchRequest.SelectedYears.Length; i++)
                     {
@@ -249,42 +250,52 @@ namespace BarcoSales.DAO
 
                     }
                 }
-
-                if (transactionSearchRequest.SelectedMonths.Length >= 0)
+                }
+                if (transactionSearchRequest.SelectedMonths != null)
                 {
-                    for (int i = 0; i < transactionSearchRequest.SelectedMonths.Length; i++)
+                    if (transactionSearchRequest.SelectedMonths.Length > 0)
                     {
-                        insertMultMonthsvalu(conn, transactionSearchRequest.SelectedMonths[i]);
+                        for (int i = 0; i < transactionSearchRequest.SelectedMonths.Length; i++)
+                        {
+                            insertMultMonthsvalu(conn, transactionSearchRequest.SelectedMonths[i]);
 
+                        }
                     }
                 }
-
-
-                if (transactionSearchRequest.FactoryId.Length >= 0)
+                if (transactionSearchRequest.FactoryId != null)
                 {
-                    for(int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
-                    {
-                        insertMultfactvalu(conn, transactionSearchRequest.FactoryId[i]);
-               
 
+                    if (transactionSearchRequest.FactoryId.Length > 0)
+                    {
+                        for (int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
+                        {
+                            insertMultfactvalu(conn, transactionSearchRequest.FactoryId[i]);
+
+
+                        }
                     }
                 }
-
-                if (transactionSearchRequest.SalesmId.Length >= 0)
+                if (transactionSearchRequest.SalesmId != null)
                 {
-                    for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
+                    if (transactionSearchRequest.SalesmId.Length > 0)
                     {
-                        insertMultsalesvalu(conn, transactionSearchRequest.SalesmId[i]);
-                  
+                        for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
+                        {
+                            insertMultsalesvalu(conn, transactionSearchRequest.SalesmId[i]);
+
+                        }
                     }
                 }
-  if (transactionSearchRequest.CustIds.Length >= 0)
+                if (transactionSearchRequest.CustIds != null)
                 {
-                    custids = true;
-                    for (int i = 0; i < transactionSearchRequest.CustIds.Length; i++)
+                    if (transactionSearchRequest.CustIds.Length > 0)
                     {
-                        insertMultCustsvalu(conn, transactionSearchRequest.CustIds[i]);
-                  
+                        custids = true;
+                        for (int i = 0; i < transactionSearchRequest.CustIds.Length; i++)
+                        {
+                            insertMultCustsvalu(conn, transactionSearchRequest.CustIds[i]);
+
+                        }
                     }
                 }
 
