@@ -121,8 +121,6 @@ const useStyles = makeStyles((theme) => ({
 
 const EXTENSIONS = ["xlsx", "xls", "csv"];
 export default function CommissionReports(props) {
-  
-
   // ************************This is for  Excel Export ***************************
   const onExporting = React.useCallback((e) => {
     if (e.format === "xlsx") {
@@ -285,7 +283,7 @@ export default function CommissionReports(props) {
     debugger;
     // if(value)
     // {
-      
+
     //   setCustomeronchange(value);
     // }
     // else
@@ -293,11 +291,10 @@ export default function CommissionReports(props) {
     //   setCustomeronchange(null);
     // }
     setCustomeronchange(value);
-    
-    debugger;
-    console.log("all"+customeronchange);
-  };
 
+    debugger;
+    console.log("all" + customeronchange);
+  };
 
   const PriorYearOnchange = (value) => {
     setSelectedPriorYearValue(value);
@@ -338,7 +335,7 @@ export default function CommissionReports(props) {
       SelectedMonths: 0,
       FactoryId: 0,
       SalesmId: 0,
-      CustIds:0
+      CustIds: 0,
     };
     GetSalesTransaction(filters);
   }, []);
@@ -352,9 +349,7 @@ export default function CommissionReports(props) {
         if (res.data.length > 0) {
           debugger;
           setOrders(res.data);
-        }
-        else{
-
+        } else {
           setOrders(res.data);
         }
       })
@@ -454,18 +449,15 @@ export default function CommissionReports(props) {
 
       return;
     }
-    var custis=[];
-    if(customeronchange.length>0)
-    {
+    var custis = [];
+    if (customeronchange.length > 0) {
       for (let i = 0; i < customeronchange.length; i++) {
-       // text += cars[i] + "<br>";
+        // text += cars[i] + "<br>";
         custis.push(customeronchange[i]["CustId"]);
       }
+    } else {
+      custis = [];
     }
-    else{
-      custis=[];
-    }
-
 
     var filters = {
       startDate: sd,
@@ -474,10 +466,9 @@ export default function CommissionReports(props) {
       SelectedMonths: selectedSalesMonthsValue,
       FactoryId: selectedFactoryValue,
       SalesmId: selectedSalesmanValue,
-     // CustIds:customeronchange,
-     CustIds:custis,
+      // CustIds:customeronchange,
+      CustIds: custis,
       IsDatewise: isDateWisecheckChanged,
-      
     };
     debugger;
     setData([]);
@@ -510,7 +501,7 @@ export default function CommissionReports(props) {
             {/* *****************************start Date Range Section ******************************** */}
 
             <Grid item xs={12} sm={2}>
-              <label  style={{paddingLeft:45}}> Date Range</label>
+              <label style={{ paddingLeft: 45 }}> Date Range</label>
 
               <Radio
                 {...label}
@@ -552,38 +543,17 @@ export default function CommissionReports(props) {
                 />
               </LocalizationProvider>
             </Grid>
+
             <Grid item xs={12} sm={2}></Grid>
 
             {/* *****************************End Date Range Section ******************************** */}
 
             {/* *****************************Start Years and month Section ******************************** */}
 
-            <Grid item xs={12} sm={2}></Grid>
-
-            <Grid item xs={12} sm={4}>
-              <SalesmanmMultiselectddl
-                ddlSalesmanSelectedItems={SalesmanOnchange}
-                //  booldisabled={isDateRangeEnableDisable}
-                // selectedSalesmanItem={selectedSalesmanItem}
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={4}>
-              {/* <FactoriesDropdownlistTr
-               factoryddlOnchang={FactoryOnchange} /> */}
-              <MultiselectFcotoryddl
-                Selectedfactorylist={FactoryOnchange}
-                //  booldisabled={isDateRangeEnableDisable}
-              />
-            </Grid>
-             
-           
             <Grid item xs={12} sm={2}>
-                
-            </Grid>
-
-            <Grid item xs={12} sm={2}>
-              <label style={{paddingTop:30, paddingLeft:20}}>Years & Months</label>
+              <label style={{ paddingTop: 30, paddingLeft: 20 }}>
+                Years & Months
+              </label>
 
               <Radio
                 label="years & Month"
@@ -612,17 +582,35 @@ export default function CommissionReports(props) {
             </Grid>
             <Grid item xs={12} sm={2}></Grid>
 
+            <Grid item xs={12} sm={2}></Grid>
+
+            <Grid item xs={12} sm={4}>
+              <SalesmanmMultiselectddl
+                ddlSalesmanSelectedItems={SalesmanOnchange}
+                // booldisabled={isYearMonthsEnableDisable}
+                // selectedSalesmanItem={selectedSalesmanItem}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={4}>
+              {/* <FactoriesDropdownlistTr
+             factoryddlOnchang={FactoryOnchange} /> */}
+              <MultiselectFcotoryddl
+                Selectedfactorylist={FactoryOnchange}
+                //  booldisabled={isYearMonthsEnableDisable}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={2}></Grid>
 
             {/* ************************start search via Customer */}
-            
+
             <Grid item xs={12} sm={2}></Grid>
             <Grid item xs={12} sm={8}>
-               <ComboBox 
-               selectedCustomer={CustomerOnchange} />
+              <ComboBox selectedCustomer={CustomerOnchange} />
             </Grid>
             <Grid item xs={12} sm={2}></Grid>
-             {/* ************************End search via Customer */}
-
+            {/* ************************End search via Customer */}
 
             {/* *****************************End Years and month Section ******************************** */}
 
