@@ -240,7 +240,7 @@ namespace BarcoSales.DAO
 
                 //string salesman = "";
 
-                if (transactionSearchRequest.SelectedYears.Length > 0)
+                if (transactionSearchRequest.SelectedYears.Length >= 0)
                 {
                     for (int i = 0; i < transactionSearchRequest.SelectedYears.Length; i++)
                     {
@@ -250,7 +250,7 @@ namespace BarcoSales.DAO
                     }
                 }
 
-                if (transactionSearchRequest.SelectedMonths.Length > 0)
+                if (transactionSearchRequest.SelectedMonths.Length >= 0)
                 {
                     for (int i = 0; i < transactionSearchRequest.SelectedMonths.Length; i++)
                     {
@@ -260,7 +260,7 @@ namespace BarcoSales.DAO
                 }
 
 
-                if (transactionSearchRequest.FactoryId.Length > 0)
+                if (transactionSearchRequest.FactoryId.Length >= 0)
                 {
                     for(int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
                     {
@@ -270,7 +270,7 @@ namespace BarcoSales.DAO
                     }
                 }
 
-                if (transactionSearchRequest.SalesmId.Length > 0)
+                if (transactionSearchRequest.SalesmId.Length >= 0)
                 {
                     for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
                     {
@@ -278,7 +278,7 @@ namespace BarcoSales.DAO
                   
                     }
                 }
-  if (transactionSearchRequest.CustIds.Length > 0)
+  if (transactionSearchRequest.CustIds.Length >= 0)
                 {
                     custids = true;
                     for (int i = 0; i < transactionSearchRequest.CustIds.Length; i++)

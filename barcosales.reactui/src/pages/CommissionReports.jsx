@@ -454,7 +454,9 @@ export default function CommissionReports(props) {
       return;
     }
     var custis = [];
-    if (customeronchange.length > 0) {
+    if(customeronchange)
+    {
+    if (customeronchange.length >= 0) {
       for (let i = 0; i < customeronchange.length; i++) {
         // text += cars[i] + "<br>";
         custis.push(customeronchange[i]["CustId"]);
@@ -462,7 +464,10 @@ export default function CommissionReports(props) {
     } else {
       custis = [];
     }
-
+  }
+  else{
+    custis = [];
+  }
     var filters = {
       startDate: sd,
       endDate: ed,
