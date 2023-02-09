@@ -29,42 +29,28 @@ export default function MultiselectMonthddl({ SelectedMonths,booldisabled}){
   "Dec"
   
 ];
-    // useEffect(() => {
-    //     debugger
-    //     GetFactory();
-
-    //     console.log("salesman load");
-    //     //createSelectItems();
-    //   }, []);
-    
-      // const GetFactory = () => {
-      //   axios
-      //     .get("Factory/GetFactory")
-    
-      //     .then((res) => {
-      //       debugger;
-      //       console.log(res);
-      //      // setFactory(res.data);
-      //      setOptions(res.data);
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //     });
-      // };
-
+  
     const classes = useStyles();
     const [selected, setSelected] = useState([]); 
     const [disabledddl, setDisabledddl] = useState(false); 
     // const[filterfactory,setFilterfactory] = useState([]);
    
     const isAllSelected =  options.length > 0 && selected.length === options.length;
-
-
-    
-    
- 
+  
+    useEffect(() => {
+      debugger;
+      if(booldisabled)
+      {
+        debugger;
+        setSelected([]);
+      }
+      
+      
+     
+    }, [booldisabled]);
   
     const handleChange = (event) => {
+      debugger;
       const value = event.target.value;
       if (value[value.length - 1] === "all") {
         setSelected(selected.length === options.length ? [] : options);
@@ -80,7 +66,9 @@ export default function MultiselectMonthddl({ SelectedMonths,booldisabled}){
           <Select
             labelId="mutiple-select-label"
             multiple
+            limitTags={2}
             value={selected}
+            
             
             
             onChange={handleChange}

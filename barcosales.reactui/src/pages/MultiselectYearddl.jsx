@@ -30,29 +30,7 @@ export default function MultiselectYearddl({ selectedYears,booldisabled}){
     "2029",
     "2030"
   ];
-
-    // useEffect(() => {
-    //     debugger
-    //     GetFactory();
-
-    //     console.log("salesman load");
-    //     //createSelectItems();
-    //   }, []);
-    
-    //   const GetFactory = () => {
-    //     axios
-    //       .get("Factory/GetFactory")
-    
-    //       .then((res) => {
-    //         debugger;
-    //         console.log(res);
-    //        // setFactory(res.data);
-    //        setOptions(res.data);
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   };
+ 
 
     const classes = useStyles();
     const [selected, setSelected] = useState([]); 
@@ -62,7 +40,16 @@ export default function MultiselectYearddl({ selectedYears,booldisabled}){
     const isAllSelected =  options.length > 0 && selected.length === options.length;
 
 
-    
+    useEffect(() => {
+      debugger;
+      if(booldisabled)
+      {
+        debugger;
+        setSelected([]);
+      }
+       
+     
+    }, [booldisabled]);
     
  
   

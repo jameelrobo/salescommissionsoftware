@@ -20,6 +20,18 @@ export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems,boold
         console.log("salesman load");
         //createSelectItems();
       }, []);
+
+      
+    useEffect(() => {
+      debugger;
+      if(booldisabled)
+      {
+        debugger;
+        setSelected([]);
+      }
+       
+     
+    }, [booldisabled]);
     
     const GetSalesmans = () => {
         axios
@@ -56,7 +68,7 @@ export default function SalesmanmMultiselectddl({ ddlSalesmanSelectedItems,boold
       ddlSalesmanSelectedItems(value)
     };
     return (
-        <FormControl  disabled={ booldisabled} className={classes.formControl}>
+        <FormControl    className={classes.formControl}>
           <InputLabel id="mutiple-select-label">Select Salesman</InputLabel>
           <Select
             labelId="mutiple-select-label"
