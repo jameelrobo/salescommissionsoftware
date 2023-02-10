@@ -329,7 +329,110 @@ namespace BarcoSales.DAO
                 return null;
             }
         }
-       
+        public string IManageTransaction(TransactionSearchRequest transactionSearchRequest, string conn = null)
+        {
+            try
+            {
+                string startDate = "";
+                string EndDate = "";
+                Boolean custids = false;
+
+
+                startDate = transactionSearchRequest.StartDate.ToString("yyyy-MM-dd");
+                EndDate = transactionSearchRequest.EndDate.ToString("yyyy-MM-dd");
+
+                //string factories = "";
+
+                //string salesman = "";
+                if (transactionSearchRequest.SelectedYears != null)
+                {
+                    if (transactionSearchRequest.SelectedYears.Length > 0)
+                    {
+                        for (int i = 0; i < transactionSearchRequest.SelectedYears.Length; i++)
+                        {
+                            insertMultYearsvalu(conn, transactionSearchRequest.SelectedYears[i]);
+
+
+                        }
+                    }
+                }
+                if (transactionSearchRequest.SelectedMonths != null)
+                {
+                    if (transactionSearchRequest.SelectedMonths.Length > 0)
+                    {
+                        for (int i = 0; i < transactionSearchRequest.SelectedMonths.Length; i++)
+                        {
+                            insertMultMonthsvalu(conn, transactionSearchRequest.SelectedMonths[i]);
+
+                        }
+                    }
+                }
+                if (transactionSearchRequest.FactoryId != null)
+                {
+
+                    if (transactionSearchRequest.FactoryId.Length > 0)
+                    {
+                        for (int i = 0; i < transactionSearchRequest.FactoryId.Length; i++)
+                        {
+                            insertMultfactvalu(conn, transactionSearchRequest.FactoryId[i]);
+
+
+                        }
+                    }
+                }
+                if (transactionSearchRequest.SalesmId != null)
+                {
+                    if (transactionSearchRequest.SalesmId.Length > 0)
+                    {
+                        for (int i = 0; i < transactionSearchRequest.SalesmId.Length; i++)
+                        {
+                            insertMultsalesvalu(conn, transactionSearchRequest.SalesmId[i]);
+
+                        }
+                    }
+                }
+                //if (transactionSearchRequest.CustIds != null)
+                //{
+                //    if (transactionSearchRequest.CustIds.Length > 0)
+                //    {
+                //        custids = true;
+                //        for (int i = 0; i < transactionSearchRequest.CustIds.Length; i++)
+                //        {
+                //            insertMultCustsvalu(conn, transactionSearchRequest.CustIds[i]);
+
+                //        }
+                //    }
+                //}
+
+                MySqlConnection sql_conn = new MySqlConnection(conn);
+                MySqlCommand cmd = new MySqlCommand();
+                cmd.Connection = sql_conn;
+
+                // cmd.CommandText = "CALL sp_SearchTransactionInfoDatewiseUpdated(@start_date,@end_date,@IsDatewise,@IsCustId)";
+                    cmd.CommandText = "CALL sp_ManageTransactionInfoDatewise(@start_date,@end_date,@IsDatewise)";
+
+
+                var sqlParameters = new List<MySqlParameter>();
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@start_date", Value = startDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.VarChar, ParameterName = "@end_date", Value = EndDate });
+                sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Bool, ParameterName = "@IsDatewise", Value = transactionSearchRequest.IsDatewise });
+               // sqlParameters.Add(new MySqlParameter { MySqlDbType = MySqlDbType.Bool, ParameterName = "@IsCustId", Value = custids });
+                cmd.Parameters.AddRange(sqlParameters.ToArray());
+                sql_conn.Open();
+                MySqlDataReader rdr = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                DataTable dt = new DataTable();
+                dt.Load(rdr);
+
+                string rules = JsonConvert.SerializeObject(dt);
+                return rules;
+            }
+
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Some unknown error has occurred.");
+                return null;
+            }
+        }
         public string IGetSalesTrasaction(string conn)
         {
             try

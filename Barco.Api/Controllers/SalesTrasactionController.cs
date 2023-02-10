@@ -124,7 +124,26 @@ namespace Barco.Api.Controllers
                 return null;
             }
         }
+        [HttpPost]
+        [Route("[action]")]
+        [Route("api/Trasaction/ManageTransaction")]
+        public string ManageTransaction(TransactionSearchRequest transactionSearchRequest)
+        {
+            try
+            {
 
+
+                string connString = this.Configuration.GetConnectionString("ContosoConnection");
+
+                return salesTrasactionService.IManageTransaction(transactionSearchRequest, connString);
+            }
+
+            catch (Exception ex)
+            {
+                //_logger.LogError(ex, "Some unknown error has occurred.");
+                return null;
+            }
+        }
         [HttpPost]
         [Route("[action]")]
         [Route("api/Trasaction/AddTrasaction")]

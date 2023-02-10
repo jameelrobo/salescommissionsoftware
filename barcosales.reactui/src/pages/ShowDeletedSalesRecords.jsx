@@ -299,7 +299,7 @@ export default function ShowDeletedSalesRecords(props) {
    
     axios
      
-      .post("SalesTrasaction/SearchTransaction",filters)
+      .post("SalesTrasaction/ManageTransaction",filters)
 
       .then((res) => {
         debugger;
@@ -608,7 +608,7 @@ export default function ShowDeletedSalesRecords(props) {
             {/* *****************************start Date Range Section ******************************** */}
             
             <Grid item xs={12} sm={2}  my={4} >
-              <label >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <label style={{ paddingLeft: 45 }}> 
               Date Range</label>
 
               <Radio
@@ -661,36 +661,9 @@ export default function ShowDeletedSalesRecords(props) {
            
 
             {/* *****************************Start Years and month Section ******************************** */}
-            
-            <Grid item xs={12} sm={2}>
-          
-          </Grid>
-
-
-
-          <Grid item xs={12} sm={4}>
-            <SalesmanmMultiselectddl
-              ddlSalesmanSelectedItems={SalesmanOnchange}
-                //  booldisabled={isYearMonthsEnableDisable}
-              // selectedSalesmanItem={selectedSalesmanItem}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            {/* <FactoriesDropdownlistTr
-             factoryddlOnchang={FactoryOnchange} /> */}
-            <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange}
-                  //  booldisabled={isYearMonthsEnableDisable} 
-
-                   />
-          </Grid>
-          
-          <Grid item xs={12} sm={2}>
-        
-          </Grid>
             <Grid item xs={12} sm={2} 
              >
-            <label>Years & Months</label>
+            <label style={{ paddingTop: 30, paddingLeft: 20 }}>Years & Months</label>
 
               <Radio
                 {...label}
@@ -704,20 +677,47 @@ export default function ShowDeletedSalesRecords(props) {
             </Grid>
 
             <Grid item xs={12} sm={4}>
-              <MultiselectYearddl selectedYears={PriorYearOnchange}   booldisabled={isYearMonthsEnableDisable}   />
+              <MultiselectYearddl selectedYears={PriorYearOnchange}  
+               booldisabled={isYearMonthsEnableDisable}   />
             </Grid>
 
             <Grid item xs={12} sm={4}>
               {/* <FactoriesDropdownlistTr
                factoryddlOnchang={FactoryOnchange} /> */}
               <MultiselectMonthddl SelectedMonths={SalesMonthsOnchange}
-                   booldisabled={isYearMonthsEnableDisable}/>
+                 booldisabled={isYearMonthsEnableDisable} />
             </Grid>
 
             <Grid item xs={12} sm={2}>
            
            </Grid>
+            <Grid item xs={12} sm={2}>
+          
+          </Grid>
 
+
+
+          <Grid item xs={12} sm={4}>
+            <SalesmanmMultiselectddl
+              ddlSalesmanSelectedItems={SalesmanOnchange}
+                booldisabled={isYearMonthsEnableDisable}
+              // selectedSalesmanItem={selectedSalesmanItem}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            {/* <FactoriesDropdownlistTr
+             factoryddlOnchang={FactoryOnchange} /> */}
+            <MultiselectFcotoryddl Selectedfactorylist={FactoryOnchange}
+               booldisabled={isYearMonthsEnableDisable} 
+
+               />
+          </Grid>
+          
+          <Grid item xs={12} sm={2}>
+        
+          </Grid>
+            
            
             {/* *****************************End Years and month Section ******************************** */}
 

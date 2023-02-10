@@ -15,7 +15,7 @@ namespace BarcoSales.Repository
         int IDeActiveTransaction(string connString,Int64 TId);
         int IActiveTransaction(string connString,Int64 TId); 
         string ISearchTransaction(TransactionSearchRequest transactionSearchRequest, string connString=null);
-     
+      string IManageTransaction(TransactionSearchRequest transactionSearchRequest, string connString=null);
         Salestrasaction IGetSalesTrasactionById(int id);
         Salestrasaction IAddSalesTrasaction(Salestrasaction salesTrasaction);
         Salestrasaction IUpdateSalesTrasaction(Salestrasaction salesTrasaction);
